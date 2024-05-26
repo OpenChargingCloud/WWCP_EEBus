@@ -9,8 +9,14 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj" />
     <ProjectReference Include="..\..\SMSAPI\SMSAPI\SMSAPI.csproj" />
+    <ProjectReference Include="..\..\Styx\Styx\Styx.csproj" />
     <ProjectReference Include="..\..\TelegramBotAPI\TelegramBotAPI\TelegramBotAPI.csproj" />
     <ProjectReference Include="..\..\WWCP_Core\WWCP_Core\WWCP_Core.csproj" />
+    <ProjectReference Include="..\..\WWCP_Core\WWCP_OverlayNetworking\WWCP_OverlayNetworking.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataStructures\PredefinedStrings\" />
   </ItemGroup>
 
 </Project>

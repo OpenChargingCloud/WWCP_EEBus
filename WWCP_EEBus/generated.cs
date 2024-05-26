@@ -19,63 +19,10 @@
 
 using System.Xml.Serialization;
 
-using org.GraphDefined.Vanaheimr.Illias;
-using org.GraphDefined.Vanaheimr.Illias.Votes;
-using org.GraphDefined.Vanaheimr.Styx.Arrows;
-
 #endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
-
-    [XmlRoot("connectionHello")]
-    public class ConnectionHelloType
-    {
-        public ConnectionHelloPhaseType phase { get; set; }
-        public uint? waiting { get; set; }
-        public bool? prolongationRequest { get; set; }
-    }
-
-    public enum ConnectionHelloPhaseType
-    {
-        pending,
-        ready,
-        aborted
-    }
-
-    [XmlRoot("messageProtocolHandshake")]
-    public class MessageProtocolHandshakeType
-    {
-        public ProtocolHandshakeTypeType handshakeType { get; set; }
-
-        public Version version { get; set; }
-
-        public MessageProtocolFormatsType formats { get; set; }
-    }
-
-    public class Version
-    {
-        public ushort major { get; set; }
-        public ushort minor { get; set; }
-    }
-
-    public enum ProtocolHandshakeTypeType
-    {
-        announceMax,
-        select
-    }
-
-    public class MessageProtocolFormatsType
-    {
-        [XmlElement("format")]
-        public string[] format { get; set; }
-    }
-
-    [XmlRoot("messageProtocolHandshakeError")]
-    public class MessageProtocolHandshakeErrorType
-    {
-        public byte error { get; set; }
-    }
 
     public enum PinStateType
     {
@@ -110,64 +57,5 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         public byte error { get; set; }
     }
 
-    public class HeaderType
-    {
-        public string protocolId { get; set; }
-    }
-
-    public class ExtensionType
-    {
-        public string extensionId { get; set; }
-        public byte[] binary { get; set; }
-        public string @string { get; set; }
-    }
-
-    [XmlRoot("data")]
-    public class DataType
-    {
-        public HeaderType header { get; set; }
-        public object payload { get; set; }
-        public ExtensionType extension { get; set; }
-    }
-
-    public enum ConnectionClosePhaseType
-    {
-        announce,
-        confirm
-    }
-
-    public enum ConnectionCloseReasonType
-    {
-        unspecific,
-        removedConnection
-    }
-
-    [XmlRoot("connectionClose")]
-    public class ConnectionCloseType
-    {
-        public ConnectionClosePhaseType phase { get; set; }
-        public uint? maxTime { get; set; }
-        public ConnectionCloseReasonType? reason { get; set; }
-    }
-
-    [XmlRoot("accessMethodsRequest")]
-    public class AccessMethodsRequestType { }
-
-    [XmlRoot("accessMethods")]
-    public class AccessMethodsType
-    {
-        public string id { get; set; }
-        public DnsSd_mDns dnsSd_mDns { get; set; }
-        public Dns dns { get; set; }
-    }
-
-    public class DnsSd_mDns
-    {
-    }
-
-    public class Dns
-    {
-        public string uri { get; set; }
-    }
 
 }
