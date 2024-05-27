@@ -17,20 +17,26 @@
 
 #region Usings
 
+using System.Diagnostics.CodeAnalysis;
+
 using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
 using cloud.charging.open.protocols.WWCP.OverlayNetworking;
-using System.Diagnostics.CodeAnalysis;
 
 #endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
-    public class SHIPHelloMessage(ConnectionHelloType  ConnectionHello,
-                                  CustomData?          CustomData = null)
+    /// <summary>
+    /// SHIP Hello Message
+    /// </summary>
+    /// <param name="ConnectionHello">A connection hello.</param>
+    /// <param name="CustomData">An optional custom data object to allow to store any kind of customer specific data.</param>
+    public class SHIPHelloMessage(ConnectionHello  ConnectionHello,
+                                  CustomData?      CustomData = null)
 
         : ASHIPMessage(CustomData)
 
@@ -38,8 +44,11 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #region Properties
 
+        /// <summary>
+        /// The connection hello.
+        /// </summary>
         [Mandatory]
-        public ConnectionHelloType  ConnectionHello    { get; } = ConnectionHello;
+        public ConnectionHello  ConnectionHello    { get; } = ConnectionHello;
 
         #endregion
 
@@ -47,10 +56,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #region (static) Parse   (JSON, CustomSHIPHelloMessageParser = null)
 
         /// <summary>
-        /// Parse the given JSON representation of a SHIP hello message.
+        /// Parse the given JSON representation of a SHIP-Hello message.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
-        /// <param name="CustomSHIPHelloMessageParser">A delegate to parse custom SHIP hello messages.</param>
+        /// <param name="CustomSHIPHelloMessageParser">A delegate to parse custom SHIP Hello Messages.</param>
         public static SHIPHelloMessage Parse(JObject                                         JSON,
                                              CustomJObjectParserDelegate<SHIPHelloMessage>?  CustomSHIPHelloMessageParser   = null)
         {
@@ -58,13 +67,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             if (TryParse(JSON,
                          out var shipHelloMessage,
                          out var errorResponse,
-                         CustomSHIPHelloMessageParser) &&
-                shipHelloMessage is not null)
+                         CustomSHIPHelloMessageParser))
             {
                 return shipHelloMessage;
             }
 
-            throw new ArgumentException("The given JSON representation of a SHIP hello message is invalid: " + errorResponse,
+            throw new ArgumentException("The given JSON representation of a SHIP-Hello-Message is invalid: " + errorResponse,
                                         nameof(JSON));
 
         }
@@ -76,7 +84,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         // Note: The following is needed to satisfy pattern matching delegates! Do not refactor it!
 
         /// <summary>
-        /// Try to parse the given JSON representation of a SHIP hello message.
+        /// Try to parse the given JSON representation of a SHIP-Hello-Message.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
         /// <param name="SHIPHelloMessage">The parsed shipHelloMessage.</param>
@@ -92,12 +100,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
 
         /// <summary>
-        /// Try to parse the given JSON representation of a SHIP hello message.
+        /// Try to parse the given JSON representation of a SHIP-Hello-Message.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
         /// <param name="SHIPHelloMessage">The parsed shipHelloMessage.</param>
         /// <param name="ErrorResponse">An optional error response.</param>
-        /// <param name="CustomSHIPHelloMessageParser">A delegate to parse custom SHIP hello messages.</param>
+        /// <param name="CustomSHIPHelloMessageParser">A delegate to parse custom SHIP Hello Messages.</param>
         public static Boolean TryParse(JObject                                         JSON,
                                        [NotNullWhen(true)]  out SHIPHelloMessage?      SHIPHelloMessage,
                                        [NotNullWhen(false)] out String?                ErrorResponse,
@@ -113,8 +121,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 if (!JSON.ParseMandatoryJSON("connectionHello",
                                              "connection hello",
-                                             ConnectionHelloType.TryParse,
-                                             out ConnectionHelloType? ConnectionHello,
+                                             SHIP.ConnectionHello.TryParse,
+                                             out ConnectionHello? ConnectionHello,
                                              out ErrorResponse))
                 {
                     return false;
@@ -152,7 +160,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             catch (Exception e)
             {
                 SHIPHelloMessage  = default;
-                ErrorResponse     = "The given JSON representation of a SHIP hello message is invalid: " + e.Message;
+                ErrorResponse     = "The given JSON representation of a SHIP-Hello-Message is invalid: " + e.Message;
                 return false;
             }
 
@@ -168,9 +176,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="CustomSHIPHelloMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomConnectionHelloTypeSerializer">A delegate to serialize custom ConnectionHelloType objects.</param>
         /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPHelloMessage>?     CustomSHIPHelloMessageSerializer      = null,
-                              CustomJObjectSerializerDelegate<ConnectionHelloType>?  CustomConnectionHelloTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?           CustomCustomDataSerializer            = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPHelloMessage>?  CustomSHIPHelloMessageSerializer      = null,
+                              CustomJObjectSerializerDelegate<ConnectionHello>?   CustomConnectionHelloTypeSerializer   = null,
+                              CustomJObjectSerializerDelegate<CustomData>?        CustomCustomDataSerializer            = null)
         {
 
             var json = JSONObject.Create(

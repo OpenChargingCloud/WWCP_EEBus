@@ -17,9 +17,9 @@
 
 #region Usings
 
-#endregion
-
 using org.GraphDefined.Vanaheimr.Illias;
+
+#endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
@@ -67,19 +67,19 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <summary>
         /// Indicates whether this Connection Hello phase is null or empty.
         /// </summary>
-        public readonly Boolean IsNullOrEmpty
+        public readonly  Boolean  IsNullOrEmpty
             => InternalId.IsNullOrEmpty();
 
         /// <summary>
         /// Indicates whether this Connection Hello phase is NOT null or empty.
         /// </summary>
-        public readonly Boolean IsNotNullOrEmpty
+        public readonly  Boolean  IsNotNullOrEmpty
             => InternalId.IsNotNullOrEmpty();
 
         /// <summary>
         /// The length of the Connection Hello phase.
         /// </summary>
-        public readonly UInt64 Length
+        public readonly  UInt64   Length
             => (UInt64) (InternalId?.Length ?? 0);
 
         #endregion
@@ -119,8 +119,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         public static ConnectionHelloPhase Parse(String Text)
         {
 
-            if (TryParse(Text, out var timeSource))
-                return timeSource;
+            if (TryParse(Text, out var connectionHelloPhase))
+                return connectionHelloPhase;
 
             throw new ArgumentException("The given text representation of a Connection Hello phase is invalid!",
                                         nameof(Text));
@@ -138,8 +138,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         public static ConnectionHelloPhase? TryParse(String Text)
         {
 
-            if (TryParse(Text, out var timeSource))
-                return timeSource;
+            if (TryParse(Text, out var connectionHelloPhase))
+                return connectionHelloPhase;
 
             return null;
 
@@ -317,8 +317,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="Object">A Connection Hello phase to compare with.</param>
         public Int32 CompareTo(Object? Object)
 
-            => Object is ConnectionHelloPhase timeSource
-                   ? CompareTo(timeSource)
+            => Object is ConnectionHelloPhase connectionHelloPhase
+                   ? CompareTo(connectionHelloPhase)
                    : throw new ArgumentException("The given object is not Connection Hello phase!",
                                                  nameof(Object));
 
@@ -350,8 +350,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="Object">A Connection Hello phase to compare with.</param>
         public override Boolean Equals(Object? Object)
 
-            => Object is ConnectionHelloPhase timeSource &&
-                   Equals(timeSource);
+            => Object is ConnectionHelloPhase connectionHelloPhase &&
+                   Equals(connectionHelloPhase);
 
         #endregion
 

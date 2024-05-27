@@ -15,43 +15,20 @@
  * limitations under the License.
  */
 
-#region Usings
-
-using org.GraphDefined.Vanaheimr.Illias;
-
-#endregion
-
-namespace cloud.charging.open.protocols.EEBus.SHIP
+namespace cloud.charging.open.protocols.EEBus
 {
 
-    public class SHIPAccessMethodsMessage
-    {
-        public AccessMethodsType accessMethodsRequest { get; set; } = new AccessMethodsType();
-    }
-
-    public partial class AccessMethodsType
+    /// <summary>
+    /// SHIP Message Value
+    /// </summary>
+    public class SHIPMessageValue
     {
 
-        public String                       Id            { get; set; }
-
-        public AccessMethodsTypeDnsSd_mDns  DnsSd_mDns    { get; set; }
-
-        public AccessMethodsTypeDns         Dns           { get; set; }
-
-    }
-
-
-    public partial class AccessMethodsTypeDnsSd_mDns
-    {
-    }
-
-    public partial class AccessMethodsTypeDns
-    {
-
-        public String  uri    { get; set; }
+        /// <summary>
+        /// Connection Mode Initialisation (CMI) HEAD
+        /// </summary>
+        public const Byte CMI_HEAD = 0;
 
     }
-
-
 
 }

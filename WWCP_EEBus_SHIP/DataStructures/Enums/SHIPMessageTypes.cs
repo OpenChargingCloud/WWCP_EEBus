@@ -18,12 +18,30 @@
 namespace cloud.charging.open.protocols.EEBus
 {
 
+    /// <summary>
+    /// SHIP Message Types
+    /// </summary>
     public enum SHIPMessageTypes : Byte
     {
 
+        /// <summary>
+        /// INIT
+        /// </summary>
         INIT     = 0,
+
+        /// <summary>
+        /// CONTROL
+        /// </summary>
         CONTROL  = 1,
+
+        /// <summary>
+        /// DATA
+        /// </summary>
         DATA     = 2,
+
+        /// <summary>
+        /// END
+        /// </summary>
         END      = 3
 
         // 4-255: Reserved for future use!

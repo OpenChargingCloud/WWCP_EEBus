@@ -17,22 +17,23 @@
 
 #region Usings
 
+using System.Diagnostics.CodeAnalysis;
+
 using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
 using cloud.charging.open.protocols.WWCP.OverlayNetworking;
-using System.Diagnostics.CodeAnalysis;
 
 #endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
-    public class ConnectionHelloType(ConnectionHelloPhase  Phase,
-                                     UInt32?               Waiting               = null,
-                                     Boolean?              ProlongationRequest   = null,
-                                     CustomData?           CustomData            = null)
+    public class ConnectionHello(ConnectionHelloPhase  Phase,
+                                 UInt32?               Waiting               = null,
+                                 Boolean?              ProlongationRequest   = null,
+                                 CustomData?           CustomData            = null)
 
         : ACustomData(CustomData)
 
@@ -54,69 +55,69 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #endregion
 
 
-        #region (static) Parse   (JSON, CustomConnectionHelloTypeParser = null)
+        #region (static) Parse   (JSON, CustomConnectionHelloParser = null)
 
         /// <summary>
-        /// Parse the given JSON representation of a ConnectionHelloType.
+        /// Parse the given JSON representation of a ConnectionHello.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
-        /// <param name="CustomConnectionHelloTypeParser">A delegate to parse custom ConnectionHelloTypes.</param>
-        public static ConnectionHelloType Parse(JObject                                            JSON,
-                                                CustomJObjectParserDelegate<ConnectionHelloType>?  CustomConnectionHelloTypeParser   = null)
+        /// <param name="CustomConnectionHelloParser">A delegate to parse custom ConnectionHellos.</param>
+        public static ConnectionHello Parse(JObject                                        JSON,
+                                            CustomJObjectParserDelegate<ConnectionHello>?  CustomConnectionHelloParser   = null)
         {
 
             if (TryParse(JSON,
-                         out var connectionHelloType,
+                         out var connectionHello,
                          out var errorResponse,
-                         CustomConnectionHelloTypeParser))
+                         CustomConnectionHelloParser))
             {
-                return connectionHelloType;
+                return connectionHello;
             }
 
-            throw new ArgumentException("The given JSON representation of a ConnectionHelloType is invalid: " + errorResponse,
+            throw new ArgumentException("The given JSON representation of a ConnectionHello is invalid: " + errorResponse,
                                         nameof(JSON));
 
         }
 
         #endregion
 
-        #region (static) TryParse(JSON, out ConnectionHelloType, CustomConnectionHelloTypeParser = null)
+        #region (static) TryParse(JSON, out ConnectionHello, CustomConnectionHelloParser = null)
 
         // Note: The following is needed to satisfy pattern matching delegates! Do not refactor it!
 
         /// <summary>
-        /// Try to parse the given JSON representation of a ConnectionHelloType.
+        /// Try to parse the given JSON representation of a ConnectionHello.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
-        /// <param name="ConnectionHelloType">The parsed shipHelloMessage.</param>
+        /// <param name="ConnectionHello">The parsed shipHelloMessage.</param>
         /// <param name="ErrorResponse">An optional error response.</param>
-        public static Boolean TryParse(JObject                                        JSON,
-                                       [NotNullWhen(true)]  out ConnectionHelloType?  ConnectionHelloType,
-                                       [NotNullWhen(false)] out String?               ErrorResponse)
+        public static Boolean TryParse(JObject                                    JSON,
+                                       [NotNullWhen(true)]  out ConnectionHello?  ConnectionHello,
+                                       [NotNullWhen(false)] out String?           ErrorResponse)
 
             => TryParse(JSON,
-                        out ConnectionHelloType,
+                        out ConnectionHello,
                         out ErrorResponse,
                         null);
 
 
         /// <summary>
-        /// Try to parse the given JSON representation of a ConnectionHelloType.
+        /// Try to parse the given JSON representation of a ConnectionHello.
         /// </summary>
         /// <param name="JSON">The JSON to be parsed.</param>
-        /// <param name="ConnectionHelloType">The parsed shipHelloMessage.</param>
+        /// <param name="ConnectionHello">The parsed shipHelloMessage.</param>
         /// <param name="ErrorResponse">An optional error response.</param>
-        /// <param name="CustomConnectionHelloTypeParser">A delegate to parse custom ConnectionHelloTypes.</param>
-        public static Boolean TryParse(JObject                                            JSON,
-                                       [NotNullWhen(true)]  out ConnectionHelloType?      ConnectionHelloType,
-                                       [NotNullWhen(false)] out String?                   ErrorResponse,
-                                       CustomJObjectParserDelegate<ConnectionHelloType>?  CustomConnectionHelloTypeParser)
+        /// <param name="CustomConnectionHelloParser">A delegate to parse custom ConnectionHellos.</param>
+        public static Boolean TryParse(JObject                                        JSON,
+                                       [NotNullWhen(true)]  out ConnectionHello?      ConnectionHello,
+                                       [NotNullWhen(false)] out String?               ErrorResponse,
+                                       CustomJObjectParserDelegate<ConnectionHello>?  CustomConnectionHelloParser)
         {
 
             try
             {
 
-                ConnectionHelloType = default;
+                ConnectionHello = default;
 
                 #region Phase                  [mandatory]
 
@@ -172,24 +173,24 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                 #endregion
 
 
-                ConnectionHelloType = new ConnectionHelloType(
+                ConnectionHello = new ConnectionHello(
                                           Phase,
                                           Waiting,
                                           ProlongationRequest,
                                           CustomData
                                       );
 
-                if (CustomConnectionHelloTypeParser is not null)
-                    ConnectionHelloType = CustomConnectionHelloTypeParser(JSON,
-                                                                    ConnectionHelloType);
+                if (CustomConnectionHelloParser is not null)
+                    ConnectionHello = CustomConnectionHelloParser(JSON,
+                                                                  ConnectionHello);
 
                 return true;
 
             }
             catch (Exception e)
             {
-                ConnectionHelloType  = default;
-                ErrorResponse     = "The given JSON representation of a ConnectionHelloType is invalid: " + e.Message;
+                ConnectionHello  = default;
+                ErrorResponse    = "The given JSON representation of a ConnectionHello is invalid: " + e.Message;
                 return false;
             }
 
@@ -197,15 +198,15 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #endregion
 
-        #region ToJSON(CustomConnectionHelloTypeSerializer = null, CustomComponentSerializer = null, ...)
+        #region ToJSON(CustomConnectionHelloSerializer = null, CustomComponentSerializer = null, ...)
 
         /// <summary>
         /// Return a JSON representation of this object.
         /// </summary>
-        /// <param name="CustomConnectionHelloTypeSerializer">A delegate to serialize custom ConnectionHelloType objects.</param>
+        /// <param name="CustomConnectionHelloSerializer">A delegate to serialize custom ConnectionHello objects.</param>
         /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<ConnectionHelloType>?  CustomConnectionHelloTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?           CustomCustomDataSerializer            = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<ConnectionHello>?  CustomConnectionHelloSerializer   = null,
+                              CustomJObjectSerializerDelegate<CustomData>?       CustomCustomDataSerializer        = null)
         {
 
             var json = JSONObject.Create(
@@ -226,14 +227,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                        );
 
-            return CustomConnectionHelloTypeSerializer is not null
-                       ? CustomConnectionHelloTypeSerializer(this, json)
+            return CustomConnectionHelloSerializer is not null
+                       ? CustomConnectionHelloSerializer(this, json)
                        : json;
 
         }
 
         #endregion
-
 
 
     }

@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 
+#region Usings
+
 using cloud.charging.open.protocols.WWCP.OverlayNetworking;
+
+#endregion
 
 namespace cloud.charging.open.protocols.EEBus
 {
@@ -29,12 +33,20 @@ namespace cloud.charging.open.protocols.EEBus
         /// <summary>
         /// This EEBus version 0.1 as text "v0.1".
         /// </summary>
-        public const            String      String                   = "v0.1";
+        public const            String      String                = "v1.0";
 
         /// <summary>
         /// This EEBus version "0.1" as version identification.
         /// </summary>
-        public readonly static  Version_Id  Id                       = Version_Id.Parse(String[1..]);
+        public readonly static  Version_Id  Id                    = Version_Id.Parse(String[1..]);
+
+
+        /// <summary>
+        /// EEBus specifications that are compatible to the
+        /// SPINE data model specification base version 1.0.
+        /// </summary>
+        public const            String      SPINE_VersionString   = "ee1.0";
+
 
     }
 

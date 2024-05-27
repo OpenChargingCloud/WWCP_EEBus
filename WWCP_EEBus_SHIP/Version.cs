@@ -15,12 +15,31 @@
  * limitations under the License.
  */
 
+#region Usings
+
+using cloud.charging.open.protocols.WWCP.OverlayNetworking;
+
+#endregion
+
 namespace cloud.charging.open.protocols.EEBus
 {
 
-    public class SHIPMessageValue
+    /// <summary>
+    /// The current EEBus version.
+    /// </summary>
+    public static class Version
     {
-        public const Byte CMI_HEAD = 0;
+
+        /// <summary>
+        /// This EEBus version 0.1 as text "v0.1".
+        /// </summary>
+        public const            String      String   = "v0.1";
+
+        /// <summary>
+        /// This EEBus version "0.1" as version identification.
+        /// </summary>
+        public readonly static  Version_Id  Id       = Version_Id.Parse(String[1..]);
+
     }
 
 }

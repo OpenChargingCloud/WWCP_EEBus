@@ -15,26 +15,13 @@
  * limitations under the License.
  */
 
-#region Usings
-
-using org.GraphDefined.Vanaheimr.Illias;
-
-#endregion
-
-namespace cloud.charging.open.protocols.EEBus.SHIP
+namespace cloud.charging.open.protocols.EEBus
 {
 
-    public class SHIPHandshakeErrorMessage
+    public enum ProtocolHandshakeTypeTypes
     {
-        public MessageProtocolHandshakeErrorType messageProtocolHandshakeError { get; set; } = new MessageProtocolHandshakeErrorType();
+        announceMax,
+        select
     }
-
-    public partial class MessageProtocolHandshakeErrorType
-    {
-
-        public Byte  Error    { get; set; }
-
-    }
-
 
 }

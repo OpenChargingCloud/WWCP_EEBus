@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\WWCP_Core\WWCP_OverlayNetworking\WWCP_OverlayNetworking.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataStructures\PredefinedStrings\" />
-  </ItemGroup>
-
 </Project>
