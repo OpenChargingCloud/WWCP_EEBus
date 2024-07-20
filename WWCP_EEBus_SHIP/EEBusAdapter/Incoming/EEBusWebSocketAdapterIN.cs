@@ -139,7 +139,8 @@ namespace cloud.charging.open.protocols.EEBus
                            BinaryMessage,
                            Timestamp.Now,
                            [],
-                           EventTrackingId
+                           EventTrackingId,
+                           CancellationToken
                        );
 
             }
@@ -494,7 +495,8 @@ namespace cloud.charging.open.protocols.EEBus
                        BinaryMessage,
                        Timestamp.Now,
                        [],
-                       EventTrackingId
+                       EventTrackingId,
+                       CancellationToken
                    );
 
         }

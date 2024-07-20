@@ -781,7 +781,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                        TextMessage,
                        Timestamp.Now,
                        "",
-                       EventTrackingId
+                       EventTrackingId,
+                       CancellationToken
                    );
 
         }
