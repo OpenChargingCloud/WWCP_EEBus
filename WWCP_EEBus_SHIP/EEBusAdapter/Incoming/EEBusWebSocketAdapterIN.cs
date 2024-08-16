@@ -170,7 +170,7 @@ namespace cloud.charging.open.protocols.EEBus
                         responseBytes[0] = (Byte) SHIPMessageTypes.INIT;
                         responseBytes[1] = SHIPMessageValue.CMI_HEAD;
 
-                        await WebSocketConnection.SendBinary(
+                        await WebSocketConnection.Send(
                                   responseBytes,
                                   CancellationToken
                               );

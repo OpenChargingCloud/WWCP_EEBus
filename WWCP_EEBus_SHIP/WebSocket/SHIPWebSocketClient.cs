@@ -331,7 +331,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 var ocppBinaryMessage = BinaryRequestMessage.ToByteArray();
 
-                if (SendStatus.Success == await SendBinaryMessage(
+                if (SentStatus.Success == await SendBinaryMessage(
                                                     ocppBinaryMessage,
                                                     BinaryRequestMessage.EventTrackingId,
                                                     BinaryRequestMessage.CancellationToken
@@ -405,7 +405,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 var ocppBinaryMessage = BinaryResponseMessage.ToByteArray();
 
-                if (SendStatus.Success == await SendBinaryMessage(
+                if (SentStatus.Success == await SendBinaryMessage(
                                                     ocppBinaryMessage,
                                                     BinaryResponseMessage.EventTrackingId,
                                                     BinaryResponseMessage.CancellationToken

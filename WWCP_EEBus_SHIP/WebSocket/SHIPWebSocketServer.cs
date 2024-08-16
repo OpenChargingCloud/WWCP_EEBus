@@ -692,11 +692,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #endregion
 
-        #region (protected) ProcessCloseMessage           (LogTimestamp, Server, Connection, EventTrackingId, StatusCode, Reason, CancellationToken)
+        #region (protected) ProcessCloseMessage           (LogTimestamp, Server, Connection, Frame, EventTrackingId, StatusCode, Reason, CancellationToken)
 
         protected async Task ProcessCloseMessage(DateTime                          LogTimestamp,
                                                  org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer                  Server,
                                                  WebSocketServerConnection         Connection,
+                                                 WebSocketFrame                    Frame,
                                                  EventTracking_Id                  EventTrackingId,
                                                  WebSocketFrame.ClosingStatusCode  StatusCode,
                                                  String?                           Reason,
@@ -874,7 +875,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendTextMessage(
+                        if (SentStatus.Success == await SendTextMessage(
                                                             webSocketConnection.Item1,
                                                             ocppTextMessage,
                                                             JSONRequestMessage.EventTrackingId,
@@ -971,7 +972,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendTextMessage(
+                        if (SentStatus.Success == await SendTextMessage(
                                                             webSocketConnection.Item1,
                                                             ocppTextMessage,
                                                             JSONResponseMessage.EventTrackingId,
@@ -1068,7 +1069,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendTextMessage(
+                        if (SentStatus.Success == await SendTextMessage(
                                                             webSocketConnection.Item1,
                                                             ocppTextMessage,
                                                             JSONRequestErrorMessage.EventTrackingId,
@@ -1165,7 +1166,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendTextMessage(
+                        if (SentStatus.Success == await SendTextMessage(
                                                             webSocketConnection.Item1,
                                                             ocppTextMessage,
                                                             JSONResponseErrorMessage.EventTrackingId,
@@ -1263,7 +1264,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendBinaryMessage(
+                        if (SentStatus.Success == await SendBinaryMessage(
                                                             webSocketConnection.Item1,
                                                             ocppBinaryMessage,
                                                             BinaryRequestMessage.EventTrackingId,
@@ -1360,7 +1361,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     foreach (var webSocketConnection in webSocketConnections)
                     {
 
-                        if (SendStatus.Success == await SendBinaryMessage(
+                        if (SentStatus.Success == await SendBinaryMessage(
                                                             webSocketConnection.Item1,
                                                             ocppBinaryMessage,
                                                             BinaryResponseMessage.EventTrackingId,
