@@ -232,6 +232,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             //                                                                LoggingContext,
             //                                                                LogfileCreator);
 
+            base.OnTextMessageReceived   += ProcessWebSocketTextFrame;
+            base.OnBinaryMessageReceived += ProcessWebSocketBinaryFrame;
+
         }
 
         #endregion
@@ -244,18 +247,30 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
 
 
-        #region ProcessWebSocketTextFrame   (RequestTimestamp, ClientConnection, TextMessage,   EventTrackingId, CancellationToken)
+        #region ProcessWebSocketTextFrame   (RequestTimestamp, Client, Connection, Frame, EventTrackingId, TextMessage,   CancellationToken)
 
-        public override async Task ProcessWebSocketTextFrame(DateTime                   RequestTimestamp,
-                                                             WebSocketClientConnection  ClientConnection,
-                                                             EventTracking_Id           EventTrackingId,
-                                                             String                     TextMessage,
-                                                             CancellationToken          CancellationToken)
+        /// <summary>
+        /// Process a HTTP Web Socket text message.
+        /// </summary>
+        /// <param name="RequestTimestamp">The timestamp of the request.</param>
+        /// <param name="Client">The HTTP Web Socket client.</param>
+        /// <param name="Connection">The HTTP Web Socket connection.</param>
+        /// <param name="Frame">The HTTP Web Socket frame.</param>
+        /// <param name="EventTrackingId">An optional event tracking identification.</param>
+        /// <param name="TextMessage">The received text message.</param>
+        /// <param name="CancellationToken">The cancellation token.</param>
+        public async Task ProcessWebSocketTextFrame(DateTime                   RequestTimestamp,
+                                                    WebSocketClient            Client,
+                                                    WebSocketClientConnection  Connection,
+                                                    WebSocketFrame             Frame,
+                                                    EventTracking_Id           EventTrackingId,
+                                                    String                     TextMessage,
+                                                    CancellationToken          CancellationToken)
         {
 
             // A SHIP node that receives a data frame with another type (0x1)
             // MUST terminate the connection with status code 1003 (unacceptable data).
-            await ClientConnection.Close(
+            await Connection.Close(
                       WebSocketFrame.ClosingStatusCode.UnsupportedData,
                       "HTTP Web Socket Text frames are not allowed by EEBus SHIP!",
                       CancellationToken
@@ -265,13 +280,25 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #endregion
 
-        #region ProcessWebSocketBinaryFrame (RequestTimestamp, ClientConnection, BinaryMessage, EventTrackingId, CancellationToken)
+        #region ProcessWebSocketBinaryFrame (RequestTimestamp, Client, Connection, Frame, EventTrackingId, BinaryMessage, CancellationToken)
 
-        public override async Task ProcessWebSocketBinaryFrame(DateTime                   RequestTimestamp,
-                                                               WebSocketClientConnection  ClientConnection,
-                                                               EventTracking_Id           EventTrackingId,
-                                                               Byte[]                     BinaryMessage,
-                                                               CancellationToken          CancellationToken)
+        /// <summary>
+        /// Process a HTTP Web Socket binary message.
+        /// </summary>
+        /// <param name="RequestTimestamp">The timestamp of the request.</param>
+        /// <param name="Client">The HTTP Web Socket client.</param>
+        /// <param name="Connection">The HTTP Web Socket connection.</param>
+        /// <param name="Frame">The HTTP Web Socket frame.</param>
+        /// <param name="EventTrackingId">An optional event tracking identification.</param>
+        /// <param name="BinaryMessage">The received binary message.</param>
+        /// <param name="CancellationToken">The cancellation token.</param>
+        public async Task ProcessWebSocketBinaryFrame(DateTime                   RequestTimestamp,
+                                                      WebSocketClient            Client,
+                                                      WebSocketClientConnection  Connection,
+                                                      WebSocketFrame             Frame,
+                                                      EventTracking_Id           EventTrackingId,
+                                                      Byte[]                     BinaryMessage,
+                                                      CancellationToken          CancellationToken)
         {
 
             if (BinaryMessage.Length == 0)
@@ -285,7 +312,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 var binaryMessageResponse = await EEBusAdapter.IN.ProcessBinaryMessage(
                                                       RequestTimestamp,
-                                                      ClientConnection,
+                                                      Connection,
                                                       BinaryMessage,
                                                       EventTrackingId,
                                                       CancellationToken
