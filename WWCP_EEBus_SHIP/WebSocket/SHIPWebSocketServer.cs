@@ -314,6 +314,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                    HTTPServiceName ?? DefaultHTTPServiceName,
                    Description,
 
+                   RequireAuthentication,
                    [ "ship" ],
                    DisableWebSocketPings,
                    WebSocketPingEvery,
