@@ -11,7 +11,7 @@ For more details on the *EEBus* protocol family please visit https://www.eebus.o
 ## Smart Home IP (SHIP)
 
 SHIP is the communication protocol/infrastructure within the *EEBus* protcol family.
-It is based on Multicast DNS Service Discovery and HTTPS Web Sockets between devices in home area
+It is based on Multicast DNS Service Discovery and HTTPS WebSockets between devices in home area
 networks, but also towards the grid or cloud services. SHIP also defines how to make use of X.509
 certificates for mutual authentication and encryption of communication channels.
 

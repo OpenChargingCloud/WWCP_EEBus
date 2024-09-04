@@ -75,7 +75,7 @@ namespace cloud.charging.open.protocols.EEBus
         #endregion
 
 
-        #region HTTP Web Socket connection management
+        #region HTTP WebSocket connection management
 
         ///// <summary>
         ///// An event sent whenever the HTTP connection switched successfully to web socket.

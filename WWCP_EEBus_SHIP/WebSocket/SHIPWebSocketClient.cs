@@ -250,12 +250,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #region ProcessWebSocketTextFrame   (RequestTimestamp, Client, Connection, Frame, EventTrackingId, TextMessage,   CancellationToken)
 
         /// <summary>
-        /// Process a HTTP Web Socket text message.
+        /// Process a HTTP WebSocket text message.
         /// </summary>
         /// <param name="RequestTimestamp">The timestamp of the request.</param>
-        /// <param name="Client">The HTTP Web Socket client.</param>
-        /// <param name="Connection">The HTTP Web Socket connection.</param>
-        /// <param name="Frame">The HTTP Web Socket frame.</param>
+        /// <param name="Client">The HTTP WebSocket client.</param>
+        /// <param name="Connection">The HTTP WebSocket connection.</param>
+        /// <param name="Frame">The HTTP WebSocket frame.</param>
         /// <param name="EventTrackingId">An optional event tracking identification.</param>
         /// <param name="TextMessage">The received text message.</param>
         /// <param name="CancellationToken">The cancellation token.</param>
@@ -272,7 +272,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             // MUST terminate the connection with status code 1003 (unacceptable data).
             await Connection.Close(
                       WebSocketFrame.ClosingStatusCode.UnsupportedData,
-                      "HTTP Web Socket Text frames are not allowed by EEBus SHIP!",
+                      "HTTP WebSocket Text frames are not allowed by EEBus SHIP!",
                       CancellationToken
                   );
 
@@ -283,12 +283,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #region ProcessWebSocketBinaryFrame (RequestTimestamp, Client, Connection, Frame, EventTrackingId, BinaryMessage, CancellationToken)
 
         /// <summary>
-        /// Process a HTTP Web Socket binary message.
+        /// Process a HTTP WebSocket binary message.
         /// </summary>
         /// <param name="RequestTimestamp">The timestamp of the request.</param>
-        /// <param name="Client">The HTTP Web Socket client.</param>
-        /// <param name="Connection">The HTTP Web Socket connection.</param>
-        /// <param name="Frame">The HTTP Web Socket frame.</param>
+        /// <param name="Client">The HTTP WebSocket client.</param>
+        /// <param name="Connection">The HTTP WebSocket connection.</param>
+        /// <param name="Frame">The HTTP WebSocket frame.</param>
         /// <param name="EventTrackingId">An optional event tracking identification.</param>
         /// <param name="BinaryMessage">The received binary message.</param>
         /// <param name="CancellationToken">The cancellation token.</param>

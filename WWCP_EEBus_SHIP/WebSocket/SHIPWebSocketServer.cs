@@ -43,13 +43,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     #region Common Connection Management
 
     /// <summary>
-    /// A delegate for logging new HTTP Web Socket connections.
+    /// A delegate for logging new HTTP WebSocket connections.
     /// </summary>
     /// <param name="Timestamp">The logging timestamp.</param>
-    /// <param name="NetworkingNodeChannel">The HTTP Web Socket channel.</param>
-    /// <param name="NewConnection">The new HTTP Web Socket connection.</param>
+    /// <param name="NetworkingNodeChannel">The HTTP WebSocket channel.</param>
+    /// <param name="NewConnection">The new HTTP WebSocket connection.</param>
     /// <param name="NetworkingNodeId">The sending EEBus networking node/charging station identification.</param>
-    /// <param name="SharedSubprotocols">An enumeration of shared HTTP Web Sockets subprotocols.</param>
+    /// <param name="SharedSubprotocols">An enumeration of shared HTTP WebSockets subprotocols.</param>
     /// <param name="EventTrackingId">An optional event tracking identification for correlating this request with other events.</param>
     /// <param name="CancellationToken">A token to cancel the processing.</param>
     public delegate Task OnNetworkingNodeNewWebSocketConnectionDelegate        (DateTime                           Timestamp,
@@ -61,15 +61,15 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                                                                 CancellationToken                  CancellationToken);
 
     /// <summary>
-    /// A delegate for logging a HTTP Web Socket CLOSE message.
+    /// A delegate for logging a HTTP WebSocket CLOSE message.
     /// </summary>
     /// <param name="Timestamp">The logging timestamp.</param>
-    /// <param name="NetworkingNodeChannel">The HTTP Web Socket channel.</param>
-    /// <param name="Connection">The HTTP Web Socket connection to be closed.</param>
+    /// <param name="NetworkingNodeChannel">The HTTP WebSocket channel.</param>
+    /// <param name="Connection">The HTTP WebSocket connection to be closed.</param>
     /// <param name="NetworkingNodeId">The sending EEBus networking node/charging station identification.</param>
     /// <param name="EventTrackingId">An optional event tracking identification for correlating this request with other events.</param>
-    /// <param name="StatusCode">The HTTP Web Socket Closing Status Code.</param>
-    /// <param name="Reason">An optional HTTP Web Socket closing reason.</param>
+    /// <param name="StatusCode">The HTTP WebSocket Closing Status Code.</param>
+    /// <param name="Reason">An optional HTTP WebSocket closing reason.</param>
     /// <param name="CancellationToken">A token to cancel the processing.</param>
     public delegate Task OnNetworkingNodeCloseMessageReceivedDelegate          (DateTime                           Timestamp,
                                                                                 SHIPWebSocketServer                NetworkingNodeChannel,
@@ -84,8 +84,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// A delegate for logging a closed TCP connection.
     /// </summary>
     /// <param name="Timestamp">The logging timestamp.</param>
-    /// <param name="NetworkingNodeChannel">The HTTP Web Socket channel.</param>
-    /// <param name="Connection">The HTTP Web Socket connection to be closed.</param>
+    /// <param name="NetworkingNodeChannel">The HTTP WebSocket channel.</param>
+    /// <param name="Connection">The HTTP WebSocket connection to be closed.</param>
     /// <param name="NetworkingNodeId">The sending EEBus networking node/charging station identification.</param>
     /// <param name="EventTrackingId">An optional event tracking identification for correlating this request with other events.</param>
     /// <param name="Reason">An optional closing reason.</param>
@@ -102,7 +102,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
 
     /// <summary>
-    /// The EEBus/SHIP HTTP Web Socket server.
+    /// The EEBus/SHIP HTTP WebSocket server.
     /// </summary>
     public partial class SHIPWebSocketServer : WebSocketServer
     {
@@ -267,14 +267,14 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #region Constructor(s)
 
         /// <summary>
-        /// Create a new EEBus/SHIP HTTP Web Socket server.
+        /// Create a new EEBus/SHIP HTTP WebSocket server.
         /// </summary>
         /// <param name="EEBusAdapter">The parent EEBus adapter.</param>
         /// 
         /// <param name="HTTPServiceName">An optional identification string for the HTTP service.</param>
         /// <param name="IPAddress">An IP address to listen on.</param>
         /// <param name="TCPPort">An optional TCP port for the HTTP server.</param>
-        /// <param name="Description">An optional description of this HTTP Web Socket service.</param>
+        /// <param name="Description">An optional description of this HTTP WebSocket service.</param>
         /// 
         /// <param name="RequireAuthentication">Require a HTTP Basic Authentication of all charging boxes.</param>
         /// 
@@ -581,7 +581,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             if (networkingNodeId.HasValue)
             {
 
-                #region Store the NetworkingNodeId within the HTTP Web Socket connection
+                #region Store the NetworkingNodeId within the HTTP WebSocket connection
 
                 Connection.TryAddCustomData(
                                 EEBus.EEBusAdapter.NetworkingNodeId_WebSocketKey,
@@ -613,7 +613,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                         }
                         catch (Exception e)
                         {
-                            DebugX.Log($"{nameof(SHIPWebSocketServer)} Closing old HTTP Web Socket connection from {oldConnection.Item1.RemoteSocket} failed: {e.Message}");
+                            DebugX.Log($"{nameof(SHIPWebSocketServer)} Closing old HTTP WebSocket connection from {oldConnection.Item1.RemoteSocket} failed: {e.Message}");
                         }
                     }
 
@@ -670,19 +670,19 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             else
             {
 
-                DebugX.Log($"{nameof(SHIPWebSocketServer)} Could not get NetworkingNodeId from HTTP Web Socket connection ({Connection.RemoteSocket}): Closing connection!");
+                DebugX.Log($"{nameof(SHIPWebSocketServer)} Could not get NetworkingNodeId from HTTP WebSocket connection ({Connection.RemoteSocket}): Closing connection!");
 
                 try
                 {
                     await Connection.Close(
                               WebSocketFrame.ClosingStatusCode.PolicyViolation,
-                              "Could not get NetworkingNodeId from HTTP Web Socket connection!",
+                              "Could not get NetworkingNodeId from HTTP WebSocket connection!",
                               CancellationToken
                           );
                 }
                 catch (Exception e)
                 {
-                    DebugX.Log($"{nameof(SHIPWebSocketServer)} Closing HTTP Web Socket connection ({Connection.RemoteSocket}) failed: {e.Message}");
+                    DebugX.Log($"{nameof(SHIPWebSocketServer)} Closing HTTP WebSocket connection ({Connection.RemoteSocket}) failed: {e.Message}");
                 }
 
             }
@@ -774,7 +774,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             // MUST terminate the connection with status code 1003 (unacceptable data).
             await ServerConnection.Close(
                       WebSocketFrame.ClosingStatusCode.UnsupportedData,
-                      "HTTP Web Socket Text frames are not allowed by EEBus SHIP!",
+                      "HTTP WebSocket Text frames are not allowed by EEBus SHIP!",
                       CancellationToken
                   );
 
