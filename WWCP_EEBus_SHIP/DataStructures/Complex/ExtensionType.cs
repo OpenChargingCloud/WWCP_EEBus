@@ -139,9 +139,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 if (binaryPayloadHEX is not null)
                 {
-                    if (!ByteExtensions.TryParseHexBytes(binaryPayloadHEX,
-                                                         out BinaryPayload,
-                                                         out ErrorResponse))
+                    if (!StringExtensions.TryParseHEX(binaryPayloadHEX,
+                                                      out BinaryPayload,
+                                                      out ErrorResponse))
                     {
                         return false;
                     }
