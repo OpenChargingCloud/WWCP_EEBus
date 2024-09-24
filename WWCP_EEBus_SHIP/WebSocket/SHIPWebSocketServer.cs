@@ -446,7 +446,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                                      JSONObject.Create(
                                                          new JProperty("en", "Missing 'Sec-WebSocket-Protocol' HTTP header!")
                                                      ))).ToUTF8Bytes(),
-                               Connection      = "close"
+                               Connection      = ConnectionType.Close
                            }.AsImmutable);
 
             }
@@ -468,7 +468,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                                          JSONObject.Create(
                                                              new JProperty("en", error)
                                                      ))).ToUTF8Bytes(),
-                               Connection      = "close"
+                               Connection      = ConnectionType.Close
                            }.AsImmutable);
 
             }
@@ -501,7 +501,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                HTTPStatusCode  = HTTPStatusCode.Unauthorized,
                                Server          = HTTPServiceName,
                                Date            = Timestamp.Now,
-                               Connection      = "close"
+                               Connection      = ConnectionType.Close
                            }.AsImmutable
                        );
 
