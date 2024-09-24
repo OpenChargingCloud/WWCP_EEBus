@@ -34,7 +34,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP-Access-Methods Message
     /// </summary>
     /// <param name="AccessMethodsRequest">An access methods request.</param>
-    /// <param name="CustomData">An optional custom data object to allow to store any kind of customer specific data.</param>
+    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
     public class SHIPAccessMethodsMessage(AccessMethodsType  AccessMethodsRequest,
                                           CustomData?        CustomData   = null)
 

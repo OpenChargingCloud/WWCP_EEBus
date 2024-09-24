@@ -34,7 +34,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Close Message
     /// </summary>
     /// <param name="ConnectionClose">A connection close.</param>
-    /// <param name="CustomData">An optional custom data object to allow to store any kind of customer specific data.</param>
+    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
     public class SHIPCloseMessage(ConnectionClose  ConnectionClose,
                                   CustomData?      CustomData   = null)
 

@@ -34,7 +34,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Handshake Error Message
     /// </summary>
     /// <param name="MessageProtocolHandshakeError">A message protocol handshake error.</param>
-    /// <param name="CustomData">An optional custom data object to allow to store any kind of customer specific data.</param>
+    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
     public class SHIPHandshakeErrorMessage(MessageProtocolHandshakeError  MessageProtocolHandshakeError,
                                            CustomData?                    CustomData   = null)
 

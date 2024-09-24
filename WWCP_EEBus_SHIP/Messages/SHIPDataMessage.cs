@@ -34,7 +34,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Data Message
     /// </summary>
     /// <param name="Data">A transported data.</param>
-    /// <param name="CustomData">An optional custom data object to allow to store any kind of customer specific data.</param>
+    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
     public class SHIPDataMessage(DataType     Data,
                                  CustomData?  CustomData   = null)
 
