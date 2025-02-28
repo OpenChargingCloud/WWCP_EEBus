@@ -316,6 +316,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                    RequireAuthentication,
                    [ "ship" ],
+                   null,
                    DisableWebSocketPings,
                    WebSocketPingEvery,
                    SlowNetworkSimulationDelay,
@@ -517,12 +518,21 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #region (protected) ProcessNewWebSocketConnection (LogTimestamp, Server, Connection, SharedSubprotocols, EventTrackingId, CancellationToken)
 
-        protected async Task ProcessNewWebSocketConnection(DateTime                   LogTimestamp,
-                                                           org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer           Server,
-                                                           WebSocketServerConnection  Connection,
-                                                           IEnumerable<String>        SharedSubprotocols,
-                                                           EventTracking_Id           EventTrackingId,
-                                                           CancellationToken          CancellationToken)
+        protected async Task ProcessNewWebSocketConnection(//DateTime                   LogTimestamp,
+                                                           //org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer           Server,
+                                                           //WebSocketServerConnection  Connection,
+                                                           //IEnumerable<String>        SharedSubprotocols,
+                                                           //EventTracking_Id           EventTrackingId,
+                                                           //CancellationToken          CancellationToken)
+                                                           DateTime                           LogTimestamp,
+                                                           org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer  Server,
+                                                           WebSocketServerConnection          Connection,
+                                                           IEnumerable<String>                SharedSubprotocols,
+                                                           String?                            SelectedSubprotocol,
+                                                           EventTracking_Id                   EventTrackingId,
+                                                           CancellationToken                  CancellationToken)
+
+
         {
 
             if (Connection.HTTPRequest is null)
