@@ -28,13 +28,13 @@ using cloud.charging.open.protocols.WWCP.OverlayNetworking.WebSockets;
 namespace cloud.charging.open.protocols.EEBus
 {
 
-    public delegate Task OnBinaryMessageRequestReceivedDelegate (DateTime                    Timestamp,
-                                                                 IEEBusWebSocketAdapterIN     Server,
-                                                                 BinaryRequestMessage   BinaryRequestMessage);
+    public delegate Task OnBinaryMessageRequestReceivedDelegate (DateTimeOffset            Timestamp,
+                                                                 IEEBusWebSocketAdapterIN  Server,
+                                                                 BinaryRequestMessage      BinaryRequestMessage);
 
-    public delegate Task OnBinaryMessageResponseReceivedDelegate(DateTime                    Timestamp,
-                                                                 IEEBusWebSocketAdapterIN     Server,
-                                                                 BinaryResponseMessage  BinaryResponseMessage);
+    public delegate Task OnBinaryMessageResponseReceivedDelegate(DateTimeOffset            Timestamp,
+                                                                 IEEBusWebSocketAdapterIN  Server,
+                                                                 BinaryResponseMessage     BinaryResponseMessage);
 
     //public delegate Task OnBinaryErrorResponseReceivedDelegate  (DateTime                    Timestamp,
     //                                                             IEEBusWebSocketAdapterIN     Server,
@@ -97,7 +97,7 @@ namespace cloud.charging.open.protocols.EEBus
         #endregion
 
 
-        Task<WebSocketBinaryMessageResponse> ProcessBinaryMessage(DateTime              RequestTimestamp,
+        Task<WebSocketBinaryMessageResponse> ProcessBinaryMessage(DateTimeOffset        RequestTimestamp,
                                                                   IWebSocketConnection  WebSocketConnection,
                                                                   Byte[]                BinaryMessage,
                                                                   EventTracking_Id      EventTrackingId,

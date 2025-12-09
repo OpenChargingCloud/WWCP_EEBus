@@ -25,13 +25,13 @@ using cloud.charging.open.protocols.WWCP.OverlayNetworking.WebSockets;
 namespace cloud.charging.open.protocols.EEBus
 {
 
-    public delegate Task OnBinaryMessageRequestSentDelegate   (DateTime                    Timestamp,
-                                                               IEEBusWebSocketAdapterOUT    Server,
-                                                               BinaryRequestMessage   BinaryRequestMessage);
+    public delegate Task OnBinaryMessageRequestSentDelegate   (DateTimeOffset             Timestamp,
+                                                               IEEBusWebSocketAdapterOUT  Server,
+                                                               BinaryRequestMessage       BinaryRequestMessage);
 
-    public delegate Task OnBinaryMessageResponseSentDelegate  (DateTime                    Timestamp,
-                                                               IEEBusWebSocketAdapterOUT    Server,
-                                                               BinaryResponseMessage  BinaryResponseMessage);
+    public delegate Task OnBinaryMessageResponseSentDelegate  (DateTimeOffset             Timestamp,
+                                                               IEEBusWebSocketAdapterOUT  Server,
+                                                               BinaryResponseMessage      BinaryResponseMessage);
 
     //public delegate Task OnBinaryErrorMessageSentDelegate     (DateTime                    Timestamp,
     //                                                           IEEBusWebSocketAdapterOUT    Server,

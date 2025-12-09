@@ -52,7 +52,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// <param name="SharedSubprotocols">An enumeration of shared HTTP WebSockets subprotocols.</param>
     /// <param name="EventTrackingId">An optional event tracking identification for correlating this request with other events.</param>
     /// <param name="CancellationToken">A token to cancel the processing.</param>
-    public delegate Task OnNetworkingNodeNewWebSocketConnectionDelegate        (DateTime                           Timestamp,
+    public delegate Task OnNetworkingNodeNewWebSocketConnectionDelegate        (DateTimeOffset                     Timestamp,
                                                                                 SHIPWebSocketServer                NetworkingNodeChannel,
                                                                                 WebSocketServerConnection          NewConnection,
                                                                                 NetworkingNode_Id                  NetworkingNodeId,
@@ -71,7 +71,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// <param name="StatusCode">The HTTP WebSocket Closing Status Code.</param>
     /// <param name="Reason">An optional HTTP WebSocket closing reason.</param>
     /// <param name="CancellationToken">A token to cancel the processing.</param>
-    public delegate Task OnNetworkingNodeCloseMessageReceivedDelegate          (DateTime                           Timestamp,
+    public delegate Task OnNetworkingNodeCloseMessageReceivedDelegate          (DateTimeOffset                     Timestamp,
                                                                                 SHIPWebSocketServer                NetworkingNodeChannel,
                                                                                 WebSocketServerConnection          Connection,
                                                                                 NetworkingNode_Id                  NetworkingNodeId,
@@ -90,7 +90,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// <param name="EventTrackingId">An optional event tracking identification for correlating this request with other events.</param>
     /// <param name="Reason">An optional closing reason.</param>
     /// <param name="CancellationToken">A token to cancel the processing.</param>
-    public delegate Task OnNetworkingNodeTCPConnectionClosedDelegate           (DateTime                           Timestamp,
+    public delegate Task OnNetworkingNodeTCPConnectionClosedDelegate           (DateTimeOffset                     Timestamp,
                                                                                 SHIPWebSocketServer                NetworkingNodeChannel,
                                                                                 WebSocketServerConnection          Connection,
                                                                                 NetworkingNode_Id                  NetworkingNodeId,
@@ -112,25 +112,25 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <summary>
         /// The default HTTP server name.
         /// </summary>
-        public  const           String                                                                               DefaultHTTPServiceName
+        public  const           String                                                                                     DefaultHTTPServiceName
             = $"GraphDefined EEBus/SHIP {EEBus.Version.String} Networking Node HTTP/WebSocket/JSON API";
 
         /// <summary>
         /// The default HTTP server TCP port.
         /// </summary>
-        public static readonly  IPPort                                                                               DefaultHTTPServerPort             = IPPort.Parse(2010);
+        public static readonly  IPPort                                                                                     DefaultHTTPServerPort             = IPPort.Parse(2010);
 
         /// <summary>
         /// The default HTTP server URI prefix.
         /// </summary>
-        public static readonly  HTTPPath                                                                             DefaultURLPrefix                  = HTTPPath.Parse("/" + EEBus.Version.String);
+        public static readonly  HTTPPath                                                                                   DefaultURLPrefix                  = HTTPPath.Parse("/" + EEBus.Version.String);
 
-        protected readonly      Dictionary<String, MethodInfo>                                                       incomingMessageProcessorsLookup   = [];
-        protected readonly      ConcurrentDictionary<NetworkingNode_Id, Tuple<WebSocketServerConnection, DateTime>>  connectedNetworkingNodes          = [];
-        protected readonly      ConcurrentDictionary<NetworkingNode_Id, NetworkingNode_Id>                           reachableViaNetworkingHubs        = [];
-        protected readonly      ConcurrentDictionary<Request_Id, SendRequestState>                                   requests                          = [];
+        protected readonly      Dictionary<String, MethodInfo>                                                             incomingMessageProcessorsLookup   = [];
+        protected readonly      ConcurrentDictionary<NetworkingNode_Id, Tuple<WebSocketServerConnection, DateTimeOffset>>  connectedNetworkingNodes          = [];
+        protected readonly      ConcurrentDictionary<NetworkingNode_Id, NetworkingNode_Id>                                 reachableViaNetworkingHubs        = [];
+        protected readonly      ConcurrentDictionary<Request_Id, SendRequestState>                                         requests                          = [];
 
-        public const            String                                                                               LogfileName                       = "CSMSWSServer.log";
+        public const            String                                                                                     LogfileName                       = "CSMSWSServer.log";
 
         #endregion
 
@@ -406,7 +406,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #region (protected) ValidateTCPConnection         (LogTimestamp, Server, Connection, EventTrackingId, CancellationToken)
 
-        private Task<ConnectionFilterResponse> ValidateTCPConnection(DateTime                      LogTimestamp,
+        private Task<ConnectionFilterResponse> ValidateTCPConnection(DateTimeOffset                LogTimestamp,
                                                                      org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer              Server,
                                                                      System.Net.Sockets.TcpClient  Connection,
                                                                      EventTracking_Id              EventTrackingId,
@@ -421,7 +421,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #region (protected) ValidateWebSocketConnection   (LogTimestamp, Server, Connection, EventTrackingId, CancellationToken)
 
-        private Task<HTTPResponse?> ValidateWebSocketConnection(DateTime                   LogTimestamp,
+        private Task<HTTPResponse?> ValidateWebSocketConnection(DateTimeOffset             LogTimestamp,
                                                                 org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer           Server,
                                                                 WebSocketServerConnection  Connection,
                                                                 EventTracking_Id           EventTrackingId,
@@ -524,7 +524,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                                            //IEnumerable<String>        SharedSubprotocols,
                                                            //EventTracking_Id           EventTrackingId,
                                                            //CancellationToken          CancellationToken)
-                                                           DateTime                           LogTimestamp,
+                                                           DateTimeOffset                     LogTimestamp,
                                                            org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer  Server,
                                                            WebSocketServerConnection          Connection,
                                                            IEnumerable<String>                SharedSubprotocols,
@@ -603,7 +603,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                 #region Register new Networking Node
 
                 if (!connectedNetworkingNodes.TryAdd(networkingNodeId.Value,
-                                                     new Tuple<WebSocketServerConnection, DateTime>(
+                                                     new Tuple<WebSocketServerConnection, DateTimeOffset>(
                                                          Connection,
                                                          Timestamp.Now
                                                      )))
@@ -628,7 +628,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                     }
 
                     connectedNetworkingNodes.TryAdd(networkingNodeId.Value,
-                                                    new Tuple<WebSocketServerConnection, DateTime>(
+                                                    new Tuple<WebSocketServerConnection, DateTimeOffset>(
                                                         Connection,
                                                         Timestamp.Now
                                                     ));
@@ -705,7 +705,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #region (protected) ProcessCloseMessage           (LogTimestamp, Server, Connection, Frame, EventTrackingId, StatusCode, Reason, CancellationToken)
 
-        protected async Task ProcessCloseMessage(DateTime                          LogTimestamp,
+        protected async Task ProcessCloseMessage(DateTimeOffset                    LogTimestamp,
                                                  org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketServer                  Server,
                                                  WebSocketServerConnection         Connection,
                                                  WebSocketFrame                    Frame,

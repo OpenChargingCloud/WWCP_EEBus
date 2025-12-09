@@ -109,7 +109,7 @@ namespace cloud.charging.open.protocols.EEBus
                 }
                 catch (Exception e)
                 {
-                    DebugX.Log(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
+                    DebugX.LogException(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
                 }
             }
 
@@ -150,7 +150,7 @@ namespace cloud.charging.open.protocols.EEBus
                 }
                 catch (Exception e)
                 {
-                    DebugX.Log(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
+                    DebugX.LogException(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
                 }
             }
 
@@ -189,7 +189,7 @@ namespace cloud.charging.open.protocols.EEBus
                 }
                 catch (Exception e)
                 {
-                    DebugX.Log(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
+                    DebugX.LogException(e, nameof(EEBusWebSocketAdapterOUT) + "." + nameof(OnBinaryMessageRequestSent));
                 }
             }
 

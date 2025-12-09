@@ -116,7 +116,7 @@ namespace cloud.charging.open.protocols.EEBus
 
         #region ProcessBinaryMessage (RequestTimestamp, WebSocketConnection, BinaryMessage, EventTrackingId, CancellationToken)
 
-        public async Task<WebSocketBinaryMessageResponse> ProcessBinaryMessage(DateTime              RequestTimestamp,
+        public async Task<WebSocketBinaryMessageResponse> ProcessBinaryMessage(DateTimeOffset        RequestTimestamp,
                                                                                IWebSocketConnection  WebSocketConnection,
                                                                                Byte[]                BinaryMessage,
                                                                                EventTracking_Id      EventTrackingId,
@@ -318,7 +318,7 @@ namespace cloud.charging.open.protocols.EEBus
                         }
                         catch (Exception e)
                         {
-                            DebugX.Log(e, nameof(EEBusWebSocketAdapterIN) + "." + nameof(OnBinaryMessageRequestReceived));
+                            DebugX.LogException(e, nameof(EEBusWebSocketAdapterIN) + "." + nameof(OnBinaryMessageRequestReceived));
                         }
                     }
 
@@ -454,7 +454,7 @@ namespace cloud.charging.open.protocols.EEBus
                         }
                         catch (Exception e)
                         {
-                            DebugX.Log(e, nameof(EEBusWebSocketAdapterIN) + "." + nameof(OnBinaryMessageResponseReceived));
+                            DebugX.LogException(e, nameof(EEBusWebSocketAdapterIN) + "." + nameof(OnBinaryMessageResponseReceived));
                         }
                     }
 

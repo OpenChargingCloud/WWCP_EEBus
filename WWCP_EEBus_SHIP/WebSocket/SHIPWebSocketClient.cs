@@ -17,6 +17,7 @@
 
 #region Usings
 
+using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
@@ -169,7 +170,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                    Boolean?                                                        PreferIPv4                   = null,
                                    RemoteTLSServerCertificateValidationHandler<org.GraphDefined.Vanaheimr.Hermod.WebSocket.IWebSocketClient>?  RemoteCertificateValidator   = null,
                                    LocalCertificateSelectionHandler?                               LocalCertificateSelector     = null,
-                                   X509Certificate?                                                ClientCert                   = null,
+                                   IEnumerable<X509Certificate2>?                                  ClientCertificates           = null,
+                                   SslStreamCertificateContext?                                    ClientCertificateContext     = null,
+                                   IEnumerable<X509Certificate2>?                                  ClientCertificateChain       = null,
                                    SslProtocols?                                                   TLSProtocol                  = null,
                                    String                                                          HTTPUserAgent                = DefaultHTTPUserAgent,
                                    IHTTPAuthentication?                                            HTTPAuthentication           = null,
@@ -199,7 +202,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                    PreferIPv4,
                    RemoteCertificateValidator,
                    LocalCertificateSelector,
-                   ClientCert,
+                   ClientCertificates,
+                   ClientCertificateContext,
+                   ClientCertificateChain,
                    TLSProtocol,
                    HTTPUserAgent ?? DefaultHTTPUserAgent,
                    HTTPAuthentication,
@@ -259,7 +264,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="EventTrackingId">An optional event tracking identification.</param>
         /// <param name="TextMessage">The received text message.</param>
         /// <param name="CancellationToken">The cancellation token.</param>
-        public async Task ProcessWebSocketTextFrame(DateTime                   RequestTimestamp,
+        public async Task ProcessWebSocketTextFrame(DateTimeOffset             RequestTimestamp,
                                                     WebSocketClient            Client,
                                                     WebSocketClientConnection  Connection,
                                                     WebSocketFrame             Frame,
@@ -292,7 +297,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="EventTrackingId">An optional event tracking identification.</param>
         /// <param name="BinaryMessage">The received binary message.</param>
         /// <param name="CancellationToken">The cancellation token.</param>
-        public async Task ProcessWebSocketBinaryFrame(DateTime                   RequestTimestamp,
+        public async Task ProcessWebSocketBinaryFrame(DateTimeOffset             RequestTimestamp,
                                                       WebSocketClient            Client,
                                                       WebSocketClientConnection  Connection,
                                                       WebSocketFrame             Frame,
