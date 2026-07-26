@@ -94,7 +94,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var discovered = new List<SPINERemoteDevice>();
 
-            loopback.A.NodeManagement.OnDeviceDiscovered += (_, device) => discovered.Add(device);
+            loopback.A.Events.Subscribe<SPINEDeviceDiscovered>(@event => discovered.Add(@event.RemoteDevice));
 
             var response = await loopback.A.NodeManagement.RequestDetailedDiscovery(loopback.BAsSeenByA);
 
@@ -442,7 +442,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var changes = new List<(SPINERemoteEntity Entity, Boolean Added)>();
 
-            loopback.A.NodeManagement.OnEntityChanged += (_, entity, added) => changes.Add((entity, added));
+            loopback.A.Events.Subscribe<SPINEEntityChanged>(@event => changes.Add((@event.RemoteEntity, @event.Added)));
 
             var newEntity = loopback.B.AddEntity(EntityTypeType.EV);
             newEntity.Description = "The car";
@@ -509,7 +509,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var changes = new List<(SPINERemoteEntity Entity, Boolean Added)>();
 
-            loopback.A.NodeManagement.OnEntityChanged += (_, entity, added) => changes.Add((entity, added));
+            loopback.A.Events.Subscribe<SPINEEntityChanged>(@event => changes.Add((@event.RemoteEntity, @event.Added)));
 
             await loopback.B.NodeManagement.NotifyEntityRemoved(evseLoadControl.Entity);
 

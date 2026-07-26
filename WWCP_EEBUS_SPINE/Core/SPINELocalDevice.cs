@@ -102,20 +102,16 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// </summary>
         public SPINENodeManagement               NodeManagement       { get; }
 
-        #endregion
-
-        #region Events
+        /// <summary>
+        /// What this device tells the world about itself.
+        /// </summary>
+        public SPINEEvents                       Events               { get; }
 
         /// <summary>
-        /// The data of a function changed because another device said so or
-        /// asked for it.
+        /// Where the time comes from. Everything with a timestamp or a timer
+        /// within the SPINE core asks this, and nothing asks the clock.
         /// </summary>
-        public event Action<SPINELocalDevice, SPINEDataChange>? OnDataChanged;
-
-        /// <summary>
-        /// A datagram was refused, with the result which was sent back.
-        /// </summary>
-        public event Action<SPINELocalDevice, DatagramType, ResultDataType>? OnDatagramRefused;
+        public TimeProvider                      TimeProvider         { get; }
 
         #endregion
 
@@ -127,14 +123,18 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// <param name="DeviceAddress">The address of this device, i.e. "d:_i:19667_HEMS".</param>
         /// <param name="DeviceType">Which kind of device it is.</param>
         /// <param name="FeatureSet">Which network management feature set it has.</param>
+        /// <param name="TimeProvider">Where the time comes from. The system clock by default; the tests use a fake one.</param>
         public SPINELocalDevice(String                            DeviceAddress,
                                 DeviceTypeType                    DeviceType,
-                                NetworkManagementFeatureSetType?  FeatureSet   = null)
+                                NetworkManagementFeatureSetType?  FeatureSet     = null,
+                                TimeProvider?                     TimeProvider   = null)
         {
 
             this.DeviceAddress      = DeviceAddress;
             this.DeviceType         = DeviceType;
             this.FeatureSet         = FeatureSet ?? NetworkManagementFeatureSetType.Smart;
+            this.TimeProvider       = TimeProvider ?? System.TimeProvider.System;
+            this.Events             = new SPINEEvents(this.TimeProvider);
 
             // Every device has entity 0 with node management on feature 0
             // (SPINE 1.3.0, 7.1). Which functions it offers is filled in by the
@@ -498,7 +498,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                 if (cmdClassifier != CmdClassifierType.Result)
                     return await Refuse(Datagram, header, RemoteDevice, localFeature, error, CancellationToken);
 
-                OnDatagramRefused?.Invoke(this, Datagram, error);
+                Events.Publish(timestamp => new SPINEDatagramRefused(timestamp, Datagram, error));
 
                 return error;
 
@@ -560,7 +560,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// </summary>
         internal void Published(SPINEDataChange Change)
         {
-            OnDataChanged?.Invoke(this, Change);
+            Events.Publish(timestamp => new SPINEDataChanged(timestamp, Change));
         }
 
         #endregion
@@ -579,7 +579,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                                   CancellationToken   CancellationToken)
         {
 
-            OnDatagramRefused?.Invoke(this, Datagram, Error);
+            Events.Publish(timestamp => new SPINEDatagramRefused(timestamp, Datagram, Error));
 
             await RemoteDevice.Sender.Result(Header,
                                              LocalFeature?.Address ?? Header.AddressDestination ?? new FeatureAddressType { Device = DeviceAddress },
@@ -602,7 +602,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                        CancellationToken  CancellationToken)
         {
 
-            OnDatagramRefused?.Invoke(this, Datagram, Error);
+            Events.Publish(timestamp => new SPINEDatagramRefused(timestamp, Datagram, Error));
 
             return Error;
 

@@ -444,7 +444,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var changes = new List<SPINEDataChange>();
 
-            loopback.A.OnDataChanged += (_, change) => changes.Add(change);
+            loopback.A.Events.Subscribe<SPINEDataChanged>(@event => changes.Add(@event.Change));
 
             loopback.B.Subscriptions.Add(HEMSLoadControl.Address,
                                          evseLoadControl.Address);
@@ -663,7 +663,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var refusals = new List<ResultDataType>();
 
-            loopback.B.OnDatagramRefused += (_, _, result) => refusals.Add(result);
+            loopback.B.Events.Subscribe<SPINEDatagramRefused>(@event => refusals.Add(@event.Result));
 
             await loopback.B.ProcessDatagram(
                       new DatagramType {

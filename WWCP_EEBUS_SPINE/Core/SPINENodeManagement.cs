@@ -74,26 +74,6 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The detailed discovery of another device arrived, and its entities
-        /// and features are now known.
-        /// </summary>
-        public event Action<SPINENodeManagement, SPINERemoteDevice>?                     OnDeviceDiscovered;
-
-        /// <summary>
-        /// Another device announced an entity, or announced that one is gone.
-        /// </summary>
-        public event Action<SPINENodeManagement, SPINERemoteEntity, Boolean>?            OnEntityChanged;
-
-        /// <summary>
-        /// Another device asked for a subscription or a binding, or gave one up.
-        /// </summary>
-        public event Action<SPINENodeManagement, SPINEFeatureRelation, String, Boolean>? OnRelationChanged;
-
-        #endregion
-
         #region Constructor(s)
 
         /// <summary>
@@ -595,12 +575,12 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
                 }
 
-                OnEntityChanged?.Invoke(this, entity, true);
+                Device.Events.Publish(timestamp => new SPINEEntityChanged(timestamp, entity, true));
 
             }
 
             if (isComplete)
-                OnDeviceDiscovered?.Invoke(this, remoteDevice);
+                Device.Events.Publish(timestamp => new SPINEDeviceDiscovered(timestamp, remoteDevice));
 
             if (Message.RequestHeader.MsgCounterReference is UInt64 reference)
             {
@@ -637,7 +617,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
             RemoteDevice.RemoveEntity(Entity.EntityId);
 
-            OnEntityChanged?.Invoke(this, Entity, false);
+            Device.Events.Publish(timestamp => new SPINEEntityChanged(timestamp, Entity, false));
 
         }
 
@@ -685,7 +665,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
                 var relation = Relations.Add(client, server);
 
-                OnRelationChanged?.Invoke(this, relation, What, true);
+                Device.Events.Publish(timestamp => new SPINERelationChanged(timestamp, relation, What, true));
 
             }
 
@@ -698,7 +678,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                     return ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
                                                 $"There is no {What} from {client} to {server}.");
 
-                OnRelationChanged?.Invoke(this, relation, What, false);
+                Device.Events.Publish(timestamp => new SPINERelationChanged(timestamp, relation, What, false));
 
             }
 
