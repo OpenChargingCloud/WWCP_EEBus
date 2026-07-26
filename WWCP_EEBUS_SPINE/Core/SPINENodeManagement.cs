@@ -357,7 +357,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                              SPINERemoteFeature  ServerFeature,
                                              CancellationToken   CancellationToken   = default)
 
-            => Call(SubscriptionRequestCall,
+            => Remember(Device.SubscriptionsToOthers, ClientFeature, ServerFeature, Granted: true,
+                        Call(SubscriptionRequestCall,
                     new NodeManagementSubscriptionRequestCallType {
                         SubscriptionRequest = new SubscriptionManagementRequestCallType {
                                                   ClientAddress      = ClientFeature.Address.Clone(),
@@ -366,7 +367,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                               }
                     },
                     ServerFeature.Device,
-                    CancellationToken);
+                    CancellationToken));
 
         #endregion
 
@@ -379,7 +380,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                                SPINERemoteFeature  ServerFeature,
                                                CancellationToken   CancellationToken   = default)
 
-            => Call(SubscriptionDeleteCall,
+            => Remember(Device.SubscriptionsToOthers, ClientFeature, ServerFeature, Granted: false,
+                        Call(SubscriptionDeleteCall,
                     new NodeManagementSubscriptionDeleteCallType {
                         SubscriptionDelete = new SubscriptionManagementDeleteCallType {
                                                  ClientAddress  = ClientFeature.Address.Clone(),
@@ -387,7 +389,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                              }
                     },
                     ServerFeature.Device,
-                    CancellationToken);
+                    CancellationToken));
 
         #endregion
 
@@ -404,7 +406,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                         SPINERemoteFeature  ServerFeature,
                                         CancellationToken   CancellationToken   = default)
 
-            => Call(BindingRequestCall,
+            => Remember(Device.BindingsToOthers, ClientFeature, ServerFeature, Granted: true,
+                        Call(BindingRequestCall,
                     new NodeManagementBindingRequestCallType {
                         BindingRequest = new BindingManagementRequestCallType {
                                              ClientAddress      = ClientFeature.Address.Clone(),
@@ -413,7 +416,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                          }
                     },
                     ServerFeature.Device,
-                    CancellationToken);
+                    CancellationToken));
 
         #endregion
 
@@ -426,7 +429,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                           SPINERemoteFeature  ServerFeature,
                                           CancellationToken   CancellationToken   = default)
 
-            => Call(BindingDeleteCall,
+            => Remember(Device.BindingsToOthers, ClientFeature, ServerFeature, Granted: false,
+                        Call(BindingDeleteCall,
                     new NodeManagementBindingDeleteCallType {
                         BindingDelete = new BindingManagementDeleteCallType {
                                             ClientAddress  = ClientFeature.Address.Clone(),
@@ -434,7 +438,44 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                         }
                     },
                     ServerFeature.Device,
-                    CancellationToken);
+                    CancellationToken));
+
+        #endregion
+
+        #region (private) Remember(...)
+
+        /// <summary>
+        /// Keep what the other device agreed to, once it has agreed to it.
+        ///
+        /// The subscription or the binding itself lives on the partner - it is
+        /// the one which sends the notifies, and the one which allows the
+        /// writes - so this side can only remember what it asked for and was
+        /// granted. Without that a client has no way to answer "may I write
+        /// this?" except by trying.
+        /// </summary>
+        private static async Task<SPINEResponse> Remember(SPINEFeatureRelations  Relations,
+                                                          SPINELocalFeature      ClientFeature,
+                                                          SPINERemoteFeature     ServerFeature,
+                                                          Boolean                Granted,
+                                                          Task<SPINEResponse>    Request)
+        {
+
+            var response = await Request;
+
+            if (!response.IsError)
+            {
+
+                if (Granted)
+                    Relations.Add   (ClientFeature.Address, ServerFeature.Address);
+
+                else
+                    Relations.Remove(ClientFeature.Address, ServerFeature.Address);
+
+            }
+
+            return response;
+
+        }
 
         #endregion
 

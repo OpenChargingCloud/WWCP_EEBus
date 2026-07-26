@@ -92,6 +92,24 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         public SPINEFeatureRelations             Bindings         { get; } = new ();
 
         /// <summary>
+        /// The subscriptions **other** devices granted us: the server features
+        /// we asked to be told about.
+        ///
+        /// The two directions are different things and both have to be kept. A
+        /// subscription lives on the device which sends the notifies, so a
+        /// client can only know what it asked for and was granted - which is
+        /// exactly what it needs in order not to ask twice, and what the general
+        /// implementation guideline means by "a subscription is active".
+        /// </summary>
+        public SPINEFeatureRelations             SubscriptionsToOthers  { get; } = new ();
+
+        /// <summary>
+        /// The bindings other devices granted us: the server features we may
+        /// write to.
+        /// </summary>
+        public SPINEFeatureRelations             BindingsToOthers       { get; } = new ();
+
+        /// <summary>
         /// The entity every device has, which carries node management.
         /// </summary>
         public SPINELocalEntity                  DeviceInformation    { get; }
@@ -277,8 +295,10 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
             if (!remoteDevices.TryRemove(SKI, out var device))
                 return false;
 
-            Subscriptions.RemoveAllOf(device.DeviceAddress);
-            Bindings.     RemoveAllOf(device.DeviceAddress);
+            Subscriptions.        RemoveAllOf(device.DeviceAddress);
+            Bindings.             RemoveAllOf(device.DeviceAddress);
+            SubscriptionsToOthers.RemoveAllOf(device.DeviceAddress);
+            BindingsToOthers.     RemoveAllOf(device.DeviceAddress);
 
             return true;
 

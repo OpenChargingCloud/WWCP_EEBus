@@ -83,23 +83,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         /// question a conformance test asks rather than a client.
         /// </summary>
         public Boolean              HasSubscription
-            => subscribed;
-
-        /// <summary>
-        /// Whether we asked for and were granted a subscription.
-        /// </summary>
-        private Boolean             subscribed;
-
-        /// <summary>
-        /// Whether we asked for and were granted a binding.
-        /// </summary>
-        private Boolean             bound;
+            => Device.SubscriptionsToOthers.Has(Local.Address, Remote.Address);
 
         /// <summary>
         /// Whether we may write to the partner.
         /// </summary>
         public Boolean              HasBinding
-            => bound;
+            => Device.BindingsToOthers.Has(Local.Address, Remote.Address);
 
         #endregion
 
@@ -147,11 +137,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         public async Task<SPINEResponse> Subscribe(CancellationToken CancellationToken = default)
         {
 
-            var response = await Device.NodeManagement.Subscribe(Local, Remote, CancellationToken);
-
-            subscribed = !response.IsError;
-
-            return response;
+            return await Device.NodeManagement.Subscribe(Local, Remote, CancellationToken);
 
         }
 
@@ -163,12 +149,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         public async Task<SPINEResponse> Unsubscribe(CancellationToken CancellationToken = default)
         {
 
-            var response = await Device.NodeManagement.Unsubscribe(Local, Remote, CancellationToken);
-
-            if (!response.IsError)
-                subscribed = false;
-
-            return response;
+            return await Device.NodeManagement.Unsubscribe(Local, Remote, CancellationToken);
 
         }
 
@@ -183,11 +164,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         public async Task<SPINEResponse> Bind(CancellationToken CancellationToken = default)
         {
 
-            var response = await Device.NodeManagement.Bind(Local, Remote, CancellationToken);
-
-            bound = !response.IsError;
-
-            return response;
+            return await Device.NodeManagement.Bind(Local, Remote, CancellationToken);
 
         }
 
@@ -199,12 +176,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         public async Task<SPINEResponse> Unbind(CancellationToken CancellationToken = default)
         {
 
-            var response = await Device.NodeManagement.Unbind(Local, Remote, CancellationToken);
-
-            if (!response.IsError)
-                bound = false;
-
-            return response;
+            return await Device.NodeManagement.Unbind(Local, Remote, CancellationToken);
 
         }
 

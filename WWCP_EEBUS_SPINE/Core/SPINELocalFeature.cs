@@ -59,6 +59,23 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         public SPINELocalDevice  Device
             => Entity.Device;
 
+        /// <summary>
+        /// Asked before a write from another device is applied, where something
+        /// above this layer wants a say.
+        ///
+        /// SPINE decides whether a device **may** write - the possible
+        /// operations and the binding do that, before the message gets here.
+        /// This is the other question: whether this particular write can be
+        /// carried out. A use case answers it - an active power consumption
+        /// limit below zero is refused by the "Limitation of Power Consumption"
+        /// use case, not by SPINE.
+        ///
+        /// Answer null to let the write through, or the result to send back
+        /// instead. It is asked before anything is changed, so a refusal leaves
+        /// the data untouched.
+        /// </summary>
+        public Func<SPINEMessage, CancellationToken, Task<ResultDataType?>>? WriteApproval { get; set; }
+
         #endregion
 
         #region Constructor(s)
@@ -481,6 +498,12 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
             if (functionData is null)
                 return ResultDataType.Error(SPINEErrorNumbers.CommandNotSupported,
                                             $"This feature does not have the function '{Message.Function}'.");
+
+            // Whoever is above this layer gets to refuse it before anything is
+            // changed.
+            if (WriteApproval is not null &&
+                await WriteApproval(Message, CancellationToken) is ResultDataType refusal)
+                return refusal;
 
             var result = functionData.UpdateData(Message.Data,
                                                  Message.Cmd,
