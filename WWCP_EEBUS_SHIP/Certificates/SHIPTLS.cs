@@ -70,6 +70,25 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
               ];
 
         /// <summary>
+        /// The TLS 1.3 cipher suites.
+        ///
+        /// SHIP TS 1.0.1 chapter 9.1 predates TLS 1.3 and therefore says nothing
+        /// about these suites, but they are part of the SHIP cipher suites policy
+        /// nevertheless: TLS 1.3 renegotiated its cipher suites into a namespace of
+        /// their own, so a policy without them is a policy that cannot speak TLS 1.3.
+        ///
+        /// The Go reference implementation ends up in the same place, because Go
+        /// applies "tls.Config.CipherSuites" to TLS 1.2 and below only and always
+        /// offers its own TLS 1.3 suites.
+        /// </summary>
+        public static IEnumerable<TlsCipherSuite>  TLS13CipherSuites     { get; }
+            = [
+                  TlsCipherSuite.TLS_AES_128_GCM_SHA256,
+                  TlsCipherSuite.TLS_AES_256_GCM_SHA384,
+                  TlsCipherSuite.TLS_CHACHA20_POLY1305_SHA256
+              ];
+
+        /// <summary>
         /// The TLS versions accepted by this implementation.
         ///
         /// SHIP TS 1.0.1 mandates TLS 1.2; TLS 1.3 is allowed additionally, as
@@ -92,8 +111,9 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
             => cipherSuitesPolicy.Value is not null;
 
         /// <summary>
-        /// The cipher suites policy of SHIP, or null on platforms which do not
-        /// support restricting the cipher suites.
+        /// The cipher suites policy of SHIP: the suites of chapter 9.1 for TLS 1.2
+        /// and the TLS 1.3 suites. Null on platforms which do not support
+        /// restricting the cipher suites.
         /// </summary>
         public static CipherSuitesPolicy?          SHIPCipherSuitesPolicy
             => cipherSuitesPolicy.Value;
@@ -203,7 +223,14 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
         {
             try
             {
-                return new CipherSuitesPolicy(CipherSuites);
+
+                // The TLS 1.3 suites have to be in here: .NET refuses to open a
+                // connection whose EnabledSslProtocols ask for TLS 1.3 while the
+                // cipher suites policy allows none of its suites - it throws
+                // "The 'RequireEncryption' encryption policy is not supported by
+                // this installation of OpenSSL".
+                return new CipherSuitesPolicy([.. CipherSuites, .. TLS13CipherSuites]);
+
             }
             catch (PlatformNotSupportedException)
             {

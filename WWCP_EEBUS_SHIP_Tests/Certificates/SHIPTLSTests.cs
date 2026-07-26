@@ -54,6 +54,49 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP.tests
                 // SHIP 9: TLS 1.2 is mandatory
                 Assert.That(SHIPTLS.Protocols.HasFlag(SslProtocols.Tls12), Is.True);
 
+                // The property quotes the specification and nothing else: the TLS 1.3
+                // suites are part of the policy, but not of chapter 9.1.
+                Assert.That(SHIPTLS.CipherSuites, Has.No.Member(TlsCipherSuite.TLS_AES_128_GCM_SHA256));
+
+            });
+
+        }
+
+        #endregion
+
+        #region CipherSuitesPolicy_CoversEveryEnabledProtocol()
+
+        /// <summary>
+        /// A cipher suites policy has to offer suites for every enabled TLS version.
+        /// TLS 1.3 uses cipher suites of its own, so a policy holding only the TLS 1.2
+        /// suites of SHIP 9.1 leaves TLS 1.3 without any - and .NET/OpenSSL then refuses
+        /// the connection outright ("The 'RequireEncryption' encryption policy is not
+        /// supported by this installation of OpenSSL") instead of just not negotiating
+        /// TLS 1.3.
+        /// </summary>
+        [Test]
+        public void CipherSuitesPolicy_CoversEveryEnabledProtocol()
+        {
+
+            if (!SHIPTLS.SupportsCipherSuitesPolicy)
+                Assert.Ignore("This platform does not support a per connection cipher suites policy.");
+
+            // CA1416: guarded above - the policy is null exactly where the platform
+            // does not support it, and Assert.Ignore has already ended the test then.
+            #pragma warning disable CA1416
+            var allowed = SHIPTLS.SHIPCipherSuitesPolicy!.AllowedCipherSuites;
+            #pragma warning restore CA1416
+
+            Assert.Multiple(() => {
+
+                if (SHIPTLS.Protocols.HasFlag(SslProtocols.Tls12))
+                    Assert.That(allowed, Does.Contain(TlsCipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256),
+                                "TLS 1.2 is enabled, but the policy holds none of its suites.");
+
+                if (SHIPTLS.Protocols.HasFlag(SslProtocols.Tls13))
+                    Assert.That(SHIPTLS.TLS13CipherSuites.Intersect(allowed), Is.Not.Empty,
+                                "TLS 1.3 is enabled, but the policy holds none of its suites.");
+
             });
 
         }
