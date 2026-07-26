@@ -24,6 +24,7 @@ using NUnit.Framework;
 using cloud.charging.open.protocols.EEBUS.SPINE;
 using cloud.charging.open.protocols.EEBUS.SPINE.Model;
 using cloud.charging.open.protocols.EEBUS.UseCases.OPEV;
+using cloud.charging.open.protocols.EEBUS.UseCases.ChargingCurrent;
 
 #endregion
 
@@ -247,7 +248,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
                 Assert.That(response.IsError,          Is.False, response.Result?.Description);
 
-                Assert.That(ev.Trust,                  Is.EqualTo(OPEVTrust.Curtailed));
+                Assert.That(ev.Trust,                  Is.EqualTo(ChargingCurrentTrust.Following));
                 Assert.That(ev.ChargingCurrents,       Is.EqualTo(new Decimal[] { 10, 10, 10 }));
 
                 Assert.That(ev.CurrentLimits.All(limit => limit.IsActive), Is.True);
@@ -301,7 +302,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(ev.CurrentLimits[0].IsActive, Is.False);
-                Assert.That(ev.Trust,                     Is.EqualTo(OPEVTrust.Curtailed),
+                Assert.That(ev.Trust,                     Is.EqualTo(ChargingCurrentTrust.Following),
                             "A deactivated limit is not a reason to stop trusting the energy guard.");
             });
 
@@ -393,7 +394,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
                 ev.Check();
             }
 
-            Assert.That(ev.Trust, Is.EqualTo(OPEVTrust.Curtailed),
+            Assert.That(ev.Trust, Is.EqualTo(ChargingCurrentTrust.Following),
                         "The EV gave up although the heartbeats arrived.");
 
             // The energy guard goes quiet.
@@ -409,7 +410,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             var change = ev.Check();
 
             Assert.Multiple(() => {
-                Assert.That(change?.To,             Is.EqualTo(OPEVTrust.HeartbeatMissing));
+                Assert.That(change?.To,             Is.EqualTo(ChargingCurrentTrust.HeartbeatMissing));
                 Assert.That(change?.Reason,         Does.Contain("OPEV-005"));
                 Assert.That(ev.ChargingCurrents,    Is.EqualTo(new Decimal[] { 6, 6, 6 }),
                             "The EV kept charging with the current of an energy guard which is gone.");
@@ -436,12 +437,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             time.Advance(TimeSpan.FromSeconds(5));
             ev.Check();
 
-            Assert.That(ev.Trust, Is.EqualTo(OPEVTrust.HeartbeatMissing));
+            Assert.That(ev.Trust, Is.EqualTo(ChargingCurrentTrust.HeartbeatMissing));
 
             await guard.StartHeartbeat();
 
             Assert.Multiple(() => {
-                Assert.That(ev.Trust,            Is.EqualTo(OPEVTrust.Curtailed));
+                Assert.That(ev.Trust,            Is.EqualTo(ChargingCurrentTrust.Following));
                 Assert.That(ev.ChargingCurrents, Is.EqualTo(new Decimal[] { 16, 16, 16 }));
             });
 
@@ -476,7 +477,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
 
-                Assert.That(ev.Trust,             Is.EqualTo(OPEVTrust.EnergyGuardFailed));
+                Assert.That(ev.Trust,             Is.EqualTo(ChargingCurrentTrust.PartnerFailed));
                 Assert.That(ev.ChargingCurrents,  Is.EqualTo(new Decimal[] { 6, 6, 6 }));
 
                 // Without ever missing a heartbeat.
@@ -488,7 +489,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             await guard.SetOperatingState(DeviceDiagnosisOperatingStateType.NormalOperation);
 
             Assert.Multiple(() => {
-                Assert.That(ev.Trust,             Is.EqualTo(OPEVTrust.Curtailed));
+                Assert.That(ev.Trust,             Is.EqualTo(ChargingCurrentTrust.Following));
                 Assert.That(ev.ChargingCurrents,  Is.EqualTo(new Decimal[] { 16, 16, 16 }));
             });
 
@@ -521,12 +522,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
                 await guard.SetOperatingState(state);
 
-                Assert.That(ev.Trust, Is.EqualTo(OPEVTrust.EnergyGuardFailed),
+                Assert.That(ev.Trust, Is.EqualTo(ChargingCurrentTrust.PartnerFailed),
                             $"The EV kept trusting an energy guard in state '{state}'.");
 
                 await guard.SetOperatingState(DeviceDiagnosisOperatingStateType.NormalOperation);
 
-                Assert.That(ev.Trust, Is.EqualTo(OPEVTrust.Curtailed));
+                Assert.That(ev.Trust, Is.EqualTo(ChargingCurrentTrust.Following));
 
             }
 

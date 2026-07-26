@@ -28,7 +28,9 @@ using cloud.charging.open.protocols.EEBUS.UseCases.EVCC;
 using cloud.charging.open.protocols.EEBUS.UseCases.EVCEM;
 using cloud.charging.open.protocols.EEBUS.UseCases.EVSOC;
 using cloud.charging.open.protocols.EEBUS.UseCases.Monitoring;
+using cloud.charging.open.protocols.EEBUS.UseCases.ChargingCurrent;
 using cloud.charging.open.protocols.EEBUS.UseCases.OPEV;
+using cloud.charging.open.protocols.EEBUS.UseCases.OSCEV;
 
 #endregion
 
@@ -58,6 +60,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
         private SPINELoopback             wire         = null!;
 
         private SPINELocalEntity          evEntity     = null!;
+        private SPINELocalEntity          cemEntity    = null!;
 
         private EVCCElectricVehicle       commissioned = null!;
         private EVCEMElectricVehicle      measured     = null!;
@@ -81,7 +84,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             var evse = new SPINELocalDevice("d:_i:19667_EVSE", DeviceTypeType.ChargingStation,        TimeProvider: time);
 
             evEntity     = evse.AddEntity(EntityTypeType.EV);
-            var cemEntity = hems.AddEntity(EntityTypeType.CEM);
+            cemEntity    = hems.AddEntity(EntityTypeType.CEM);
 
             // The order matters as little as possible, and that is the point:
             // whichever of them is built first, none may take the feature for
@@ -363,7 +366,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
         {
 
             var curtailed = new OPEVElectricVehicle(evEntity);
-            var guard     = new OPEVEnergyGuard    (wire.A.Entities.First());
+            var guard     = new OPEVEnergyGuard    (cemEntity);
 
             await curtailed.Register();
             await guard.    Register();
@@ -386,6 +389,164 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
                 Assert.That(meter.Quantities(EV), Has.Count.EqualTo(7),
                             "Adding the overload protection erased the measurement descriptions of EVCEM.");
+
+            });
+
+        }
+
+        #endregion
+
+        #region BothChargingCurrentUseCasesCanRunOnOneCar()
+
+        /// <summary>
+        /// And the sixth. A car is regularly told two different things about its
+        /// charging current at once: the overload protection says what it must
+        /// not exceed, the optimisation of self consumption says what the sun is
+        /// currently giving. Both write to the **same** load control feature,
+        /// both describe the **same** three phases, and telling one from the
+        /// other is done by the limit category and the scope rather than by the
+        /// numbers.
+        ///
+        /// The phases in particular: a car has three of them, not six. A second
+        /// use case which invented its own parameter descriptions would tell the
+        /// other side that this car charges on six wires.
+        /// </summary>
+        [Test]
+        public async Task BothChargingCurrentUseCasesCanRunOnOneCar()
+        {
+
+            var curtailed   = new OPEVElectricVehicle (evEntity);
+            var optimised   = new OSCEVElectricVehicle(evEntity);
+
+            curtailed.SetPermittedCurrents(6, 16);
+            optimised.SetPermittedCurrents(6, 16);
+
+            var guard       = new OPEVEnergyGuard   (cemEntity);
+            var sunshine    = new OSCEVEnergyManager(cemEntity);
+
+            await curtailed.Register();
+            await optimised.Register();
+            await guard.    Register();
+            await sunshine. Register();
+
+            await wire.A.NodeManagement.RequestDetailedDiscovery(wire.BAsSeenByA);
+            await wire.B.NodeManagement.RequestDetailedDiscovery(wire.AAsSeenByB);
+            await wire.A.NodeManagement.RequestUseCaseData      (wire.BAsSeenByA);
+            await wire.B.NodeManagement.RequestUseCaseData      (wire.AAsSeenByB);
+
+            var obligations     = await guard.   ReadPhases(EV);
+            var recommendations = await sunshine.ReadPhases(EV);
+
+            var parameters      = curtailed.Electrical.
+                                      DataCopy<ElectricalConnectionParameterDescriptionListDataType>(
+                                          ChargingCurrentFunctions.ParameterDescriptionListData)!.
+                                      ElectricalConnectionParameterDescriptionData!;
+
+            Assert.Multiple(() => {
+
+                Assert.That(curtailed.LoadControl, Is.SameAs(optimised.LoadControl));
+                Assert.That(curtailed.Electrical,  Is.SameAs(optimised.Electrical));
+
+                Assert.That(obligations,     Has.Count.EqualTo(3),
+                            "The overload protection lost its limits to the self-consumption use case.");
+
+                Assert.That(recommendations, Has.Count.EqualTo(3),
+                            "The self-consumption use case lost its limits to the overload protection.");
+
+                Assert.That(obligations.Select(phase => phase.LimitId).
+                                Intersect(recommendations.Select(phase => phase.LimitId)),
+                            Is.Empty,
+                            "The two use cases were given the same limit identifiers.");
+
+                // Three phases, not six: the second use case pointed its limits
+                // at the parameters the first one had already described.
+                Assert.That(parameters.Count(parameter => parameter.ScopeType == ScopeTypeType.AcCurrent),
+                            Is.EqualTo(3),
+                            "A car with three phases described six of them.");
+
+                Assert.That(obligations.    Select(phase => phase.Phase),
+                            Is.EquivalentTo(recommendations.Select(phase => phase.Phase)));
+
+                Assert.That(obligations.All(phase => phase.MinimumCurrent == 6 &&
+                                                      phase.MaximumCurrent == 16),
+                            Is.True,
+                            "The permitted currents were lost when the second use case wrote its own.");
+
+            });
+
+        }
+
+        #endregion
+
+        #region OneCarFollowsAnObligationAndIgnoresAdviceAtTheSameTime()
+
+        /// <summary>
+        /// The end-to-end version of the same thing, and the reason the two use
+        /// cases are told apart at all: when both energy managers go quiet, the
+        /// obligation falls back to a safe current and the advice simply stops.
+        /// A car which treated them alike would either ignore its fuse or crawl
+        /// because a cloud passed.
+        /// </summary>
+        [Test]
+        public async Task OneCarFollowsAnObligationAndIgnoresAdviceAtTheSameTime()
+        {
+
+            var curtailed  = new OPEVElectricVehicle (evEntity);
+            var optimised  = new OSCEVElectricVehicle(evEntity);
+
+            curtailed.SetPermittedCurrents(6, 16);
+            optimised.SetPermittedCurrents(6, 16);
+            curtailed.SafeCurrent = 6;
+
+            var guard      = new OPEVEnergyGuard   (cemEntity);
+            var sunshine   = new OSCEVEnergyManager(cemEntity);
+
+            await curtailed.Register();
+            await optimised.Register();
+            await guard.    Register();
+            await sunshine. Register();
+
+            await wire.A.NodeManagement.RequestDetailedDiscovery(wire.BAsSeenByA);
+            await wire.B.NodeManagement.RequestDetailedDiscovery(wire.AAsSeenByB);
+            await wire.A.NodeManagement.RequestUseCaseData      (wire.BAsSeenByA);
+            await wire.B.NodeManagement.RequestUseCaseData      (wire.AAsSeenByB);
+
+            var partner = wire.AAsSeenByB.Entity([ 1 ])!;
+
+            await new UseCaseFeature(FeatureTypeType.DeviceDiagnosis, evEntity, partner).Subscribe();
+
+            var loadControl = guard.LoadControlOf(EV);
+            await loadControl.Subscribe();
+            await loadControl.Bind();
+            await guard.ElectricalOf(EV).Subscribe();
+
+            // One diagnosis feature and therefore one heartbeat for both.
+            await guard.StartHeartbeat();
+
+            curtailed.Check();
+            optimised.Check();
+
+            await guard.   WriteCurrentLimit        (EV, 16);
+            await sunshine.WriteSelfProducedCurrent (EV, 10);
+
+            Assert.Multiple(() => {
+                Assert.That(curtailed.ChargingCurrents,    Is.EqualTo(new Decimal[]  { 16, 16, 16 }));
+                Assert.That(optimised.RecommendedCurrents, Is.EqualTo(new Decimal?[] { 10, 10, 10 }));
+            });
+
+            guard.StopHeartbeat();
+            time.Advance(TimeSpan.FromSeconds(5));
+
+            curtailed.Check();
+            optimised.Check();
+
+            Assert.Multiple(() => {
+
+                Assert.That(curtailed.ChargingCurrents,    Is.EqualTo(new Decimal[] { 6, 6, 6 }),
+                            "The obligation did not fall back to the safe current.");
+
+                Assert.That(optimised.RecommendedCurrents, Is.EqualTo(new Decimal?[] { null, null, null }),
+                            "The recommendation fell back to something instead of simply ceasing.");
 
             });
 

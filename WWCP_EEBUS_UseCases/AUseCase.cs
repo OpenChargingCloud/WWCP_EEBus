@@ -140,9 +140,11 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
 
         #region Data
 
-        private readonly ConcurrentDictionary<String, UseCasePartner>  partners  = new (StringComparer.Ordinal);
+        private readonly ConcurrentDictionary<String, UseCasePartner>  partners   = new (StringComparer.Ordinal);
 
         private readonly Action<SPINEEvent>                            handler;
+
+        private readonly SortedSet<UInt32>                             announced  = [];
 
         #endregion
 
@@ -211,6 +213,19 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
         public IEnumerable<UseCasePartner>      Partners
             => partners.Values;
 
+        /// <summary>
+        /// The scenarios this device is announcing right now.
+        ///
+        /// Usually every scenario it implements, and not always: a use case may
+        /// ask an actor to stop supporting one of its scenarios while a
+        /// condition holds. An EV which has reached its maximum energy capacity
+        /// "SHALL stop to support this scenario" of the optimisation of self
+        /// consumption ([OSCEV-009]) - it still implements it, it just cannot do
+        /// anything with it until the battery has room again.
+        /// </summary>
+        public IEnumerable<UInt32>              AnnouncedScenarios
+            => announced;
+
         #endregion
 
         #region Constructor(s)
@@ -245,6 +260,9 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
             this.PartnerEntityTypes   = (PartnerEntityTypes ?? []).ToHashSet();
             this.DocumentSubRevision  = DocumentSubRevision;
 
+            foreach (var scenario in this.Scenarios)
+                announced.Add(scenario.Number);
+
             // At the core level: a use case has to have caught up with what a
             // device announced before the application is told about it.
             this.handler              = Device.Events.Subscribe<SPINEEvent>(Handle,
@@ -270,7 +288,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
                       Actor,
                       Name,
                       Version.ToString(),
-                      Scenarios.Select(scenario => scenario.Number).Order(),
+                      announced,
                       DocumentSubRevision,
                       IsAvailable,
                       CancellationToken: CancellationToken
@@ -327,6 +345,40 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
                                                                    Name,
                                                                    Available,
                                                                    CancellationToken: CancellationToken);
+
+        }
+
+        #endregion
+
+        #region SetScenarioSupported(Scenario, Supported, CancellationToken = default)
+
+        /// <summary>
+        /// Start or stop announcing one scenario of this use case.
+        ///
+        /// The use case itself stays available - it is one scenario which is
+        /// withdrawn, not the whole thing. A partner reading the use case data
+        /// then sees a device which implements this use case and cannot
+        /// currently play that scenario, which is exactly what
+        /// [OSCEV-009] asks for.
+        /// </summary>
+        /// <param name="Scenario">The number of a scenario of this use case.</param>
+        /// <param name="Supported">Whether it is announced.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        /// <exception cref="ArgumentException">When this actor does not implement that scenario at all.</exception>
+        public async Task SetScenarioSupported(UInt32             Scenario,
+                                               Boolean            Supported,
+                                               CancellationToken  CancellationToken   = default)
+        {
+
+            if (Supported && !Scenarios.Any(scenario => scenario.Number == Scenario))
+                throw new ArgumentException($"{Name} as {Actor} does not implement scenario {Scenario}.",
+                                            nameof(Scenario));
+
+            if (!(Supported ? announced.Add(Scenario) : announced.Remove(Scenario)))
+                return;
+
+            if (IsRegistered)
+                await Register(CancellationToken);
 
         }
 
@@ -443,11 +495,21 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
 
         /// <summary>
         /// Work out what one partner can do for this use case.
+        ///
+        /// Accumulated per entity across the actors it announces, rather than
+        /// decided by whichever entry comes last. One entity regularly plays two
+        /// actors of the same use case - the energy manager of the coordinated
+        /// EV charging is the energy guard *and* the energy broker, and a car
+        /// facing it can play scenarios 2, 5 and 7 with the one and 3, 6 and 8
+        /// with the other. Taking the last entry seen would have hidden half of
+        /// them, and which half would depend on the order the partner listed its
+        /// actors in.
         /// </summary>
         private void Evaluate(SPINERemoteDevice RemoteDevice)
         {
 
-            var seen = new HashSet<String>(StringComparer.Ordinal);
+            var seen   = new HashSet<String>(StringComparer.Ordinal);
+            var found  = new Dictionary<String, UseCasePartner>(StringComparer.Ordinal);
 
             foreach (var information in RemoteDevice.UseCases)
             {
@@ -489,20 +551,36 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
                     if (!IsCompatible(entity))
                         continue;
 
-                    var scenarios = Playable(entity, chosen);
+                    var key        = KeyOf(entity);
+                    var scenarios  = Playable(entity, chosen);
+                    var available  = chosen.UseCaseAvailable != false;
 
-                    seen.Add(KeyOf(entity));
+                    seen.Add(key);
 
-                    Remember(entity,
-                             new UseCasePartner(entity,
-                                                version,
-                                                sameMajor,
-                                                scenarios,
-                                                chosen.UseCaseAvailable != false));
+                    // A second actor of the same use case at the same entity
+                    // adds what it can play; it does not replace what the first
+                    // one could. An entity is unavailable only when every actor
+                    // of it says so.
+                    if (found.TryGetValue(key, out var already))
+                        found[key] = new UseCasePartner(entity,
+                                                        already.Version,
+                                                        already.SameMajorVersion,
+                                                        already.Scenarios.Union(scenarios).ToHashSet(),
+                                                        already.Available || available);
+
+                    else
+                        found[key] = new UseCasePartner(entity,
+                                                        version,
+                                                        sameMajor,
+                                                        scenarios,
+                                                        available);
 
                 }
 
             }
+
+            foreach (var (_, partner) in found)
+                Remember(partner.Entity, partner);
 
             // Whatever this device no longer announces, it no longer plays.
             foreach (var entity in RemoteDevice.Entities)
