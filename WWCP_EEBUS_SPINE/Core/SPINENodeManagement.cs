@@ -879,6 +879,21 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                 return ResultDataType.Error(SPINEErrorNumbers.DestinationUnknown,
                                             $"This device has no feature {server}.");
 
+            // SPINE 1.3.0, 7.3.1 and 7.3.2: a feature of the role "special" -
+            // which the primary node management feature is, and is the only one
+            // of - cannot be bound. Subscribing to it is the exception the role
+            // does have, and everybody uses it; binding to it would be a licence
+            // to write into the very place where this device keeps its topology,
+            // its bindings and its subscriptions.
+            if (Adding &&
+                Relations == Device.Bindings &&
+                server.Entity?.SequenceEqual([ SPINEAddresses.NodeManagementEntity ]) == true &&
+                server.Feature == SPINEAddresses.NodeManagementFeature)
+            {
+                return ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
+                                            "The primary node management feature has the role \"special\" and cannot be bound (SPINE 1.3.0, 7.3.1).");
+            }
+
             if (Adding)
             {
 

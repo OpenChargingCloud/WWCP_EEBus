@@ -88,6 +88,12 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
         private Boolean                      accessMethodsAnswered;
         private Boolean                      accessMethodsReceived;
 
+        /// <summary>
+        /// What the application answered before the connection was allowed to
+        /// carry data.
+        /// </summary>
+        private readonly Queue<JObject>      pendingData            = new ();
+
         #endregion
 
         #region Properties
@@ -256,7 +262,7 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
 
                 if (!ASHIPMessage.TryParse(Frame, out var message, out var errorResponse))
                 {
-                    await FailAsync(errorResponse, CancellationToken);
+                    await RefuseCmiAsync(errorResponse, CancellationToken);
                     return;
                 }
 
@@ -283,7 +289,7 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
 
                             if (message is not SHIPInitMessage)
                             {
-                                await FailAsync($"Expected a SHIP init message, but received '{message.MessageType}'!", CancellationToken);
+                                await RefuseCmiAsync($"Expected a SHIP init message, but received '{message.MessageType}'!", CancellationToken);
                                 return;
                             }
 
@@ -363,6 +369,21 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
 
                     case SHIPMessageExchangeStates.SmeStateComplete:
                         {
+
+                            // The access methods are not a phase of the
+                            // handshake which is over and done with: either side
+                            // may ask at any time while the connection lives
+                            // (chapter 13.4.6), and the implementation guideline
+                            // § 2.1 requires that such a question is answered
+                            // *while* application data keeps flowing. A data
+                            // exchange state which only accepts data messages
+                            // drops the connection over a perfectly legal
+                            // question.
+                            if (message is SHIPAccessMethodsRequestMessage or SHIPAccessMethodsMessage)
+                            {
+                                await ProcessAccessMethodsAsync(message, CancellationToken);
+                                return;
+                            }
 
                             if (message is not SHIPDataMessage dataMessage)
                             {
@@ -526,6 +547,17 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
         public async Task SendSPINEDataAsync(JObject            Datagram,
                                              CancellationToken  CancellationToken   = default)
         {
+
+            // The application was handed a datagram which arrived during the
+            // access methods exchange and answered it. Its answer is not lost
+            // and does not throw: it waits for the one state in which SHIP data
+            // may be sent, which is a few milliseconds away (chapter 13.4.6,
+            // implementation guideline § 2.1).
+            if (State == SHIPMessageExchangeStates.SmeAccessMethodsRequest)
+            {
+                pendingData.Enqueue(Datagram);
+                return;
+            }
 
             if (!IsCompleted)
                 throw new InvalidOperationException($"SPINE data can only be sent after the SHIP handshake completed, but the connection is in state '{State}'!");
@@ -1080,19 +1112,51 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
                     accessMethodsReceived  = true;
                     break;
 
+                // The communication partner is already talking to the
+                // application while this side is still waiting for an answer to
+                // its own access methods request. The implementation guideline
+                // § 2.1 is explicit about it: incoming SPINE messages are passed
+                // to the application immediately, even if an access methods
+                // query is pending. Whatever the application answers is queued
+                // until the connection is complete.
+                case SHIPDataMessage dataMessage:
+                    if (dataMessage.Data.Payload is JObject earlyDatagram)
+                        OnSPINEDataReceived?.Invoke(this, earlyDatagram);
+                    return;
+
                 default:
                     await FailAsync("Expected an access methods request or response!", CancellationToken);
                     return;
 
             }
 
-            if (accessMethodsAnswered && accessMethodsReceived)
+            // Only the first exchange completes the handshake. Later questions
+            // are answered without walking through the state machine again -
+            // announcing a connection as completed twice would have every
+            // application above start twice.
+            if (State == SHIPMessageExchangeStates.SmeAccessMethodsRequest &&
+                accessMethodsAnswered &&
+                accessMethodsReceived)
             {
 
                 StopTimer();
 
                 SetState(SHIPMessageExchangeStates.SmeStateApproved);
                 SetState(SHIPMessageExchangeStates.SmeStateComplete);
+
+                // Whatever the application answered while the access methods
+                // were still being exchanged goes out now, in the order it was
+                // written.
+                while (pendingData.Count > 0)
+                    await SendAsync(
+                              new SHIPDataMessage(
+                                  new DataType(
+                                      new HeaderType(Version.ProtocolId),
+                                      pendingData.Dequeue()
+                                  )
+                              ),
+                              CancellationToken
+                          );
 
                 OnCompleted?.Invoke(this);
 
@@ -1132,6 +1196,43 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
         {
             if (!transport.IsClosed)
                 await transport.SendAsync(Message.ToByteArray(), CancellationToken);
+        }
+
+        /// <summary>
+        /// Refuse a message which arrived during the connection mode
+        /// initialisation.
+        ///
+        /// A server answers before it closes, and the order is the point: the
+        /// CMI phase exists so that both sides can agree on a format *before*
+        /// anything else is exchanged, and a server which just drops the
+        /// connection leaves the client unable to tell an incompatible partner
+        /// from a broken network. It therefore sends its own CMI message -
+        /// "message type 0, CmiHead 0 is all I speak" - and closes afterwards
+        /// (chapter 13.4.3, CMI_STATE_SERVER_EVALUATE).
+        ///
+        /// A client says nothing: it has already sent its own initialisation
+        /// and has been answered with something it cannot use, so there is
+        /// nothing left to agree on.
+        /// </summary>
+        /// <param name="ErrorResponse">What was wrong.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        private async Task RefuseCmiAsync(String             ErrorResponse,
+                                          CancellationToken  CancellationToken)
+        {
+
+            if (Role == SHIPRoles.Server &&
+                State is SHIPMessageExchangeStates.CmiStateServerWait
+                      or SHIPMessageExchangeStates.CmiStateServerEvaluate)
+            {
+
+                SetState(SHIPMessageExchangeStates.CmiStateServerEvaluate);
+
+                await SendAsync(new SHIPInitMessage(), CancellationToken);
+
+            }
+
+            await FailAsync(ErrorResponse, CancellationToken);
+
         }
 
         private async Task FailAsync(String             ErrorResponse,
