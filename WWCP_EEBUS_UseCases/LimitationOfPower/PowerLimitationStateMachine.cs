@@ -15,41 +15,41 @@
  * limitations under the License.
  */
 
-namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
+namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 {
 
     /// <summary>
-    /// The states of a controllable system (LPC 1.0.0, section 2.3.2).
+    /// The states of a controllable system (LPC and LPP 1.0.0, section 2.3.2).
     /// </summary>
-    public enum LPCState
+    public enum PowerLimitationState
     {
 
         /// <summary>
         /// Just (re)started. Limited by the failsafe value; the active power
-        /// consumption limit is deactivated ([LPC-901], [LPC-903]).
+        /// consumption limit is deactivated (rule 901, rule 903).
         /// </summary>
         Init,
 
         /// <summary>
         /// Not limited, but still controlled by the energy guard. The limit is
-        /// deactivated ([LPC-009/2]).
+        /// deactivated (rule 009/2).
         /// </summary>
         UnlimitedControlled,
 
         /// <summary>
-        /// Limited by the active power consumption limit ([LPC-009/1]).
+        /// Limited by the active power limit (rule 009/1).
         /// </summary>
         Limited,
 
         /// <summary>
         /// Nobody is controlling us and we are careful about it: limited by the
-        /// failsafe value ([LPC-911], [LPC-912]).
+        /// failsafe value (rule 911, rule 912).
         /// </summary>
         FailsafeState,
 
         /// <summary>
         /// Nobody is controlling us and we have waited long enough: not limited
-        /// at all ([LPC-921], [LPC-922], [LPC-906]).
+        /// at all (rule 921, rule 922, rule 906).
         /// </summary>
         UnlimitedAutonomous
 
@@ -59,17 +59,17 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
     /// <summary>
     /// Which limit a controllable system is holding itself to.
     /// </summary>
-    public enum LPCLimitation
+    public enum PowerLimitationApplied
     {
 
         /// <summary>No limitation: normal operation.</summary>
         None,
 
-        /// <summary>The active power consumption limit of the energy guard.</summary>
-        ActivePowerConsumptionLimit,
+        /// <summary>The active power limit set by the energy guard.</summary>
+        ActivePowerLimit,
 
-        /// <summary>The failsafe consumption active power limit.</summary>
-        FailsafeConsumptionActivePowerLimit
+        /// <summary>The failsafe active power limit of the device itself.</summary>
+        FailsafeLimit
 
     }
 
@@ -82,8 +82,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
     /// <param name="Transition">The number of the transition in section 2.3.3, or 0 for the start.</param>
     /// <param name="Reason">Which rule of the specification caused it.</param>
     /// <param name="Timestamp">When it happened.</param>
-    public sealed record LPCTransition(LPCState        From,
-                                       LPCState        To,
+    public sealed record PowerLimitationTransition(PowerLimitationState        From,
+                                       PowerLimitationState        To,
                                        UInt32          Transition,
                                        String          Reason,
                                        DateTimeOffset  Timestamp)
@@ -98,7 +98,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
 
     /// <summary>
-    /// The state machine of the controllable system (LPC 1.0.0, section 2.3).
+    /// The state machine of the controllable system (LPC and LPP 1.0.0, section 2.3).
+    ///
+    /// One state machine for both use cases, because the two specifications
+    /// describe the same one: the same five states, the same twelve transitions,
+    /// and rule numbers which match one for one - [LPC-919] and [LPP-919] are
+    /// the same sentence about a different direction of energy.
     ///
     /// This is the part of the use case which is normative and which the Go
     /// reference implementation leaves to the application: it exposes the data
@@ -113,7 +118,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
     /// called by whoever drives the time - because a device which has gone quiet
     /// gives nothing to react to, so somebody has to look.
     /// </summary>
-    public class LPCStateMachine
+    public class PowerLimitationStateMachine
     {
 
         #region Data
@@ -131,6 +136,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         #region Properties
 
         /// <summary>
+        /// Which of the two use cases this state machine belongs to. It changes
+        /// nothing about the states - only which rule numbers they quote.
+        /// </summary>
+        public PowerLimitationProfile  Profile          { get; }
+
+        /// <summary>
         /// Where the time comes from.
         /// </summary>
         public TimeProvider   TimeProvider              { get; }
@@ -138,33 +149,33 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <summary>
         /// The state the controllable system is in.
         /// </summary>
-        public LPCState       State                     { get; private set; } = LPCState.Init;
+        public PowerLimitationState       State                     { get; private set; } = PowerLimitationState.Init;
 
         /// <summary>
         /// How long the controllable system stays in its failsafe state before
-        /// it may decide that nobody is coming back ([LPC-022]).
+        /// it may decide that nobody is coming back (rule 022).
         /// </summary>
-        public TimeSpan       FailsafeDurationMinimum   { get; set; } = LimitationOfPowerConsumption.FailsafeDurationMinimumLowerBound;
+        public TimeSpan       FailsafeDurationMinimum   { get; set; } = PowerLimitation.FailsafeDurationMinimumLowerBound;
 
         /// <summary>
         /// Which limit the controllable system is holding itself to right now
-        /// (LPC 1.0.0, Table 1).
+        /// (Table 1 of both specifications).
         /// </summary>
-        public LPCLimitation  Limitation
+        public PowerLimitationApplied  Limitation
 
             => State switch {
-                   LPCState.Init                 => LPCLimitation.FailsafeConsumptionActivePowerLimit,
-                   LPCState.FailsafeState        => LPCLimitation.FailsafeConsumptionActivePowerLimit,
-                   LPCState.Limited              => LPCLimitation.ActivePowerConsumptionLimit,
-                   _                             => LPCLimitation.None
+                   PowerLimitationState.Init                 => PowerLimitationApplied.FailsafeLimit,
+                   PowerLimitationState.FailsafeState        => PowerLimitationApplied.FailsafeLimit,
+                   PowerLimitationState.Limited              => PowerLimitationApplied.ActivePowerLimit,
+                   _                             => PowerLimitationApplied.None
                };
 
         /// <summary>
         /// Whether the active power consumption limit is activated. Only the
-        /// state "limited" activates it ([LPC-009]).
+        /// state "limited" activates it (rule 009).
         /// </summary>
         public Boolean        IsLimitActive
-            => State == LPCState.Limited;
+            => State == PowerLimitationState.Limited;
 
         /// <summary>
         /// When the last heartbeat of the energy guard arrived.
@@ -179,7 +190,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <summary>
         /// The state changed.
         /// </summary>
-        public event Action<LPCStateMachine, LPCTransition>? OnTransition;
+        public event Action<PowerLimitationStateMachine, PowerLimitationTransition>? OnTransition;
 
         #endregion
 
@@ -187,12 +198,15 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
         /// <summary>
         /// Create the state machine of a controllable system, which starts in
-        /// "init" ([LPC-901], [LPC-903]).
+        /// "init" (rule 901, rule 903).
         /// </summary>
+        /// <param name="Profile">Which of the two use cases this is.</param>
         /// <param name="TimeProvider">Where the time comes from.</param>
-        public LPCStateMachine(TimeProvider? TimeProvider = null)
+        public PowerLimitationStateMachine(PowerLimitationProfile  Profile,
+                                           TimeProvider?           TimeProvider   = null)
         {
 
+            this.Profile       = Profile;
             this.TimeProvider  = TimeProvider ?? System.TimeProvider.System;
             this.enteredState  = this.TimeProvider.GetUtcNow();
 
@@ -244,11 +258,11 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             lock (stateLock)
             {
 
-                if (State is LPCState.UnlimitedControlled or LPCState.Limited)
+                if (State is PowerLimitationState.UnlimitedControlled or PowerLimitationState.Limited)
                     return true;
 
                 return lastHeartbeat is DateTimeOffset heartbeat &&
-                       TimeProvider.GetUtcNow() - heartbeat <= LimitationOfPowerConsumption.LimitAfterHeartbeat;
+                       TimeProvider.GetUtcNow() - heartbeat <= PowerLimitation.LimitAfterHeartbeat;
 
             }
         }
@@ -263,7 +277,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <param name="Activated">Whether the limit which arrived is activated.</param>
         /// <param name="CanBeApplied">Whether the controllable system can apply it.</param>
         /// <returns>The transition it caused, or null when nothing changed.</returns>
-        public LPCTransition? LimitWritten(Boolean Activated,
+        public PowerLimitationTransition? LimitWritten(Boolean Activated,
                                            Boolean CanBeApplied)
         {
             lock (stateLock)
@@ -274,29 +288,29 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
                 return State switch {
 
                     // 2 / 1: init --> limited, or --> unlimited/controlled
-                    LPCState.Init                 => limited
-                                                         ? To(LPCState.Limited,             2, "[LPC-904] heartbeat and an activated limit which can be applied")
-                                                         : To(LPCState.UnlimitedControlled, 1, "[LPC-902], [LPC-905] heartbeat and a deactivated limit, or one which cannot be applied"),
+                    PowerLimitationState.Init                 => limited
+                                                         ? To(PowerLimitationState.Limited,             2, $"{Profile.Rule("904")} heartbeat and an activated limit which can be applied")
+                                                         : To(PowerLimitationState.UnlimitedControlled, 1, $"{Profile.Rule("902")}, {Profile.Rule("905")} heartbeat and a deactivated limit, or one which cannot be applied"),
 
                     // 4: unlimited/controlled --> limited
-                    LPCState.UnlimitedControlled  => limited
-                                                         ? To(LPCState.Limited,             4, "[LPC-910] an activated limit which can be applied")
+                    PowerLimitationState.UnlimitedControlled  => limited
+                                                         ? To(PowerLimitationState.Limited,             4, $"{Profile.Rule("910")} an activated limit which can be applied")
                                                          : null,
 
                     // 6: limited --> unlimited/controlled
-                    LPCState.Limited              => limited
+                    PowerLimitationState.Limited              => limited
                                                          ? null
-                                                         : To(LPCState.UnlimitedControlled, 6, "[LPC-909] a deactivated limit"),
+                                                         : To(PowerLimitationState.UnlimitedControlled, 6, $"{Profile.Rule("909")} a deactivated limit"),
 
                     // 9 / 8: failsafe --> limited, or --> unlimited/controlled
-                    LPCState.FailsafeState        => limited
-                                                         ? To(LPCState.Limited,             9, "[LPC-919] heartbeat and an activated limit which can be applied")
-                                                         : To(LPCState.UnlimitedControlled, 8, "[LPC-918], [LPC-920] heartbeat and a deactivated limit, or one which cannot be applied"),
+                    PowerLimitationState.FailsafeState        => limited
+                                                         ? To(PowerLimitationState.Limited,             9, $"{Profile.Rule("919")} heartbeat and an activated limit which can be applied")
+                                                         : To(PowerLimitationState.UnlimitedControlled, 8, $"{Profile.Rule("918")}, {Profile.Rule("920")} heartbeat and a deactivated limit, or one which cannot be applied"),
 
                     // 12 / 11: unlimited/autonomous --> limited, or --> unlimited/controlled
-                    LPCState.UnlimitedAutonomous  => limited
-                                                         ? To(LPCState.Limited,            12, "[LPC-919] heartbeat and an activated limit which can be applied")
-                                                         : To(LPCState.UnlimitedControlled, 11, "[LPC-918], [LPC-920] heartbeat and a deactivated limit, or one which cannot be applied"),
+                    PowerLimitationState.UnlimitedAutonomous  => limited
+                                                         ? To(PowerLimitationState.Limited,            12, $"{Profile.Rule("919")} heartbeat and an activated limit which can be applied")
+                                                         : To(PowerLimitationState.UnlimitedControlled, 11, $"{Profile.Rule("918")}, {Profile.Rule("920")} heartbeat and a deactivated limit, or one which cannot be applied"),
 
                     _                             => null
 
@@ -310,14 +324,14 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         #region LimitExpired() / LimitInterrupted(Reason)
 
         /// <summary>
-        /// The duration of the activated limit ran out ([LPC-908]).
+        /// The duration of the activated limit ran out (rule 908).
         /// </summary>
-        public LPCTransition? LimitExpired()
+        public PowerLimitationTransition? LimitExpired()
         {
             lock (stateLock)
             {
-                return State == LPCState.Limited
-                           ? To(LPCState.UnlimitedControlled, 6, "[LPC-908] the duration of the limit expired")
+                return State == PowerLimitationState.Limited
+                           ? To(PowerLimitationState.UnlimitedControlled, 6, $"{Profile.Rule("908")} the duration of the limit expired")
                            : null;
             }
         }
@@ -326,15 +340,15 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <summary>
         /// The controllable system had to stop keeping the limit for one of the
         /// reasons the specification allows: self-protection, safety, law, or -
-        /// on an energy manager - loads it does not control ([LPC-923]).
+        /// on an energy manager - loads it does not control (rule 923).
         /// </summary>
         /// <param name="Reason">Which of them.</param>
-        public LPCTransition? LimitInterrupted(String Reason)
+        public PowerLimitationTransition? LimitInterrupted(String Reason)
         {
             lock (stateLock)
             {
-                return State == LPCState.Limited
-                           ? To(LPCState.UnlimitedControlled, 6, $"[LPC-923] the limit had to be interrupted: {Reason}")
+                return State == PowerLimitationState.Limited
+                           ? To(PowerLimitationState.UnlimitedControlled, 6, $"{Profile.Rule("923")} the limit had to be interrupted: {Reason}")
                            : null;
             }
         }
@@ -351,7 +365,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// stops (5, 7), and giving up on being controlled at all (3, 10).
         /// </summary>
         /// <returns>The transition it caused, or null when nothing changed.</returns>
-        public LPCTransition? Check()
+        public PowerLimitationTransition? Check()
         {
             lock (stateLock)
             {
@@ -362,45 +376,46 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
                 {
 
                     // 5 / 7: the heartbeat stopped.
-                    case LPCState.UnlimitedControlled:
-                    case LPCState.Limited:
+                    case PowerLimitationState.UnlimitedControlled:
+                    case PowerLimitationState.Limited:
                         {
 
                             var since = lastHeartbeat ?? enteredState;
 
-                            if (now - since > LimitationOfPowerConsumption.HeartbeatTimeout)
-                                return To(LPCState.FailsafeState,
-                                          State == LPCState.Limited ? 7u : 5u,
-                                          $"[LPC-91{(State == LPCState.Limited ? "2" : "1")}] no heartbeat for more than {LimitationOfPowerConsumption.HeartbeatTimeout}");
+                            if (now - since > PowerLimitation.HeartbeatTimeout)
+                                return To(PowerLimitationState.FailsafeState,
+                                          State == PowerLimitationState.Limited ? 7u : 5u,
+                                          $"{Profile.Rule(State == PowerLimitationState.Limited ? "912" : "911")} " +
+                                          $"no heartbeat for more than {PowerLimitation.HeartbeatTimeout}");
 
                             return null;
 
                         }
 
                     // 3: nobody took control of us after the restart.
-                    case LPCState.Init:
+                    case PowerLimitationState.Init:
                         {
 
-                            if (now - enteredState > LimitationOfPowerConsumption.WaitForControl)
-                                return To(LPCState.UnlimitedAutonomous, 3,
-                                          $"[LPC-906] no heartbeat and limit within {LimitationOfPowerConsumption.WaitForControl} of the restart");
+                            if (now - enteredState > PowerLimitation.WaitForControl)
+                                return To(PowerLimitationState.UnlimitedAutonomous, 3,
+                                          $"{Profile.Rule("906")} no heartbeat and limit within {PowerLimitation.WaitForControl} of the restart");
 
                             return null;
 
                         }
 
                     // 10: the failsafe state is not a place to stay forever.
-                    case LPCState.FailsafeState:
+                    case PowerLimitationState.FailsafeState:
                         {
 
                             if (now - enteredState >= FailsafeDurationMinimum)
-                                return To(LPCState.UnlimitedAutonomous, 10,
-                                          $"[LPC-922] the failsafe duration minimum of {FailsafeDurationMinimum} expired");
+                                return To(PowerLimitationState.UnlimitedAutonomous, 10,
+                                          $"{Profile.Rule("922")} the failsafe duration minimum of {FailsafeDurationMinimum} expired");
 
                             if (heartbeatInThisState is DateTimeOffset heartbeat &&
-                                now - heartbeat > LimitationOfPowerConsumption.WaitForControl)
-                                return To(LPCState.UnlimitedAutonomous, 10,
-                                          $"[LPC-921] a heartbeat arrived but no limit within {LimitationOfPowerConsumption.WaitForControl}");
+                                now - heartbeat > PowerLimitation.WaitForControl)
+                                return To(PowerLimitationState.UnlimitedAutonomous, 10,
+                                          $"{Profile.Rule("921")} a heartbeat arrived but no limit within {PowerLimitation.WaitForControl}");
 
                             return null;
 
@@ -420,16 +435,16 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
         /// <summary>
         /// The controllable system was restarted, which puts it back into "init"
-        /// ([LPC-901], [LPC-903]).
+        /// (rule 901, rule 903).
         /// </summary>
-        public LPCTransition Restart()
+        public PowerLimitationTransition Restart()
         {
             lock (stateLock)
             {
 
                 lastHeartbeat = null;
 
-                return To(LPCState.Init, 0, "[LPC-901], [LPC-903] the controllable system restarted")!;
+                return To(PowerLimitationState.Init, 0, $"{Profile.Rule("901")}, {Profile.Rule("903")} the controllable system restarted")!;
 
             }
         }
@@ -442,19 +457,19 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <summary>
         /// Go into a state, and say why.
         /// </summary>
-        private LPCTransition? To(LPCState  Next,
+        private PowerLimitationTransition? To(PowerLimitationState  Next,
                                   UInt32    Transition,
                                   String    Reason)
         {
 
             var now         = TimeProvider.GetUtcNow();
 
-            var transition  = new LPCTransition(State, Next, Transition, Reason, now);
+            var transition  = new PowerLimitationTransition(State, Next, Transition, Reason, now);
 
             State                 = Next;
             enteredState          = now;
 
-            // The 120 second window of [LPC-921] counts from the first heartbeat
+            // The 120 second window of {Profile.Rule("921")} counts from the first heartbeat
             // seen in the failsafe state, so it starts again with the state.
             heartbeatInThisState  = null;
 

@@ -19,6 +19,7 @@
 
 using cloud.charging.open.protocols.EEBUS.SPINE;
 using cloud.charging.open.protocols.EEBUS.SPINE.Model;
+using cloud.charging.open.protocols.EEBUS.UseCases.Monitoring;
 
 #endregion
 
@@ -29,54 +30,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
     /// The monitored unit of "Monitoring of Power Consumption" - the device
     /// which is being watched.
     ///
-    /// It is the server actor and it does one thing: publish what it measures.
-    /// There is nothing to write, nothing to agree and no state to fall back
-    /// from - which makes it the use case where the whole difficulty is in the
-    /// **descriptions**. A number without one is meaningless, and the three
-    /// pieces which give it meaning live in two features: the measurement
-    /// description says what kind of quantity it is and in which unit, the
-    /// electrical connection parameter description says which phase it is on,
-    /// and the measurement identifier is what joins them.
+    /// What it does is the shared work of every monitoring use case - see
+    /// <see cref="AMonitoredDevice"/> - so all this adds is which quantities it
+    /// is that a monitored unit publishes.
     /// </summary>
-    public class MPCMonitoredUnit : AUseCase
+    public class MPCMonitoredUnit : AMonitoredDevice
     {
-
-        #region Data
-
-        private readonly UInt32                              electricalConnectionId  = 0;
-
-        private readonly Dictionary<MPCQuantity, UInt32>     measurementIdOf         = [];
-
-        private          UInt32                              nextMeasurementId;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// The measurement server feature, which holds the values.
-        /// </summary>
-        public SPINELocalFeature                            Measurement    { get; }
-
-        /// <summary>
-        /// The electrical connection server feature, which says which
-        /// measurement is on which phase.
-        /// </summary>
-        public SPINELocalFeature                            Electrical     { get; }
-
-        /// <summary>
-        /// The phases this unit measures.
-        /// </summary>
-        public IReadOnlyList<ElectricalConnectionPhaseNameType>  Phases     { get; }
-
-        /// <summary>
-        /// Which quantities this unit publishes, and under which measurement
-        /// identifier.
-        /// </summary>
-        public IReadOnlyDictionary<MPCQuantity, UInt32>      Quantities
-            => measurementIdOf;
-
-        #endregion
 
         #region Constructor(s)
 
@@ -103,270 +62,53 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
                                 Boolean                                          Frequency       = false)
 
             : base(Entity,
-                   UseCaseActors.MonitoredUnit,
-                   MonitoringOfPowerConsumption.Name,
-                   MonitoringOfPowerConsumption.Version,
-                   MonitoringOfPowerConsumption.Scenarios(
-                       ForMonitoringAppliance: false,
-                       Scenarios: Supported(Energy, Current, Voltage, Frequency)
-                   ),
-                   [ UseCaseActors.MonitoringAppliance ],
-                   PartnerEntityTypes:   null,
-                   DocumentSubRevision:  MonitoringOfPowerConsumption.DocumentSubRevision)
+                   MonitoringOfPowerConsumption.Profile,
+                   Measures(Phases, PowerPerPhase, Energy, Current, Voltage, Frequency),
+                   Phases)
 
+        { }
+
+
+        /// <summary>
+        /// Which quantities a monitored unit with these measurements publishes.
+        /// </summary>
+        private static IEnumerable<MonitoringQuantity> Measures(IEnumerable<ElectricalConnectionPhaseNameType>?  Phases,
+                                                                Boolean                                          PowerPerPhase,
+                                                                Boolean                                          Energy,
+                                                                Boolean                                          Current,
+                                                                Boolean                                          Voltage,
+                                                                Boolean                                          Frequency)
         {
 
-            this.Phases  = [.. Phases ?? [ ElectricalConnectionPhaseNameType.A,
-                                           ElectricalConnectionPhaseNameType.B,
-                                           ElectricalConnectionPhaseNameType.C ]];
+            var phases      = Phases ?? [ ElectricalConnectionPhaseNameType.A,
+                                          ElectricalConnectionPhaseNameType.B,
+                                          ElectricalConnectionPhaseNameType.C ];
 
-            Measurement  = Entity.Feature(FeatureTypeType.Measurement, RoleType.Server)
-                               ?? Entity.AddFeature(FeatureTypeType.Measurement, RoleType.Server);
-
-            Measurement.AddFunction(MonitoringOfPowerConsumption.MeasurementDescriptionListData);
-            Measurement.AddFunction(MonitoringOfPowerConsumption.MeasurementListData,
-                                    Read:         true,
-                                    PartialRead:  true);
-
-            Electrical   = Entity.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server)
-                               ?? Entity.AddFeature(FeatureTypeType.ElectricalConnection, RoleType.Server);
-
-            Electrical.AddFunction(MonitoringOfPowerConsumption.ParameterDescriptionListData);
-
-            #region Which quantities this unit publishes
-
-            Declare(MonitoringOfPowerConsumption.PowerTotal);
+            var quantities  = new List<MonitoringQuantity> {
+                                  MonitoringOfPowerConsumption.PowerTotal
+                              };
 
             if (PowerPerPhase)
-                foreach (var phase in this.Phases)
-                    Declare(MonitoringOfPowerConsumption.Power(phase));
+                quantities.AddRange(phases.Select(MonitoringOfPowerConsumption.Power));
 
             if (Energy)
             {
-                Declare(MonitoringOfPowerConsumption.EnergyConsumed);
-                Declare(MonitoringOfPowerConsumption.EnergyProduced);
+                quantities.Add(MonitoringOfPowerConsumption.EnergyConsumed);
+                quantities.Add(MonitoringOfPowerConsumption.EnergyProduced);
             }
 
             if (Current)
-                foreach (var phase in this.Phases)
-                    Declare(MonitoringOfPowerConsumption.Current(phase));
+                quantities.AddRange(phases.Select(MonitoringOfPowerConsumption.Current));
 
             if (Voltage)
-                foreach (var phase in this.Phases)
-                    Declare(MonitoringOfPowerConsumption.Voltage(phase));
+                quantities.AddRange(phases.Select(MonitoringOfPowerConsumption.Voltage));
 
             if (Frequency)
-                Declare(MonitoringOfPowerConsumption.Frequency);
+                quantities.Add(MonitoringOfPowerConsumption.Frequency);
 
-            Publish();
-
-            #endregion
+            return quantities;
 
         }
-
-
-        /// <summary>
-        /// Which of the optional scenarios a unit with these measurements
-        /// supports.
-        /// </summary>
-        private static IEnumerable<UInt32> Supported(Boolean Energy,
-                                                     Boolean Current,
-                                                     Boolean Voltage,
-                                                     Boolean Frequency)
-        {
-
-            var scenarios = new List<UInt32>();
-
-            if (Energy)     scenarios.Add(MonitoringOfPowerConsumption.ScenarioEnergy);
-            if (Current)    scenarios.Add(MonitoringOfPowerConsumption.ScenarioCurrent);
-            if (Voltage)    scenarios.Add(MonitoringOfPowerConsumption.ScenarioVoltage);
-            if (Frequency)  scenarios.Add(MonitoringOfPowerConsumption.ScenarioFrequency);
-
-            return scenarios;
-
-        }
-
-        #endregion
-
-
-        #region Set(Quantity, Value, CancellationToken = default)
-
-        /// <summary>
-        /// Publish a measured value.
-        ///
-        /// Whoever subscribed to the measurement feature is told at once - which
-        /// is how this use case is meant to be used: the general implementation
-        /// guideline § 3.2.2 makes subscriptions the primary way of getting data
-        /// and polling the exception.
-        /// </summary>
-        /// <param name="Quantity">Which quantity was measured.</param>
-        /// <param name="Value">Its value, in the unit of the quantity.</param>
-        /// <param name="CancellationToken">An optional cancellation token.</param>
-        /// <exception cref="ArgumentException">When this unit does not publish that quantity.</exception>
-        public Task Set(MPCQuantity        Quantity,
-                        Decimal            Value,
-                        CancellationToken  CancellationToken   = default)
-
-            => Set([ (Quantity, Value) ], CancellationToken);
-
-
-        /// <summary>
-        /// Publish several measured values at once, which is one notify rather
-        /// than several.
-        /// </summary>
-        /// <param name="Values">The quantities and their values.</param>
-        /// <param name="CancellationToken">An optional cancellation token.</param>
-        public async Task Set(IEnumerable<(MPCQuantity Quantity, Decimal Value)>  Values,
-                              CancellationToken                                   CancellationToken   = default)
-        {
-
-            var data       = Measurement.DataCopy<MeasurementListDataType>(MonitoringOfPowerConsumption.MeasurementListData)
-                                 ?? new MeasurementListDataType { MeasurementData = [] };
-
-            data.MeasurementData ??= [];
-
-            var timestamp  = AbsoluteOrRelativeTimeType.Parse(Device.TimeProvider.GetUtcNow());
-
-            foreach (var (quantity, value) in Values)
-            {
-
-                if (!measurementIdOf.TryGetValue(quantity, out var measurementId))
-                    throw new ArgumentException($"This monitored unit does not publish {quantity}.",
-                                                nameof(Values));
-
-                var entry = data.MeasurementData.FirstOrDefault(measurement => measurement.MeasurementId == measurementId);
-
-                if (entry is null)
-                {
-                    entry = new MeasurementDataType { MeasurementId = measurementId };
-                    data.MeasurementData.Add(entry);
-                }
-
-                entry.ValueType  = MeasurementValueTypeType.Value;
-                entry.Value      = ScaledNumberType.FromValue(value);
-                entry.Timestamp  = timestamp;
-
-            }
-
-            await Measurement.SetData(MonitoringOfPowerConsumption.MeasurementListData,
-                                      data,
-                                      CancellationToken: CancellationToken);
-
-        }
-
-        #endregion
-
-        #region Get(Quantity)
-
-        /// <summary>
-        /// The value this unit last published for a quantity, or null when it
-        /// has published none.
-        /// </summary>
-        /// <param name="Quantity">A quantity.</param>
-        public Decimal? Get(MPCQuantity Quantity)
-
-            => measurementIdOf.TryGetValue(Quantity, out var measurementId)
-                   ? Measurement.DataCopy<MeasurementListDataType>(MonitoringOfPowerConsumption.MeasurementListData)?.
-                         MeasurementData?.FirstOrDefault(measurement => measurement.MeasurementId == measurementId)?.
-                         Value?.Value
-                   : null;
-
-        #endregion
-
-
-        #region (private) Declare(Quantity) / Publish()
-
-        /// <summary>
-        /// Give a quantity a measurement identifier, so that its description and
-        /// its values can refer to each other.
-        /// </summary>
-        private void Declare(MPCQuantity Quantity)
-        {
-
-            if (!measurementIdOf.ContainsKey(Quantity))
-                measurementIdOf[Quantity] = nextMeasurementId++;
-
-        }
-
-
-        /// <summary>
-        /// Write the descriptions of everything this unit measures.
-        ///
-        /// Two of them per quantity which is on a phase: the measurement
-        /// description says what it is, and the electrical connection parameter
-        /// description says where. A monitoring appliance which reads only one
-        /// of the two learns a number without knowing which wire it came from.
-        /// </summary>
-        private void Publish()
-        {
-
-            var descriptions  = new List<MeasurementDescriptionDataType>();
-            var parameters    = new List<ElectricalConnectionParameterDescriptionDataType>();
-
-            foreach (var (quantity, measurementId) in measurementIdOf.OrderBy(entry => entry.Value))
-            {
-
-                descriptions.Add(new MeasurementDescriptionDataType {
-                                     MeasurementId    = measurementId,
-                                     MeasurementType  = quantity.Type,
-                                     CommodityType    = CommodityTypeType.Electricity,
-                                     Unit             = quantity.Unit,
-                                     ScopeType        = quantity.Scope
-                                 });
-
-                parameters.Add(new ElectricalConnectionParameterDescriptionDataType {
-                                   ElectricalConnectionId   = electricalConnectionId,
-                                   ParameterId              = measurementId,
-                                   MeasurementId            = measurementId,
-                                   VoltageType              = ElectricalConnectionVoltageTypeType.Ac,
-
-                                   // A total is measured across all the phases
-                                   // this unit has; a per-phase quantity names
-                                   // its phase.
-                                   AcMeasuredPhases         = quantity.Phase ?? AllPhases(),
-                                   AcMeasuredInReferenceTo  = quantity.Phase is not null
-                                                                  ? ElectricalConnectionPhaseNameType.Neutral
-                                                                  : null,
-                                   AcMeasurementType        = ElectricalConnectionAcMeasurementTypeType.Real,
-                                   AcMeasurementVariant     = ElectricalConnectionMeasurandVariantType.Rms,
-                                   ScopeType                = quantity.Scope
-                               });
-
-            }
-
-            Measurement.FunctionData(MonitoringOfPowerConsumption.MeasurementDescriptionListData)!.SetData(
-                new MeasurementDescriptionListDataType { MeasurementDescriptionData = descriptions }
-            );
-
-            Electrical.FunctionData(MonitoringOfPowerConsumption.ParameterDescriptionListData)!.SetData(
-                new ElectricalConnectionParameterDescriptionListDataType { ElectricalConnectionParameterDescriptionData = parameters }
-            );
-
-        }
-
-
-        /// <summary>
-        /// How SPINE names "all the phases of this unit at once".
-        /// </summary>
-        private ElectricalConnectionPhaseNameType AllPhases()
-
-            => Phases.Count switch {
-                   3  => ElectricalConnectionPhaseNameType.Abc,
-                   2  => ElectricalConnectionPhaseNameType.Ab,
-                   1  => Phases[0],
-                   _  => ElectricalConnectionPhaseNameType.None
-               };
-
-        #endregion
-
-        #region (override) Feature()
-
-        /// <summary>
-        /// The use case is announced at the measurement feature.
-        /// </summary>
-        protected override SPINEFeature Feature()
-
-            => Measurement;
 
         #endregion
 

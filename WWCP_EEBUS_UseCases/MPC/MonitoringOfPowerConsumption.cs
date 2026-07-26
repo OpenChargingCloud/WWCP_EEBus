@@ -18,41 +18,12 @@
 #region Usings
 
 using cloud.charging.open.protocols.EEBUS.SPINE.Model;
+using cloud.charging.open.protocols.EEBUS.UseCases.Monitoring;
 
 #endregion
 
 namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
 {
-
-    /// <summary>
-    /// One thing a monitored unit measures.
-    ///
-    /// Every measurement of this use case is the same four facts - what kind of
-    /// quantity, in which unit, at which scope, and on which phase - and the
-    /// scope is what tells "the total active power" from "the active power of
-    /// phase B". The phase is not in the measurement description at all: it
-    /// comes from the electrical connection parameter description, joined by the
-    /// measurement identifier.
-    /// </summary>
-    /// <param name="Scenario">Which scenario of the use case it belongs to.</param>
-    /// <param name="Type">Which kind of quantity it is.</param>
-    /// <param name="Unit">In which unit it is measured.</param>
-    /// <param name="Scope">What exactly it is a measurement of.</param>
-    /// <param name="Phase">Which phase it is on, where it is on one.</param>
-    public sealed record MPCQuantity(UInt32                              Scenario,
-                                     MeasurementTypeType                 Type,
-                                     UnitOfMeasurementType               Unit,
-                                     ScopeTypeType                       Scope,
-                                     ElectricalConnectionPhaseNameType?  Phase   = null)
-    {
-
-        /// <summary>Return a text representation of this quantity.</summary>
-        public override String ToString()
-
-            => $"{Scope}{(Phase is not null ? $" ({Phase})" : "")} in {Unit}";
-
-    }
-
 
     /// <summary>
     /// What "Monitoring of Power Consumption" is made of
@@ -67,6 +38,10 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
     ///
     /// Only scenario 1 is mandatory. A device which measures nothing but its
     /// total active power implements this use case completely.
+    ///
+    /// Everything about it other than which quantities they are and what they
+    /// are called is shared with the monitoring of a grid connection point - see
+    /// <see cref="MonitoringProfile"/>.
     /// </summary>
     public static class MonitoringOfPowerConsumption
     {
@@ -106,87 +81,93 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
         #region The functions
 
         /// <summary>The function carrying the measured values.</summary>
-        public const String MeasurementListData             = "measurementListData";
+        public const String MeasurementListData             = MonitoringFunctions.MeasurementListData;
 
         /// <summary>The function describing what they are.</summary>
-        public const String MeasurementDescriptionListData  = "measurementDescriptionListData";
+        public const String MeasurementDescriptionListData  = MonitoringFunctions.MeasurementDescriptionListData;
 
         /// <summary>The function saying which measurement is on which phase.</summary>
-        public const String ParameterDescriptionListData    = "electricalConnectionParameterDescriptionListData";
+        public const String ParameterDescriptionListData    = MonitoringFunctions.ParameterDescriptionListData;
 
         /// <summary>The function describing the electrical connection itself.</summary>
-        public const String ElectricalDescriptionListData   = "electricalConnectionDescriptionListData";
+        public const String ElectricalDescriptionListData   = MonitoringFunctions.ElectricalDescriptionListData;
 
         #endregion
 
         #region The quantities
 
         /// <summary>The total active power consumed, in watts (scenario 1).</summary>
-        public static MPCQuantity PowerTotal { get; }
+        public static MonitoringQuantity PowerTotal { get; }
             = new (ScenarioPower, MeasurementTypeType.Power, UnitOfMeasurementType.W, ScopeTypeType.AcPowerTotal);
 
         /// <summary>The active power on one phase, in watts (scenario 1).</summary>
-        public static MPCQuantity Power(ElectricalConnectionPhaseNameType Phase)
+        public static MonitoringQuantity Power(ElectricalConnectionPhaseNameType Phase)
             => new (ScenarioPower, MeasurementTypeType.Power, UnitOfMeasurementType.W, ScopeTypeType.AcPower, Phase);
 
         /// <summary>The energy consumed since the meter was installed, in watt hours (scenario 2).</summary>
-        public static MPCQuantity EnergyConsumed { get; }
+        public static MonitoringQuantity EnergyConsumed { get; }
             = new (ScenarioEnergy, MeasurementTypeType.Energy, UnitOfMeasurementType.Wh, ScopeTypeType.AcEnergyConsumed);
 
         /// <summary>The energy fed back, in watt hours (scenario 2).</summary>
-        public static MPCQuantity EnergyProduced { get; }
+        public static MonitoringQuantity EnergyProduced { get; }
             = new (ScenarioEnergy, MeasurementTypeType.Energy, UnitOfMeasurementType.Wh, ScopeTypeType.AcEnergyProduced);
 
         /// <summary>The current on one phase, in ampere (scenario 3).</summary>
-        public static MPCQuantity Current(ElectricalConnectionPhaseNameType Phase)
+        public static MonitoringQuantity Current(ElectricalConnectionPhaseNameType Phase)
             => new (ScenarioCurrent, MeasurementTypeType.Current, UnitOfMeasurementType.A, ScopeTypeType.AcCurrent, Phase);
 
         /// <summary>The voltage of one phase, in volts (scenario 4).</summary>
-        public static MPCQuantity Voltage(ElectricalConnectionPhaseNameType Phase)
+        public static MonitoringQuantity Voltage(ElectricalConnectionPhaseNameType Phase)
             => new (ScenarioVoltage, MeasurementTypeType.Voltage, UnitOfMeasurementType.V, ScopeTypeType.AcVoltage, Phase);
 
         /// <summary>The frequency of the grid, in hertz (scenario 5).</summary>
-        public static MPCQuantity Frequency { get; }
+        public static MonitoringQuantity Frequency { get; }
             = new (ScenarioFrequency, MeasurementTypeType.Frequency, UnitOfMeasurementType.Hz, ScopeTypeType.AcFrequency);
 
         #endregion
 
-        #region The scenarios as the framework needs them
+        #region The profile
 
         /// <summary>
-        /// The scenarios of this use case which the given side supports.
+        /// What tells this use case from the other monitoring use cases.
         ///
-        /// Both actors need the same two server features for every scenario -
-        /// the measurements and the electrical connection which says which phase
-        /// they are on - so the two lists differ only in direction: the
-        /// monitoring appliance looks for them at the monitored unit, and the
-        /// monitored unit needs nothing at all from the appliance.
+        /// Every scenario needs the same two server features - the measurements,
+        /// and the electrical connection which says which phase they are on.
         /// </summary>
-        /// <param name="ForMonitoringAppliance">Whether the list is for the monitoring appliance.</param>
-        /// <param name="Scenarios">Which scenarios are supported. Scenario 1 is mandatory and is always included.</param>
-        public static IEnumerable<UseCaseScenario> Scenarios(Boolean               ForMonitoringAppliance,
-                                                             IEnumerable<UInt32>?  Scenarios   = null)
-        {
+        public static MonitoringProfile Profile { get; }
 
-            var supported = new SortedSet<UInt32>(Scenarios ?? []) { ScenarioPower };
+            = new (UseCaseName:          Name,
+                   Version:              Version,
+                   DocumentSubRevision:  DocumentSubRevision,
+                   ServerActor:          UseCaseActors.MonitoredUnit,
+                   ClientActor:          UseCaseActors.MonitoringAppliance,
+                   ClientEntityTypes:    null,
 
-            var needed    = ForMonitoringAppliance
-                                ? new[] { FeatureTypeType.Measurement, FeatureTypeType.ElectricalConnection }
-                                : [];
+                   Scenarios: [
+                       new (ScenarioPower,      "Monitor power",      true,   Measured),
+                       new (ScenarioEnergy,     "Monitor energy",     false,  Measured),
+                       new (ScenarioCurrent,    "Monitor current",    false,  Measured),
+                       new (ScenarioVoltage,    "Monitor voltage",    false,  Measured),
+                       new (ScenarioFrequency,  "Monitor frequency",  false,  Measured)
+                   ],
 
-            var names     = new Dictionary<UInt32, String> {
-                                [ScenarioPower]      = "Monitor power",
-                                [ScenarioEnergy]     = "Monitor energy",
-                                [ScenarioCurrent]    = "Monitor current",
-                                [ScenarioVoltage]    = "Monitor voltage",
-                                [ScenarioFrequency]  = "Monitor frequency"
-                            };
+                   ScenarioOfScope: new Dictionary<ScopeTypeType, UInt32> {
+                       [ScopeTypeType.AcPowerTotal]      = ScenarioPower,
+                       [ScopeTypeType.AcPower]           = ScenarioPower,
+                       [ScopeTypeType.AcEnergyConsumed]  = ScenarioEnergy,
+                       [ScopeTypeType.AcEnergyProduced]  = ScenarioEnergy,
+                       [ScopeTypeType.AcCurrent]         = ScenarioCurrent,
+                       [ScopeTypeType.AcVoltage]         = ScenarioVoltage,
+                       [ScopeTypeType.AcFrequency]       = ScenarioFrequency
+                   });
 
-            return [.. supported.Select(scenario => new UseCaseScenario(scenario,
-                                                                        needed,
-                                                                        names.GetValueOrDefault(scenario)))];
 
-        }
+        /// <summary>
+        /// What a monitoring appliance needs at the monitored unit in order to
+        /// read a measurement and know which phase it came from.
+        /// </summary>
+        private static FeatureTypeType[] Measured
+            => [ FeatureTypeType.Measurement, FeatureTypeType.ElectricalConnection ];
 
         #endregion
 

@@ -22,7 +22,7 @@ using cloud.charging.open.protocols.EEBUS.SPINE.Model;
 
 #endregion
 
-namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
+namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 {
 
     /// <summary>
@@ -36,23 +36,35 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
     /// every limit and never falls back is not implementing this use case, it is
     /// implementing a remote control.
     /// </summary>
-    public class LPCControllableSystem : AUseCase
+    public abstract class APowerLimitationControllableSystem : AUseCase
     {
 
         #region Data
 
-        private readonly UInt32  limitId              = 1;
-        private readonly UInt32  failsafeLimitKeyId   = 1;
-        private readonly UInt32  failsafeDurationKeyId = 2;
+        // Not constants: one entity may play the controllable system of both the
+        // consumption and the production use case - a battery does, an inverter
+        // with a house connection does - and SPINE allows only one feature per
+        // feature type and role per entity. So the two use cases share the load
+        // control, device configuration and electrical connection features, and
+        // each of them has to find identifiers which the other is not using.
+        private readonly UInt32  limitId;
+        private readonly UInt32  failsafeLimitKeyId;
+        private readonly UInt32  failsafeDurationKeyId;
 
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Which of the two use cases this is: the limitation of power
+        /// consumption, or of power production.
+        /// </summary>
+        public PowerLimitationProfile          Profile         { get; }
+
+        /// <summary>
         /// The state machine of section 2.3, which decides which limit applies.
         /// </summary>
-        public LPCStateMachine     StateMachine    { get; }
+        public PowerLimitationStateMachine     StateMachine    { get; }
 
         /// <summary>
         /// The load control server feature, which holds the limit.
@@ -85,7 +97,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
         /// <summary>
         /// Whether this controllable system runs on an energy manager, which
-        /// changes which nominal maximum it reports ([LPC-041] vs [LPC-042]) and
+        /// changes which nominal maximum it reports (rule 041 vs rule 042) and
         /// which reasons let it break a limit (section 2.2).
         /// </summary>
         public Boolean             IsEnergyManager    { get; }
@@ -109,12 +121,38 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// <summary>
         /// The state of the controllable system changed.
         /// </summary>
-        public event Action<LPCControllableSystem, LPCTransition>? OnTransition;
+        public event Action<APowerLimitationControllableSystem, PowerLimitationTransition>? OnTransition;
 
         /// <summary>
         /// The energy guard wrote a limit, and it was accepted or refused.
         /// </summary>
-        public event Action<LPCControllableSystem, Decimal, Boolean, Boolean>? OnLimitWritten;
+        public event Action<APowerLimitationControllableSystem, Decimal, Boolean, Boolean>? OnLimitWritten;
+
+        #endregion
+
+        #region (private static) NextFree(Used, StartingAt = 1)
+
+        /// <summary>
+        /// The lowest identifier which nobody on this feature is using yet.
+        /// </summary>
+        /// <param name="Used">The identifiers already taken, if any.</param>
+        /// <param name="StartingAt">The lowest identifier worth having.</param>
+        private static UInt32 NextFree(IEnumerable<UInt32?>  Used,
+                                       UInt32                StartingAt   = 1)
+        {
+
+            var used = Used.Where (identifier => identifier.HasValue).
+                            Select(identifier => identifier!.Value).
+                            ToHashSet();
+
+            var next = StartingAt;
+
+            while (used.Contains(next))
+                next++;
+
+            return next;
+
+        }
 
         #endregion
 
@@ -124,24 +162,27 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// Add the controllable system of LPC to an entity.
         /// </summary>
         /// <param name="Entity">The entity which is being limited.</param>
+        /// <param name="Profile">Which of the two use cases this is.</param>
         /// <param name="IsEnergyManager">Whether it runs on an energy manager.</param>
-        public LPCControllableSystem(SPINELocalEntity  Entity,
-                                     Boolean           IsEnergyManager   = false)
+        protected APowerLimitationControllableSystem(SPINELocalEntity        Entity,
+                                                     PowerLimitationProfile  Profile,
+                                                     Boolean                 IsEnergyManager   = false)
 
             : base(Entity,
                    UseCaseActors.ControllableSystem,
-                   LimitationOfPowerConsumption.Name,
-                   LimitationOfPowerConsumption.Version,
-                   LimitationOfPowerConsumption.Scenarios(ForEnergyGuard: false),
+                   Profile.UseCaseName,
+                   Profile.Version,
+                   PowerLimitation.Scenarios(ForEnergyGuard: false),
                    [ UseCaseActors.EnergyGuard ],
                    [ EntityTypeType.GridGuard, EntityTypeType.CEM ],
-                   LimitationOfPowerConsumption.DocumentSubRevision)
+                   Profile.DocumentSubRevision)
 
         {
 
+            this.Profile          = Profile;
             this.IsEnergyManager  = IsEnergyManager;
 
-            this.StateMachine     = new LPCStateMachine(Entity.Device.TimeProvider);
+            this.StateMachine     = new PowerLimitationStateMachine(Profile, Entity.Device.TimeProvider);
             this.StateMachine.OnTransition += (_, transition) => OnTransition?.Invoke(this, transition);
 
             #region The load control server: the limit itself (scenario 1)
@@ -149,33 +190,51 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             LoadControl = Entity.Feature(FeatureTypeType.LoadControl, RoleType.Server)
                               ?? Entity.AddFeature(FeatureTypeType.LoadControl, RoleType.Server);
 
-            LoadControl.AddFunction(LimitationOfPowerConsumption.LimitDescriptionListData);
-            LoadControl.AddFunction(LimitationOfPowerConsumption.LimitListData,
+            LoadControl.AddFunction(PowerLimitation.LimitDescriptionListData);
+            LoadControl.AddFunction(PowerLimitation.LimitListData,
                                     Read:          true,
                                     Write:         true,
                                     PartialRead:   true,
                                     PartialWrite:  true);
 
-            LoadControl.FunctionData(LimitationOfPowerConsumption.LimitDescriptionListData)!.SetData(
+            var descriptions = LoadControl.DataCopy<LoadControlLimitDescriptionListDataType>(PowerLimitation.LimitDescriptionListData)?.
+                                   LoadControlLimitDescriptionData?.ToList() ?? [];
+
+            var limits       = LoadControl.DataCopy<LoadControlLimitListDataType>(PowerLimitation.LimitListData)?.
+                                   LoadControlLimitData?.ToList() ?? [];
+
+            this.limitId     = NextFree(descriptions.Select(description => description.LimitId));
+
+            descriptions.Add(Profile.LimitDescription(limitId));
+
+            limits.      Add(new LoadControlLimitDataType {
+                                 LimitId            = limitId,
+                                 IsLimitChangeable  = true,
+                                 IsLimitActive      = false,
+                                 Value              = ScaledNumberType.FromValue(0)
+                             });
+
+            LoadControl.FunctionData(PowerLimitation.LimitDescriptionListData)!.SetData(
                 new LoadControlLimitDescriptionListDataType {
-                    LoadControlLimitDescriptionData = [ LimitationOfPowerConsumption.LimitDescription(limitId) ]
+                    LoadControlLimitDescriptionData = descriptions
                 }
             );
 
-            LoadControl.FunctionData(LimitationOfPowerConsumption.LimitListData)!.SetData(
+            LoadControl.FunctionData(PowerLimitation.LimitListData)!.SetData(
                 new LoadControlLimitListDataType {
-                    LoadControlLimitData = [
-                        new LoadControlLimitDataType {
-                            LimitId            = limitId,
-                            IsLimitChangeable  = true,
-                            IsLimitActive      = false,
-                            Value              = ScaledNumberType.FromValue(0)
-                        }
-                    ]
+                    LoadControlLimitData = limits
                 }
             );
 
-            LoadControl.WriteApproval = ApproveLimit;
+            // The other use case may already be watching this feature. Both have
+            // to be asked, and a refusal from either one stands.
+            var limitApprovedBySomeoneElse    = LoadControl.WriteApproval;
+
+            LoadControl.WriteApproval         = async (message, cancellationToken) =>
+                await ApproveLimit(message, cancellationToken)
+                    ?? (limitApprovedBySomeoneElse is not null
+                            ? await limitApprovedBySomeoneElse(message, cancellationToken)
+                            : null);
 
             #endregion
 
@@ -184,59 +243,85 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             Configuration = Entity.Feature(FeatureTypeType.DeviceConfiguration, RoleType.Server)
                                 ?? Entity.AddFeature(FeatureTypeType.DeviceConfiguration, RoleType.Server);
 
-            Configuration.AddFunction(LimitationOfPowerConsumption.KeyValueDescriptionListData);
-            Configuration.AddFunction(LimitationOfPowerConsumption.KeyValueListData,
+            Configuration.AddFunction(PowerLimitation.KeyValueDescriptionListData);
+            Configuration.AddFunction(PowerLimitation.KeyValueListData,
                                       Read:          true,
                                       Write:         true,
                                       PartialRead:   true,
                                       PartialWrite:  true);
 
-            Configuration.FunctionData(LimitationOfPowerConsumption.KeyValueDescriptionListData)!.SetData(
+            var keyDescriptions        = Configuration.DataCopy<DeviceConfigurationKeyValueDescriptionListDataType>(PowerLimitation.KeyValueDescriptionListData)?.
+                                             DeviceConfigurationKeyValueDescriptionData?.ToList() ?? [];
+
+            var keyValues             = Configuration.DataCopy<DeviceConfigurationKeyValueListDataType>(PowerLimitation.KeyValueListData)?.
+                                            DeviceConfigurationKeyValueData?.ToList() ?? [];
+
+            // The failsafe limit is per direction, so it is always a new key ...
+            this.failsafeLimitKeyId   = NextFree(keyDescriptions.Select(description => description.KeyId));
+
+            keyDescriptions.Add(new DeviceConfigurationKeyValueDescriptionDataType {
+                                    KeyId      = failsafeLimitKeyId,
+                                    KeyName    = Profile.FailsafeLimitKey,
+                                    ValueType  = DeviceConfigurationKeyValueTypeType.ScaledNumber,
+                                    Unit       = UnitOfMeasurementType.W
+                                });
+
+            keyValues.      Add(new DeviceConfigurationKeyValueDataType {
+                                    KeyId              = failsafeLimitKeyId,
+                                    IsValueChangeable  = true,
+                                    Value              = new DeviceConfigurationKeyValueValueType {
+                                                             ScaledNumber = ScaledNumberType.FromValue(0)
+                                                         }
+                                });
+
+            // ... but how long the device can ride through without an energy
+            // guard is a property of the device and not of a direction, so there
+            // is one such key even when both use cases are running. Whichever of
+            // the two is constructed first declares it.
+            var duration              = keyDescriptions.FirstOrDefault(description => description.KeyName == PowerLimitation.FailsafeDurationKey &&
+                                                                                      description.KeyId   != failsafeLimitKeyId);
+
+            this.failsafeDurationKeyId = duration?.KeyId
+                                             ?? NextFree(keyDescriptions.Select(description => description.KeyId));
+
+            if (duration is null)
+            {
+
+                keyDescriptions.Add(new DeviceConfigurationKeyValueDescriptionDataType {
+                                        KeyId      = failsafeDurationKeyId,
+                                        KeyName    = PowerLimitation.FailsafeDurationKey,
+                                        ValueType  = DeviceConfigurationKeyValueTypeType.Duration
+                                    });
+
+                keyValues.      Add(new DeviceConfigurationKeyValueDataType {
+                                        KeyId              = failsafeDurationKeyId,
+                                        IsValueChangeable  = true,
+                                        Value              = new DeviceConfigurationKeyValueValueType {
+                                                                 Duration = DurationType.Parse(PowerLimitation.FailsafeDurationMinimumLowerBound)
+                                                             }
+                                    });
+
+            }
+
+            Configuration.FunctionData(PowerLimitation.KeyValueDescriptionListData)!.SetData(
                 new DeviceConfigurationKeyValueDescriptionListDataType {
-                    DeviceConfigurationKeyValueDescriptionData = [
-
-                        new DeviceConfigurationKeyValueDescriptionDataType {
-                            KeyId      = failsafeLimitKeyId,
-                            KeyName    = LimitationOfPowerConsumption.FailsafeLimitKey,
-                            ValueType  = DeviceConfigurationKeyValueTypeType.ScaledNumber,
-                            Unit       = UnitOfMeasurementType.W
-                        },
-
-                        new DeviceConfigurationKeyValueDescriptionDataType {
-                            KeyId      = failsafeDurationKeyId,
-                            KeyName    = LimitationOfPowerConsumption.FailsafeDurationKey,
-                            ValueType  = DeviceConfigurationKeyValueTypeType.Duration
-                        }
-
-                    ]
+                    DeviceConfigurationKeyValueDescriptionData = keyDescriptions
                 }
             );
 
-            Configuration.FunctionData(LimitationOfPowerConsumption.KeyValueListData)!.SetData(
+            Configuration.FunctionData(PowerLimitation.KeyValueListData)!.SetData(
                 new DeviceConfigurationKeyValueListDataType {
-                    DeviceConfigurationKeyValueData = [
-
-                        new DeviceConfigurationKeyValueDataType {
-                            KeyId              = failsafeLimitKeyId,
-                            IsValueChangeable  = true,
-                            Value              = new DeviceConfigurationKeyValueValueType {
-                                                     ScaledNumber = ScaledNumberType.FromValue(0)
-                                                 }
-                        },
-
-                        new DeviceConfigurationKeyValueDataType {
-                            KeyId              = failsafeDurationKeyId,
-                            IsValueChangeable  = true,
-                            Value              = new DeviceConfigurationKeyValueValueType {
-                                                     Duration = DurationType.Parse(LimitationOfPowerConsumption.FailsafeDurationMinimumLowerBound)
-                                                 }
-                        }
-
-                    ]
+                    DeviceConfigurationKeyValueData = keyValues
                 }
             );
 
-            Configuration.WriteApproval = ApproveConfiguration;
+            var configurationApprovedBySomeoneElse  = Configuration.WriteApproval;
+
+            Configuration.WriteApproval             = async (message, cancellationToken) =>
+                await ApproveConfiguration(message, cancellationToken)
+                    ?? (configurationApprovedBySomeoneElse is not null
+                            ? await configurationApprovedBySomeoneElse(message, cancellationToken)
+                            : null);
 
             #endregion
 
@@ -245,22 +330,26 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             Electrical = Entity.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server)
                              ?? Entity.AddFeature(FeatureTypeType.ElectricalConnection, RoleType.Server);
 
-            Electrical.AddFunction(LimitationOfPowerConsumption.CharacteristicListData);
+            Electrical.AddFunction(PowerLimitation.CharacteristicListData);
 
-            Electrical.FunctionData(LimitationOfPowerConsumption.CharacteristicListData)!.SetData(
+            var characteristics = Electrical.DataCopy<ElectricalConnectionCharacteristicListDataType>(PowerLimitation.CharacteristicListData)?.
+                                      ElectricalConnectionCharacteristicData?.ToList() ?? [];
+
+            characteristics.Add(new ElectricalConnectionCharacteristicDataType {
+                                    ElectricalConnectionId  = 0,
+                                    ParameterId             = 0,
+                                    CharacteristicId        = NextFree(characteristics.Select(characteristic => characteristic.CharacteristicId),
+                                                                       StartingAt: 0),
+                                    CharacteristicContext   = ElectricalConnectionCharacteristicContextType.Entity,
+                                    CharacteristicType      = IsEnergyManager
+                                                                  ? Profile.ContractualNominalMax
+                                                                  : Profile.NominalMax,
+                                    Unit                    = UnitOfMeasurementType.W
+                                });
+
+            Electrical.FunctionData(PowerLimitation.CharacteristicListData)!.SetData(
                 new ElectricalConnectionCharacteristicListDataType {
-                    ElectricalConnectionCharacteristicData = [
-                        new ElectricalConnectionCharacteristicDataType {
-                            ElectricalConnectionId  = 0,
-                            ParameterId             = 0,
-                            CharacteristicId        = 0,
-                            CharacteristicContext   = ElectricalConnectionCharacteristicContextType.Entity,
-                            CharacteristicType      = IsEnergyManager
-                                                          ? ElectricalConnectionCharacteristicTypeType.ContractualConsumptionNominalMax
-                                                          : ElectricalConnectionCharacteristicTypeType.PowerConsumptionNominalMax,
-                            Unit                    = UnitOfMeasurementType.W
-                        }
-                    ]
+                    ElectricalConnectionCharacteristicData = characteristics
                 }
             );
 
@@ -278,7 +367,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             HeartbeatServer = Entity.Feature(FeatureTypeType.DeviceDiagnosis, RoleType.Server)
                                   ?? Entity.AddFeature(FeatureTypeType.DeviceDiagnosis, RoleType.Server);
 
-            HeartbeatServer.AddFunction(LimitationOfPowerConsumption.HeartbeatData);
+            HeartbeatServer.AddFunction(PowerLimitation.HeartbeatData);
 
             Diagnosis = Entity.Feature(FeatureTypeType.DeviceDiagnosis, RoleType.Client)
                             ?? Entity.AddFeature(FeatureTypeType.DeviceDiagnosis, RoleType.Client);
@@ -288,7 +377,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             Device.Events.Subscribe<SPINEDataChanged>(
                 @event => {
 
-                    if (@event.Change.Function            == LimitationOfPowerConsumption.HeartbeatData &&
+                    if (@event.Change.Function            == PowerLimitation.HeartbeatData &&
                         @event.Change.RemoteFeature.Role  == RoleType.Server)
                         StateMachine.HeartbeatReceived();
 
@@ -325,7 +414,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
 
         /// <summary>
-        /// The failsafe consumption active power limit, in watts ([LPC-021]).
+        /// The failsafe consumption active power limit, in watts (rule 021).
         /// </summary>
         public Decimal? FailsafeLimit
         {
@@ -341,7 +430,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
 
         /// <summary>
-        /// The failsafe duration minimum ([LPC-022]).
+        /// The failsafe duration minimum (rule 022).
         /// </summary>
         public TimeSpan? FailsafeDurationMinimum
         {
@@ -364,23 +453,23 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
 
         /// <summary>
-        /// The nominal maximum active power this system can consume ([LPC-041]),
-        /// or is allowed to consume ([LPC-042]) where it is an energy manager.
+        /// The nominal maximum active power this system can consume (rule 041),
+        /// or is allowed to consume (rule 042) where it is an energy manager.
         /// </summary>
         public Decimal? ConsumptionNominalMax
         {
 
-            get => Electrical.DataCopy<ElectricalConnectionCharacteristicListDataType>(LimitationOfPowerConsumption.CharacteristicListData)?.
+            get => Electrical.DataCopy<ElectricalConnectionCharacteristicListDataType>(PowerLimitation.CharacteristicListData)?.
                        ElectricalConnectionCharacteristicData?.FirstOrDefault()?.Value?.Value;
 
             set {
 
-                var data = Electrical.DataCopy<ElectricalConnectionCharacteristicListDataType>(LimitationOfPowerConsumption.CharacteristicListData);
+                var data = Electrical.DataCopy<ElectricalConnectionCharacteristicListDataType>(PowerLimitation.CharacteristicListData);
 
                 if (data?.ElectricalConnectionCharacteristicData?.FirstOrDefault() is ElectricalConnectionCharacteristicDataType characteristic)
                 {
                     characteristic.Value = value is not null ? ScaledNumberType.FromValue(value.Value) : null;
-                    Electrical.SetData(LimitationOfPowerConsumption.CharacteristicListData, data).GetAwaiter().GetResult();
+                    Electrical.SetData(PowerLimitation.CharacteristicListData, data).GetAwaiter().GetResult();
                 }
 
             }
@@ -399,7 +488,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// somebody has to look; whoever drives the time calls this.
         /// </summary>
         /// <param name="CancellationToken">An optional cancellation token.</param>
-        public async Task<LPCTransition?> Check(CancellationToken CancellationToken = default)
+        public async Task<PowerLimitationTransition?> Check(CancellationToken CancellationToken = default)
         {
 
             var transition = StateMachine.Check();
@@ -416,10 +505,10 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         #region LimitExpired(...) / LimitInterrupted(...)
 
         /// <summary>
-        /// The duration of the limit ran out ([LPC-908]).
+        /// The duration of the limit ran out (rule 908).
         /// </summary>
         /// <param name="CancellationToken">An optional cancellation token.</param>
-        public async Task<LPCTransition?> LimitExpired(CancellationToken CancellationToken = default)
+        public async Task<PowerLimitationTransition?> LimitExpired(CancellationToken CancellationToken = default)
         {
 
             var transition = StateMachine.LimitExpired();
@@ -434,11 +523,11 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
         /// <summary>
         /// This device had to stop keeping the limit, for one of the reasons the
-        /// specification allows ([LPC-923]).
+        /// specification allows (rule 923).
         /// </summary>
         /// <param name="Reason">Which of them.</param>
         /// <param name="CancellationToken">An optional cancellation token.</param>
-        public async Task<LPCTransition?> LimitInterrupted(String             Reason,
+        public async Task<PowerLimitationTransition?> LimitInterrupted(String             Reason,
                                                            CancellationToken  CancellationToken   = default)
         {
 
@@ -469,8 +558,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         ///   "unlimited/autonomous" - also a NACK, because the energy guard has
         ///   to know that its limit did not take effect;
         /// * a limit which this device cannot apply is accepted as data and
-        ///   refused as an instruction ([LPC-003/1]) - the write is NACKed and
-        ///   the state machine goes to "unlimited/controlled" ([LPC-918]).
+        ///   refused as an instruction (rule 003/1) - the write is NACKed and
+        ///   the state machine goes to "unlimited/controlled" (rule 918).
         /// </summary>
         private Task<ResultDataType?> ApproveLimit(SPINEMessage       Message,
                                                    CancellationToken  CancellationToken)
@@ -492,7 +581,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             if (value < 0)
                 return Task.FromResult<ResultDataType?>(
                            ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
-                                                "An active power consumption limit below zero is refused (LPC 1.0.0, 2.2).")
+                                                $"An active power {Profile.Direction.ToString().ToLower()} limit below zero is refused (section 2.2).")
                        );
 
             #endregion
@@ -503,7 +592,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
                 return Task.FromResult<ResultDataType?>(
                            ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
                                                 $"In state '{StateMachine.State}' a limit is only evaluated when it follows " +
-                                                $"a heartbeat within {LimitationOfPowerConsumption.LimitAfterHeartbeat} (LPC 1.0.0, 2.2).")
+                                                $"a heartbeat within {PowerLimitation.LimitAfterHeartbeat} (section 2.2).")
                        );
 
             #endregion
@@ -513,7 +602,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
             // The state follows either way: a limit which cannot be applied
             // still takes the controllable system out of its failsafe state
-            // ([LPC-916], [LPC-918]).
+            // (rules 916 and 918).
             var transition = StateMachine.LimitWritten(activated, applicable);
 
             OnLimitWritten?.Invoke(this, value, activated, applicable);
@@ -521,7 +610,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
             if (!applicable)
                 return Task.FromResult<ResultDataType?>(
                            ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
-                                                "This controllable system cannot apply the limit (LPC 1.0.0, [LPC-003/1].")
+                                                "This controllable system cannot apply the limit (rule 003/1).")
                        );
 
             return Task.FromResult<ResultDataType?>(null);
@@ -555,18 +644,18 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
                     limit < 0)
                     return Task.FromResult<ResultDataType?>(
                                ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
-                                                    "A failsafe consumption active power limit below zero is refused (LPC 1.0.0, 2.2).")
+                                                    $"A '{Profile.FailsafeLimitKey}' below zero is refused (section 2.2).")
                            );
 
                 if (entry.KeyId == failsafeDurationKeyId &&
                     entry.Value?.Duration?.AsTimeSpan is TimeSpan duration &&
-                    (duration < LimitationOfPowerConsumption.FailsafeDurationMinimumLowerBound ||
-                     duration > LimitationOfPowerConsumption.FailsafeDurationMinimumUpperBound))
+                    (duration < PowerLimitation.FailsafeDurationMinimumLowerBound ||
+                     duration > PowerLimitation.FailsafeDurationMinimumUpperBound))
                     return Task.FromResult<ResultDataType?>(
                                ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
                                                     $"The failsafe duration minimum has to be between " +
-                                                    $"{LimitationOfPowerConsumption.FailsafeDurationMinimumLowerBound} and {LimitationOfPowerConsumption.FailsafeDurationMinimumUpperBound} " +
-                                                    $"(LPC 1.0.0, [LPC-022/3]).")
+                                                    $"{PowerLimitation.FailsafeDurationMinimumLowerBound} and {PowerLimitation.FailsafeDurationMinimumUpperBound} " +
+                                                    $"({Profile.Rule("022/3")}).")
                            );
 
             }
@@ -583,14 +672,14 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
         /// Write the state machine's answer into the limit and tell whoever
         /// subscribed.
         ///
-        /// [LPC-009]: the controllable system sets the limit to activated or
+        /// Rule 009: the controllable system sets the limit to activated or
         /// deactivated according to its state - so the energy guard reading the
         /// limit sees what is actually happening, not what it asked for.
         /// </summary>
         private async Task PublishLimitState(CancellationToken CancellationToken)
         {
 
-            var data = LoadControl.DataCopy<LoadControlLimitListDataType>(LimitationOfPowerConsumption.LimitListData);
+            var data = LoadControl.DataCopy<LoadControlLimitListDataType>(PowerLimitation.LimitListData);
 
             if (data?.LoadControlLimitData?.FirstOrDefault(entry => entry.LimitId == limitId) is not LoadControlLimitDataType entry)
                 return;
@@ -600,7 +689,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
             entry.IsLimitActive = StateMachine.IsLimitActive;
 
-            await LoadControl.SetData(LimitationOfPowerConsumption.LimitListData, data, CancellationToken: CancellationToken);
+            await LoadControl.SetData(PowerLimitation.LimitListData, data, CancellationToken: CancellationToken);
 
         }
 
@@ -610,13 +699,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
 
         private LoadControlLimitDataType? Limit()
 
-            => LoadControl.DataCopy<LoadControlLimitListDataType>(LimitationOfPowerConsumption.LimitListData)?.
+            => LoadControl.DataCopy<LoadControlLimitListDataType>(PowerLimitation.LimitListData)?.
                    LoadControlLimitData?.FirstOrDefault(entry => entry.LimitId == limitId);
 
 
         private DeviceConfigurationKeyValueDataType? KeyValue(UInt32 KeyId)
 
-            => Configuration.DataCopy<DeviceConfigurationKeyValueListDataType>(LimitationOfPowerConsumption.KeyValueListData)?.
+            => Configuration.DataCopy<DeviceConfigurationKeyValueListDataType>(PowerLimitation.KeyValueListData)?.
                    DeviceConfigurationKeyValueData?.FirstOrDefault(entry => entry.KeyId == KeyId);
 
 
@@ -624,12 +713,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LPC
                                  DeviceConfigurationKeyValueValueType  Value)
         {
 
-            var data = Configuration.DataCopy<DeviceConfigurationKeyValueListDataType>(LimitationOfPowerConsumption.KeyValueListData);
+            var data = Configuration.DataCopy<DeviceConfigurationKeyValueListDataType>(PowerLimitation.KeyValueListData);
 
             if (data?.DeviceConfigurationKeyValueData?.FirstOrDefault(entry => entry.KeyId == KeyId) is DeviceConfigurationKeyValueDataType entry)
             {
                 entry.Value = Value;
-                Configuration.SetData(LimitationOfPowerConsumption.KeyValueListData, data).GetAwaiter().GetResult();
+                Configuration.SetData(PowerLimitation.KeyValueListData, data).GetAwaiter().GetResult();
             }
 
         }

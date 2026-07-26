@@ -21,7 +21,7 @@ using Microsoft.Extensions.Time.Testing;
 
 using NUnit.Framework;
 
-using cloud.charging.open.protocols.EEBUS.UseCases.LPC;
+using cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower;
 
 #endregion
 
@@ -40,13 +40,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
     /// under test is somebody else's.
     /// </summary>
     [TestFixture]
-    public class LPCStateMachineTests
+    public class PowerLimitationStateMachineTests
     {
 
         #region Data
 
         private FakeTimeProvider  time    = null!;
-        private LPCStateMachine   states  = null!;
+        private PowerLimitationStateMachine   states  = null!;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
         {
 
             time    = new FakeTimeProvider(new DateTimeOffset(2026, 7, 26, 12, 0, 0, TimeSpan.Zero));
-            states  = new LPCStateMachine(time);
+            states  = new PowerLimitationStateMachine(PowerLimitation.Consumption, time);
 
         }
 
@@ -70,7 +70,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             => states.HeartbeatReceived();
 
         /// <summary>A write of the limit arrives and is evaluated.</summary>
-        private LPCTransition? Limit(Boolean Activated, Boolean CanBeApplied = true)
+        private PowerLimitationTransition? Limit(Boolean Activated, Boolean CanBeApplied = true)
             => states.MayEvaluateLimitWrite()
                    ? states.LimitWritten(Activated, CanBeApplied)
                    : null;
@@ -90,8 +90,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
         {
 
             Assert.Multiple(() => {
-                Assert.That(states.State,          Is.EqualTo(LPCState.Init));
-                Assert.That(states.Limitation,     Is.EqualTo(LPCLimitation.FailsafeConsumptionActivePowerLimit));
+                Assert.That(states.State,          Is.EqualTo(PowerLimitationState.Init));
+                Assert.That(states.Limitation,     Is.EqualTo(PowerLimitationApplied.FailsafeLimit));
                 Assert.That(states.IsLimitActive,  Is.False);
             });
 
@@ -116,8 +116,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(deactivated?.Transition,  Is.EqualTo(1));
-                Assert.That(states.State,             Is.EqualTo(LPCState.UnlimitedControlled));
-                Assert.That(states.Limitation,        Is.EqualTo(LPCLimitation.None));
+                Assert.That(states.State,             Is.EqualTo(PowerLimitationState.UnlimitedControlled));
+                Assert.That(states.Limitation,        Is.EqualTo(PowerLimitationApplied.None));
             });
 
             // The other half of the same transition: an activated limit which
@@ -129,7 +129,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(inapplicable?.Transition, Is.EqualTo(1));
-                Assert.That(states.State,             Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(states.State,             Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
         }
@@ -152,8 +152,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(transition?.Transition, Is.EqualTo(2));
-                Assert.That(states.State,           Is.EqualTo(LPCState.Limited));
-                Assert.That(states.Limitation,      Is.EqualTo(LPCLimitation.ActivePowerConsumptionLimit));
+                Assert.That(states.State,           Is.EqualTo(PowerLimitationState.Limited));
+                Assert.That(states.Limitation,      Is.EqualTo(PowerLimitationApplied.ActivePowerLimit));
                 Assert.That(states.IsLimitActive,   Is.True);
             });
 
@@ -178,8 +178,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(states.Check(),     Is.Null);
-                Assert.That(states.State,       Is.EqualTo(LPCState.Init));
-                Assert.That(states.Limitation,  Is.EqualTo(LPCLimitation.FailsafeConsumptionActivePowerLimit),
+                Assert.That(states.State,       Is.EqualTo(PowerLimitationState.Init));
+                Assert.That(states.Limitation,  Is.EqualTo(PowerLimitationApplied.FailsafeLimit),
                             "It is still limited by its failsafe value while it waits.");
             });
 
@@ -189,8 +189,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(transition?.Transition, Is.EqualTo(3));
-                Assert.That(states.State,           Is.EqualTo(LPCState.UnlimitedAutonomous));
-                Assert.That(states.Limitation,      Is.EqualTo(LPCLimitation.None));
+                Assert.That(states.State,           Is.EqualTo(PowerLimitationState.UnlimitedAutonomous));
+                Assert.That(states.Limitation,      Is.EqualTo(PowerLimitationApplied.None));
             });
 
         }
@@ -210,7 +210,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(transition?.Transition, Is.EqualTo(4));
-                Assert.That(states.State,           Is.EqualTo(LPCState.Limited));
+                Assert.That(states.State,           Is.EqualTo(PowerLimitationState.Limited));
             });
 
         }
@@ -240,8 +240,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(fromLimited?.Transition,  Is.EqualTo(7));
-                Assert.That(states.State,             Is.EqualTo(LPCState.FailsafeState));
-                Assert.That(states.Limitation,        Is.EqualTo(LPCLimitation.FailsafeConsumptionActivePowerLimit));
+                Assert.That(states.State,             Is.EqualTo(PowerLimitationState.FailsafeState));
+                Assert.That(states.Limitation,        Is.EqualTo(PowerLimitationApplied.FailsafeLimit));
                 Assert.That(states.IsLimitActive,     Is.False,
                             "[LPC-009/2]: in the failsafe state the limit is deactivated.");
             });
@@ -257,7 +257,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(fromControlled?.Transition, Is.EqualTo(5));
-                Assert.That(states.State,               Is.EqualTo(LPCState.FailsafeState));
+                Assert.That(states.State,               Is.EqualTo(PowerLimitationState.FailsafeState));
             });
 
         }
@@ -284,7 +284,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
                 Assert.That(states.Check(), Is.Null);
             }
 
-            Assert.That(states.State, Is.EqualTo(LPCState.Limited));
+            Assert.That(states.State, Is.EqualTo(PowerLimitationState.Limited));
 
         }
 
@@ -310,7 +310,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(expired?.Transition, Is.EqualTo(6));
-                Assert.That(states.State,        Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(states.State,        Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
             // A deactivated limit arrived.
@@ -322,7 +322,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(deactivated?.Transition, Is.EqualTo(6));
-                Assert.That(states.State,            Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(states.State,            Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
             // The device had to stop keeping it.
@@ -335,7 +335,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
                 Assert.That(interrupted?.Transition, Is.EqualTo(6));
                 Assert.That(interrupted?.Reason,     Does.Contain("self-protection"));
-                Assert.That(states.State,            Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(states.State,            Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
         }
@@ -360,7 +360,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             time.Advance(TimeSpan.FromSeconds(121));
             states.Check();
 
-            Assert.That(states.State, Is.EqualTo(LPCState.FailsafeState));
+            Assert.That(states.State, Is.EqualTo(PowerLimitationState.FailsafeState));
 
             // The energy guard comes back: heartbeat, then a limit.
             Beat();
@@ -369,7 +369,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(transition?.Transition, Is.EqualTo(9));
-                Assert.That(states.State,           Is.EqualTo(LPCState.Limited));
+                Assert.That(states.State,           Is.EqualTo(PowerLimitationState.Limited));
             });
 
             // The other way out: a limit which cannot be applied.
@@ -384,7 +384,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(inapplicable?.Transition, Is.EqualTo(8));
-                Assert.That(states.State,             Is.EqualTo(LPCState.UnlimitedControlled),
+                Assert.That(states.State,             Is.EqualTo(PowerLimitationState.UnlimitedControlled),
                             "[LPC-918]: a limit which cannot be applied still ends the failsafe state.");
             });
 
@@ -453,7 +453,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             time.Advance(TimeSpan.FromSeconds(121));
             states.Check();
 
-            Assert.That(states.State, Is.EqualTo(LPCState.FailsafeState));
+            Assert.That(states.State, Is.EqualTo(PowerLimitationState.FailsafeState));
 
             Beat();
             time.Advance(TimeSpan.FromSeconds(121));
@@ -463,8 +463,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
                 Assert.That(byHeartbeat?.Transition, Is.EqualTo(10));
                 Assert.That(byHeartbeat?.Reason,     Does.Contain("LPC-921"));
-                Assert.That(states.State,            Is.EqualTo(LPCState.UnlimitedAutonomous));
-                Assert.That(states.Limitation,       Is.EqualTo(LPCLimitation.None));
+                Assert.That(states.State,            Is.EqualTo(PowerLimitationState.UnlimitedAutonomous));
+                Assert.That(states.Limitation,       Is.EqualTo(PowerLimitationApplied.None));
             });
 
             // Nothing at all, for the whole failsafe duration minimum.
@@ -483,7 +483,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
                 Assert.That(byDuration?.Transition, Is.EqualTo(10));
                 Assert.That(byDuration?.Reason,     Does.Contain("LPC-922"));
-                Assert.That(states.State,           Is.EqualTo(LPCState.UnlimitedAutonomous));
+                Assert.That(states.State,           Is.EqualTo(PowerLimitationState.UnlimitedAutonomous));
             });
 
         }
@@ -503,7 +503,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             time.Advance(TimeSpan.FromSeconds(121));
             states.Check();
 
-            Assert.That(states.State, Is.EqualTo(LPCState.UnlimitedAutonomous));
+            Assert.That(states.State, Is.EqualTo(PowerLimitationState.UnlimitedAutonomous));
 
             Beat();
 
@@ -511,7 +511,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(toLimited?.Transition, Is.EqualTo(12));
-                Assert.That(states.State,          Is.EqualTo(LPCState.Limited));
+                Assert.That(states.State,          Is.EqualTo(PowerLimitationState.Limited));
             });
 
             Setup();
@@ -523,7 +523,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(toControlled?.Transition, Is.EqualTo(11));
-                Assert.That(states.State,             Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(states.State,             Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
         }
@@ -543,8 +543,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(transition.Transition,          Is.EqualTo(0));
-                Assert.That(states.State,                   Is.EqualTo(LPCState.Init));
-                Assert.That(states.Limitation,              Is.EqualTo(LPCLimitation.FailsafeConsumptionActivePowerLimit));
+                Assert.That(states.State,                   Is.EqualTo(PowerLimitationState.Init));
+                Assert.That(states.Limitation,              Is.EqualTo(PowerLimitationApplied.FailsafeLimit));
                 Assert.That(states.MayEvaluateLimitWrite(), Is.False,
                             "After a restart the heartbeat has to arrive again.");
             });
@@ -563,12 +563,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
         public void Table1_WhichLimitAppliesInWhichState()
         {
 
-            (LPCState State, LPCLimitation Limitation, Boolean IsLimitActive)[] expected = [
-                (LPCState.Init,                 LPCLimitation.FailsafeConsumptionActivePowerLimit, false),
-                (LPCState.UnlimitedControlled,  LPCLimitation.None,                                false),
-                (LPCState.Limited,              LPCLimitation.ActivePowerConsumptionLimit,         true),
-                (LPCState.FailsafeState,        LPCLimitation.FailsafeConsumptionActivePowerLimit, false),
-                (LPCState.UnlimitedAutonomous,  LPCLimitation.None,                                false)
+            (PowerLimitationState State, PowerLimitationApplied Limitation, Boolean IsLimitActive)[] expected = [
+                (PowerLimitationState.Init,                 PowerLimitationApplied.FailsafeLimit, false),
+                (PowerLimitationState.UnlimitedControlled,  PowerLimitationApplied.None,                                false),
+                (PowerLimitationState.Limited,              PowerLimitationApplied.ActivePowerLimit,         true),
+                (PowerLimitationState.FailsafeState,        PowerLimitationApplied.FailsafeLimit, false),
+                (PowerLimitationState.UnlimitedAutonomous,  PowerLimitationApplied.None,                                false)
             ];
 
             foreach (var (state, limitation, isActive) in expected)
@@ -579,21 +579,21 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
                 switch (state)
                 {
 
-                    case LPCState.UnlimitedControlled:
+                    case PowerLimitationState.UnlimitedControlled:
                         Beat(); Limit(Activated: false);
                         break;
 
-                    case LPCState.Limited:
+                    case PowerLimitationState.Limited:
                         Beat(); Limit(Activated: true);
                         break;
 
-                    case LPCState.FailsafeState:
+                    case PowerLimitationState.FailsafeState:
                         Beat(); Limit(Activated: true);
                         time.Advance(TimeSpan.FromSeconds(121));
                         states.Check();
                         break;
 
-                    case LPCState.UnlimitedAutonomous:
+                    case PowerLimitationState.UnlimitedAutonomous:
                         time.Advance(TimeSpan.FromSeconds(121));
                         states.Check();
                         break;

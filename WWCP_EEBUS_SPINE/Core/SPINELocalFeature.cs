@@ -108,6 +108,16 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         /// <summary>
         /// Offer a function on this feature.
+        ///
+        /// Offering the same function twice does not start it over: a feature is
+        /// shared by everything on its entity which needs that feature type, and
+        /// SPINE allows only one of each per entity, so two use cases regularly
+        /// declare the same function - a battery running both the limitation of
+        /// power consumption and of power production declares
+        /// "loadControlLimitListData" twice, once per direction. Whatever the
+        /// function already holds is kept, and the operations of the two
+        /// declarations are combined: what one of them needs to be writable stays
+        /// writable for both.
         /// </summary>
         /// <param name="Function">The name of a SPINE function.</param>
         /// <param name="Read">Whether it may be read.</param>
@@ -120,6 +130,19 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                              Boolean  PartialRead    = false,
                                              Boolean  PartialWrite   = false)
         {
+
+            if (functions.TryGetValue(Function, out var alreadyOffered))
+            {
+
+                alreadyOffered.Operations = PossibleOperationsType.ReadAndMaybeWrite(
+                                                Write         || alreadyOffered.Operations.CanWrite,
+                                                PartialRead   || alreadyOffered.Operations.CanReadPartial,
+                                                PartialWrite  || alreadyOffered.Operations.CanWritePartial
+                                            );
+
+                return alreadyOffered;
+
+            }
 
             var functionData = new SPINEFunctionData(
                                    Function,

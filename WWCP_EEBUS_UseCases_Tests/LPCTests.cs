@@ -24,6 +24,7 @@ using NUnit.Framework;
 using cloud.charging.open.protocols.EEBUS.SPINE;
 using cloud.charging.open.protocols.EEBUS.SPINE.Model;
 using cloud.charging.open.protocols.EEBUS.UseCases.LPC;
+using cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower;
 
 #endregion
 
@@ -197,13 +198,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             var loadControl  = guard.LoadControlOf(CS);
 
-            await loadControl.RequestData(LimitationOfPowerConsumption.LimitDescriptionListData);
+            await loadControl.RequestData(PowerLimitation.LimitDescriptionListData);
 
-            var description  = loadControl.Data<LoadControlLimitDescriptionListDataType>(LimitationOfPowerConsumption.LimitDescriptionListData)?.
+            var description  = loadControl.Data<LoadControlLimitDescriptionListDataType>(PowerLimitation.LimitDescriptionListData)?.
                                    LoadControlLimitDescriptionData?.FirstOrDefault();
 
             Assert.Multiple(() => {
-                Assert.That(LimitationOfPowerConsumption.IsTheLimit(description),  Is.True);
+                Assert.That(PowerLimitation.Consumption.IsTheLimit(description),  Is.True);
                 Assert.That(description?.LimitType,       Is.EqualTo(LoadControlLimitTypeType.SignDependentAbsValueLimit));
                 Assert.That(description?.LimitCategory,   Is.EqualTo(LoadControlCategoryType.Obligation));
                 Assert.That(description?.LimitDirection,  Is.EqualTo(EnergyDirectionType.Consume));
@@ -233,8 +234,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
                 Assert.That(response.IsError,                    Is.False, response.Result?.Description);
 
-                Assert.That(system.StateMachine.State,           Is.EqualTo(LPCState.Limited));
-                Assert.That(system.StateMachine.Limitation,      Is.EqualTo(LPCLimitation.ActivePowerConsumptionLimit));
+                Assert.That(system.StateMachine.State,           Is.EqualTo(PowerLimitationState.Limited));
+                Assert.That(system.StateMachine.Limitation,      Is.EqualTo(PowerLimitationApplied.ActivePowerLimit));
 
                 Assert.That(system.ConsumptionLimit.Value,       Is.EqualTo(4200));
                 Assert.That(system.ConsumptionLimit.IsActive,    Is.True);
@@ -277,7 +278,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             var loadControl = guard.LoadControlOf(CS);
 
             var response    = await loadControl.WriteData(
-                                        LimitationOfPowerConsumption.LimitListData,
+                                        PowerLimitation.LimitListData,
                                         new LoadControlLimitListDataType {
                                             LoadControlLimitData = [
                                                 new LoadControlLimitDataType {
@@ -325,7 +326,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
                 Assert.That(response.IsError,              Is.True);
                 Assert.That(response.Result?.ErrorNumber,  Is.EqualTo(SPINEErrorNumbers.CommandRejected));
-                Assert.That(system.StateMachine.State,     Is.EqualTo(LPCState.UnlimitedControlled));
+                Assert.That(system.StateMachine.State,     Is.EqualTo(PowerLimitationState.UnlimitedControlled));
             });
 
         }
@@ -395,7 +396,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             // And the controllable system refuses it whoever sends it.
             var response = await guard.ConfigurationOf(CS).WriteData(
-                                     LimitationOfPowerConsumption.KeyValueListData,
+                                     PowerLimitation.KeyValueListData,
                                      new DeviceConfigurationKeyValueListDataType {
                                          DeviceConfigurationKeyValueData = [
                                              new DeviceConfigurationKeyValueDataType {
@@ -434,7 +435,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             await guard.WriteConsumptionLimit(CS, 4200, IsActive: true);
 
-            Assert.That(system.StateMachine.State, Is.EqualTo(LPCState.Limited));
+            Assert.That(system.StateMachine.State, Is.EqualTo(PowerLimitationState.Limited));
 
             // The heartbeats keep arriving, and nothing happens.
             for (var i = 0; i < 3; i++)
@@ -443,7 +444,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
                 await system.Check();
             }
 
-            Assert.That(system.StateMachine.State, Is.EqualTo(LPCState.Limited),
+            Assert.That(system.StateMachine.State, Is.EqualTo(PowerLimitationState.Limited),
                         "The charging station fell into its failsafe state although the heartbeats arrived.");
 
             // The energy manager is unplugged.
@@ -456,8 +457,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
 
                 Assert.That(transition?.Transition,          Is.EqualTo(7));
-                Assert.That(system.StateMachine.State,       Is.EqualTo(LPCState.FailsafeState));
-                Assert.That(system.StateMachine.Limitation,  Is.EqualTo(LPCLimitation.FailsafeConsumptionActivePowerLimit));
+                Assert.That(system.StateMachine.State,       Is.EqualTo(PowerLimitationState.FailsafeState));
+                Assert.That(system.StateMachine.Limitation,  Is.EqualTo(PowerLimitationApplied.FailsafeLimit));
 
                 // [LPC-009/2]: and it says so, so an energy guard reading the
                 // limit sees what is actually happening.
@@ -493,7 +494,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             // No read: the notify came by itself.
             var loadControl = guard.LoadControlOf(CS);
 
-            var seen        = loadControl.Data<LoadControlLimitListDataType>(LimitationOfPowerConsumption.LimitListData)?.
+            var seen        = loadControl.Data<LoadControlLimitListDataType>(PowerLimitation.LimitListData)?.
                                   LoadControlLimitData?.FirstOrDefault();
 
             Assert.Multiple(() => {
@@ -526,7 +527,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             time.Advance(TimeSpan.FromSeconds(121));
             await system.Check();
 
-            Assert.That(system.StateMachine.State, Is.EqualTo(LPCState.FailsafeState));
+            Assert.That(system.StateMachine.State, Is.EqualTo(PowerLimitationState.FailsafeState));
 
             // The energy manager comes back: a heartbeat, and then a limit.
             await guard.StartHeartbeat();
@@ -535,7 +536,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             Assert.Multiple(() => {
                 Assert.That(response.IsError,               Is.False, response.Result?.Description);
-                Assert.That(system.StateMachine.State,      Is.EqualTo(LPCState.Limited));
+                Assert.That(system.StateMachine.State,      Is.EqualTo(PowerLimitationState.Limited));
                 Assert.That(system.ConsumptionLimit.Value,  Is.EqualTo(6000));
             });
 
@@ -569,7 +570,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
             Assert.Multiple(() => {
                 Assert.That(response.IsError,             Is.True);
                 Assert.That(response.Result?.Description, Does.Contain("heartbeat"));
-                Assert.That(system.StateMachine.State,    Is.EqualTo(LPCState.FailsafeState),
+                Assert.That(system.StateMachine.State,    Is.EqualTo(PowerLimitationState.FailsafeState),
                             "A limit without a heartbeat took the charging station out of its failsafe state.");
             });
 
@@ -614,7 +615,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
                                                     IsEnergyManager: true);
 
             var characteristic = manager.Electrical.
-                                     DataCopy<ElectricalConnectionCharacteristicListDataType>(LimitationOfPowerConsumption.CharacteristicListData)?.
+                                     DataCopy<ElectricalConnectionCharacteristicListDataType>(PowerLimitation.CharacteristicListData)?.
                                      ElectricalConnectionCharacteristicData?.FirstOrDefault();
 
             Assert.That(characteristic?.CharacteristicType,

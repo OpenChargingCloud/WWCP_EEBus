@@ -556,7 +556,14 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
         public async Task APartialReadOfAFeatureWhichCannotDoItIsAnsweredInFull()
         {
 
-            evseLoadControl.AddFunction(limits, Read: true, Write: true, PartialRead: false);
+            // Not "AddFunction(..., PartialRead: false)": offering a function
+            // twice combines the two declarations rather than replacing the
+            // first, so a capability the setup announced cannot be taken back
+            // that way. What this test needs is a feature which never announced
+            // a partial read, and saying so outright is clearer than arranging
+            // for it.
+            evseLoadControl.AddFunction(limits, Read: true, Write: true, PartialRead: false).Operations
+                = PossibleOperationsType.ReadAndMaybeWrite(Write: true, PartialRead: false);
 
             await evseLoadControl.SetData(limits, Limits((1, 1600, true),
                                                          (2,  800, true)));
@@ -576,6 +583,52 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
         #endregion
 
+
+        #region OfferingTheSameFunctionTwiceKeepsItsData()
+
+        /// <summary>
+        /// SPINE allows at most one feature of a given type and role per entity,
+        /// so everything on an entity which needs a load control feature shares
+        /// one - and each of them declares the functions it needs. Two use cases
+        /// on one entity is not exotic: a battery is limited in both directions
+        /// and runs the consumption and the production use case at once.
+        ///
+        /// The second declaration must therefore not start the function over.
+        /// It used to, which silently emptied whatever the first one had put
+        /// there and left the device announcing half of what it offered.
+        /// </summary>
+        [Test]
+        public async Task OfferingTheSameFunctionTwiceKeepsItsData()
+        {
+
+            await evseLoadControl.SetData(limits, Limits((1, 1600, true)));
+
+            // A second party on the same feature needs the same function, and
+            // needs to write it.
+            var functionData = evseLoadControl.AddFunction(limits,
+                                                           Read:          true,
+                                                           Write:         true,
+                                                           PartialWrite:  true);
+
+            Assert.Multiple(() => {
+
+                Assert.That((functionData.DataCopy() as LoadControlLimitListDataType)?.LoadControlLimitData,
+                            Has.Count.EqualTo(1),
+                            "The second declaration emptied the function.");
+
+                // The capabilities of the two declarations are combined: the
+                // partial read of the first survives ...
+                Assert.That(functionData.Operations.CanReadPartial,   Is.True);
+
+                // ... and the partial write the second one needs is added.
+                Assert.That(functionData.Operations.CanWrite,         Is.True);
+                Assert.That(functionData.Operations.CanWritePartial,  Is.True);
+
+            });
+
+        }
+
+        #endregion
 
         #region AReadOfAFunctionWhichHoldsNothingStillNamesTheFunction()
 
