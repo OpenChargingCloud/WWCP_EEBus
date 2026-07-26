@@ -85,12 +85,23 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// <param name="Role">Whether it offers its data or asks for it.</param>
         public SPINELocalFeature AddFeature(FeatureTypeType  FeatureType,
                                             RoleType         Role)
+
+            => AddFeature((id, entity) => new SPINELocalFeature(id, entity, FeatureType, Role));
+
+
+        /// <summary>
+        /// Add a feature of a kind of its own to this entity, i.e. the node
+        /// management. It gets the next free number.
+        /// </summary>
+        /// <typeparam name="T">A kind of feature.</typeparam>
+        /// <param name="Factory">How to create it, given its number and its entity.</param>
+        public T AddFeature<T>(Func<UInt32, SPINELocalEntity, T> Factory)
+
+            where T : SPINELocalFeature
+
         {
 
-            var feature = new SPINELocalFeature(NextFeatureId(),
-                                                this,
-                                                FeatureType,
-                                                Role);
+            var feature = Factory(NextFeatureId(), this);
 
             features[feature.Id] = feature;
 

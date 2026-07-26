@@ -96,6 +96,12 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// </summary>
         public SPINELocalEntity                  DeviceInformation    { get; }
 
+        /// <summary>
+        /// The node management feature of this device, which every device has at
+        /// entity 0, feature 0 (SPINE 1.3.0, 7.1).
+        /// </summary>
+        public SPINENodeManagement               NodeManagement       { get; }
+
         #endregion
 
         #region Events
@@ -135,6 +141,10 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
             // node management itself.
             this.DeviceInformation  = AddEntity([ SPINEAddresses.NodeManagementEntity ],
                                                 EntityTypeType.DeviceInformation);
+
+            this.NodeManagement     = DeviceInformation.AddFeature(
+                                          (id, entity) => new SPINENodeManagement(id, entity)
+                                      );
 
         }
 
@@ -200,6 +210,29 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
             => Address?.Feature is UInt32 id
                    ? Entity(Address.Entity)?.Feature(id)
                    : null;
+
+
+        /// <summary>
+        /// Give up an entity of this device.
+        ///
+        /// Whoever agreed to something with one of its features is not told
+        /// here: that is a notify of the detailed discovery, and it has to go
+        /// out before the entity is gone
+        /// (<see cref="SPINENodeManagement.NotifyEntityRemoved"/>).
+        /// </summary>
+        /// <param name="EntityId">The path of numbers naming the entity.</param>
+        public Boolean RemoveEntity(IEnumerable<UInt32> EntityId)
+        {
+
+            var key = KeyOf(EntityId);
+
+            // Entity 0 is what makes this a SPINE device.
+            if (key == KeyOf([ SPINEAddresses.NodeManagementEntity ]))
+                return false;
+
+            return entities.TryRemove(key, out _);
+
+        }
 
         #endregion
 

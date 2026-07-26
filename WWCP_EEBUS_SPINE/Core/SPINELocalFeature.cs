@@ -275,8 +275,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// Act on one incoming command.
         /// </summary>
         /// <returns>Null when it was handled, the reason otherwise.</returns>
-        internal async Task<ResultDataType?> HandleMessage(SPINEMessage       Message,
-                                                           CancellationToken  CancellationToken)
+        protected internal virtual async Task<ResultDataType?> HandleMessage(SPINEMessage       Message,
+                                                                             CancellationToken  CancellationToken)
         {
 
             if (Message.CmdClassifier == CmdClassifierType.Result)
@@ -321,7 +321,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
             Message.RemoteDevice.Sender.ResponseReceived(reference);
 
-            Complete(new SPINEResponse(reference,
+            Answered(new SPINEResponse(reference,
                                        null,
                                        null,
                                        Message.Cmd.ResultData,
@@ -419,7 +419,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
                 Message.RemoteDevice.Sender.ResponseReceived(reference);
 
-                Complete(new SPINEResponse(reference,
+                Answered(new SPINEResponse(reference,
                                            Message.Function,
                                            Message.RemoteFeature.DataCopy(Message.Function!),
                                            null,
@@ -500,7 +500,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         #endregion
 
 
-        #region (private) Ask(...) / Complete(Response)
+        #region (protected) Ask(...) / Answered(Response)
 
         /// <summary>
         /// Send a request and wait for what comes back.
@@ -511,11 +511,11 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// afterwards would be a race which is lost every time in the one case
         /// and now and then in the other.
         /// </summary>
-        private async Task<SPINEResponse> Ask(CmdClassifierType   CmdClassifier,
-                                              Boolean             AckRequest,
-                                              CmdType             Cmd,
-                                              SPINERemoteFeature  RemoteFeature,
-                                              CancellationToken   CancellationToken)
+        protected async Task<SPINEResponse> Ask(CmdClassifierType   CmdClassifier,
+                                                Boolean             AckRequest,
+                                                CmdType             Cmd,
+                                                SPINERemoteFeature  RemoteFeature,
+                                                CancellationToken   CancellationToken)
         {
 
             var sender                  = RemoteFeature.Device.Sender;
@@ -554,7 +554,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// <summary>
         /// An answer arrived for one of our requests.
         /// </summary>
-        private void Complete(SPINEResponse Response)
+        protected void Answered(SPINEResponse Response)
         {
 
             if (pending.TryGetValue(Response.MsgCounterReference, out var waiting))

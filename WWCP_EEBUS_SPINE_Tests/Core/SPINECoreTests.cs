@@ -131,8 +131,9 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             var device = new SPINELocalDevice("d:_i:19667_Test", DeviceTypeType.Generic);
 
-            var nodeManagement = device.DeviceInformation.
-                                     AddFeature(FeatureTypeType.NodeManagement, RoleType.Special);
+            // Nobody adds it: a device without node management is not a SPINE
+            // device, so it comes with the device.
+            var nodeManagement = device.NodeManagement;
 
             var other          = device.AddEntity(EntityTypeType.EVSE).
                                      AddFeature(FeatureTypeType.LoadControl, RoleType.Server);
