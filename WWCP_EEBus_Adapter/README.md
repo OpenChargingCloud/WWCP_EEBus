@@ -1,4 +1,4 @@
-# WWCP_EEBus_Adapter (parked)
+﻿# WWCP_EEBus_Adapter (parked)
 
 This folder holds the **WWCP integration layer** of the original EEBus prototype.
 It is *not* part of `WWCP_EEBus.sln` and is currently **not built**.
@@ -24,7 +24,7 @@ the OCPP stack (networking node ids, networking modes, request/response forwardi
 ## What happens next
 
 The new core implements the SHIP transport directly on Hermod's WebSocket client/server
-(see `ARBEITSPLAN.md`, WP04/WP05). Once it is complete, this adapter will be revived on
+(see `WORKPLAN.md` of EEBusConformanceTests, WP04/WP05). Once it is complete, this adapter will be revived on
 top of it to bridge EEBus into WWCP — then with `WWCP_Core` available as a sibling
 checkout again.
 

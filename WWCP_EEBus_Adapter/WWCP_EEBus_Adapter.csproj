@@ -8,7 +8,7 @@
 
   The SHIP/SPINE/UseCases core is built standalone on top of Styx + Hermod only.
   This code is kept as reference material and will be revived - against the finished
-  core - once the WWCP integration is on the agenda. See ARBEITSPLAN.md, WP-W0.
+  core - once the WWCP integration is on the agenda. See WORKPLAN.md of EEBusConformanceTests, WP-W0.
 -->
 <Project Sdk="Microsoft.NET.Sdk">
 
