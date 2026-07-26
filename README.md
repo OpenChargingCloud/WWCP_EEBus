@@ -25,6 +25,30 @@ SPINE is the higher level protocol of the *EEBus* family and runs on top of SHIP
 It defines data structures and message exchanges between devices.
 
 
+## Repository layout
+
+| Project | Content |
+|---------|---------|
+| `WWCP_EEBus_SHIP` | SHIP 1.0.1: messages, EEBus-JSON, message exchange state machines, mDNS discovery, certificates/SKI |
+| `WWCP_EEBus_SPINE` | SPINE 1.3.0: data model, device/entity/feature model, node management |
+| `WWCP_EEBus_UseCases` | EEBus use cases (LPC, LPP, MPC, MGCP, OPEV, OSCEV, ...) |
+| `*_Tests` | NUnit test suites |
+| `WWCP_EEBus_Adapter` | **Parked**, not part of the solution: the earlier WWCP/OverlayNetworking integration layer, see its own README |
+
+The SHIP/SPINE/UseCases stack is standalone: it only builds on
+[Styx](https://github.com/Vanaheimr/Styx) and [Hermod](https://github.com/Vanaheimr/Hermod),
+which are expected as sibling checkouts. This keeps the protocol implementation
+independently testable; the bridge into WWCP will be re-added later via the adapter project.
+
+Conformance and interoperability test suites for this stack (including simulations for the
+common e-mobility use cases and interop runs against ship-go/spine-go/eebus-go) live in
+[EEBusConformanceTests](https://github.com/OpenChargingCloud/EEBusConformanceTests).
+
+All timing relevant components (SHIP handshake timers, heartbeats, failsafe durations, ...)
+are driven by a `System.TimeProvider`, never by the wall clock, so that protocol timing can be
+tested deterministically.
+
+
 
 ### Your participation
 

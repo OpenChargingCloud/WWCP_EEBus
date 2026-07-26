@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Close Message
     /// </summary>
     /// <param name="ConnectionClose">A connection close.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPCloseMessage(ConnectionClose  ConnectionClose,
-                                  CustomData?      CustomData   = null)
+    public class SHIPCloseMessage(ConnectionClose  ConnectionClose)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.END)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData         [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPCloseMessage = new SHIPCloseMessage(
-                                       ConnectionClose,
-                                       CustomData
+                                       ConnectionClose
                                    );
 
                 if (CustomSHIPCloseMessageParser is not null)
@@ -175,20 +158,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// </summary>
         /// <param name="CustomSHIPCloseMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomConnectionCloseTypeSerializer">A delegate to serialize custom ConnectionCloseType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPCloseMessage>?  CustomSHIPCloseMessageSerializer      = null,
-                              CustomJObjectSerializerDelegate<ConnectionClose>?   CustomConnectionCloseTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?        CustomCustomDataSerializer            = null)
+                              CustomJObjectSerializerDelegate<ConnectionClose>?   CustomConnectionCloseTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("connectionClose",    ConnectionClose.ToJSON(CustomConnectionCloseTypeSerializer,
-                                                                                            CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",         CustomData.     ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("connectionClose",    ConnectionClose.ToJSON(CustomConnectionCloseTypeSerializer))
 
                        );
 

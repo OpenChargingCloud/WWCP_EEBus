@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2014-2025 GraphDefined GmbH <achim.friedland@graphdefined.com>
+/*
+ * Copyright (c) 2014-2026 GraphDefined GmbH <achim.friedland@graphdefined.com>
  * This file is part of WWCP EEBus <https://github.com/OpenChargingCloud/WWCP_EEBus>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,28 +17,47 @@
 
 #region Usings
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
+using org.GraphDefined.Vanaheimr.Illias;
 
 #endregion
 
-namespace cloud.charging.open.protocols.EEBus
+namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
     /// <summary>
-    /// The current EEBus version.
+    /// The SHIP protocol version implemented by this library.
     /// </summary>
     public static class Version
     {
 
         /// <summary>
-        /// This EEBus version 0.1 as text "v0.1".
+        /// The implemented SHIP specification version "1.0.1"
+        /// (EEBus_SHIP_TS_Specification_v1.0.1).
         /// </summary>
-        public const            String      String   = "v0.1";
+        public const            String      String       = "1.0.1";
 
         /// <summary>
-        /// This EEBus version "0.1" as version identification.
+        /// The implemented SHIP specification version as version identification.
         /// </summary>
-        public readonly static  Version_Id  Id       = Version_Id.Parse(String[1..]);
+        public readonly static  Version_Id  Id           = Version_Id.Parse(String);
+
+        /// <summary>
+        /// The major/minor version announced within the SHIP message protocol handshake
+        /// (SHIP TS 1.0.1, chapter 13.4.4.2).
+        /// </summary>
+        public const            Byte        Major        = 1;
+
+        /// <summary>
+        /// The major/minor version announced within the SHIP message protocol handshake
+        /// (SHIP TS 1.0.1, chapter 13.4.4.2).
+        /// </summary>
+        public const            Byte        Minor        = 0;
+
+        /// <summary>
+        /// The well-known protocol identification of SPINE payloads within SHIP data messages
+        /// (SHIP TS 1.0.1, chapter 14).
+        /// </summary>
+        public const            String      ProtocolId   = "ee1.0";
 
     }
 

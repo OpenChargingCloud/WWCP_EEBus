@@ -23,17 +23,14 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
-    public class MessageProtocolHandshakeError(Byte         Error,
-                                               CustomData?  CustomData   = null)
+    public class MessageProtocolHandshakeError(Byte         Error)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -121,24 +118,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData    [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 MessageProtocolHandshakeError = new MessageProtocolHandshakeError(
-                                                    Error,
-                                                    CustomData
+                                                    Error
                                                 );
 
                 if (CustomMessageProtocolHandshakeErrorTypeParser is not null)
@@ -165,18 +148,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// Return a JSON representation of this object.
         /// </summary>
         /// <param name="CustomMessageProtocolHandshakeErrorTypeSerializer">A delegate to serialize custom MessageProtocolHandshakeErrorType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<MessageProtocolHandshakeError>?  CustomMessageProtocolHandshakeErrorTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?                     CustomCustomDataSerializer                          = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<MessageProtocolHandshakeError>?  CustomMessageProtocolHandshakeErrorTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("error",        Error),
-
-                           CustomData is not null
-                               ? new JProperty("customData",   CustomData.ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("error",        Error)
 
                        );
 

@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -32,10 +31,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
     public class ConnectionHello(ConnectionHelloPhase  Phase,
                                  UInt32?               Waiting               = null,
-                                 Boolean?              ProlongationRequest   = null,
-                                 CustomData?           CustomData            = null)
+                                 Boolean?              ProlongationRequest   = null)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -158,26 +155,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData             [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 ConnectionHello = new ConnectionHello(
                                           Phase,
                                           Waiting,
-                                          ProlongationRequest,
-                                          CustomData
+                                          ProlongationRequest
                                       );
 
                 if (CustomConnectionHelloParser is not null)
@@ -204,9 +187,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// Return a JSON representation of this object.
         /// </summary>
         /// <param name="CustomConnectionHelloSerializer">A delegate to serialize custom ConnectionHello objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<ConnectionHello>?  CustomConnectionHelloSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?       CustomCustomDataSerializer        = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<ConnectionHello>?  CustomConnectionHelloSerializer   = null)
         {
 
             var json = JSONObject.Create(
@@ -219,10 +200,6 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                            ProlongationRequest.HasValue
                                ? new JProperty("prolongationRequest",   ProlongationRequest.Value)
-                               : null,
-
-                           CustomData is not null
-                               ? new JProperty("customData",            CustomData.         ToJSON(CustomCustomDataSerializer))
                                : null
 
                        );

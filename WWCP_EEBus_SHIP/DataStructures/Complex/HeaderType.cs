@@ -23,17 +23,14 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
-    public class HeaderType(String       ProtocolId,
-                            CustomData?  CustomData   = null)
+    public class HeaderType(String       ProtocolId)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -121,24 +118,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData    [optional]
-
-                if (JSON.ParseOptionalJSON("customHeader",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 HeaderType = new HeaderType(
-                                 ProtocolId,
-                                 CustomData
+                                 ProtocolId
                              );
 
                 if (CustomHeaderTypeParser is not null)
@@ -165,18 +148,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// Return a JSON representation of this object.
         /// </summary>
         /// <param name="CustomHeaderTypeSerializer">A delegate to serialize custom HeaderType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<HeaderType>?  CustomHeaderTypeSerializer     = null,
-                              CustomJObjectSerializerDelegate<CustomData>?  CustomCustomDataSerializer   = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<HeaderType>?  CustomHeaderTypeSerializer     = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("protocolId",     ProtocolId),
-
-                           CustomData is not null
-                               ? new JProperty("customHeader",   CustomData.ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("protocolId",     ProtocolId)
 
                        );
 

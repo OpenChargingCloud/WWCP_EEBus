@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) 2014-2025 GraphDefined GmbH <achim.friedland@graphdefined.com>
+/*
+ * Copyright (c) 2014-2026 GraphDefined GmbH <achim.friedland@graphdefined.com>
  * This file is part of WWCP EEBus <https://github.com/OpenChargingCloud/WWCP_EEBus>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,36 +17,35 @@
 
 #region Usings
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
+using org.GraphDefined.Vanaheimr.Illias;
 
 #endregion
 
-namespace cloud.charging.open.protocols.EEBus
+namespace cloud.charging.open.protocols.EEBus.SPINE
 {
 
     /// <summary>
-    /// The current EEBus version.
+    /// The SPINE protocol version implemented by this library.
     /// </summary>
     public static class Version
     {
 
         /// <summary>
-        /// This EEBus version 0.1 as text "v0.1".
+        /// The implemented SPINE specification version "1.3.0"
+        /// (EEBus_SPINE_TS_ProtocolSpecification, final 2023-08-31), sent as
+        /// "specificationVersion" within every SPINE datagram header.
         /// </summary>
-        public const            String      String                = "v1.0";
+        public const            String      String         = "1.3.0";
 
         /// <summary>
-        /// This EEBus version "0.1" as version identification.
+        /// The implemented SPINE specification version as version identification.
         /// </summary>
-        public readonly static  Version_Id  Id                    = Version_Id.Parse(String[1..]);
-
+        public readonly static  Version_Id  Id             = Version_Id.Parse(String);
 
         /// <summary>
-        /// EEBus specifications that are compatible to the
-        /// SPINE data model specification base version 1.0.
+        /// The XML namespace of the SPINE data model.
         /// </summary>
-        public const            String      SPINE_VersionString   = "ee1.0";
-
+        public const            String      XMLNamespace   = "http://docs.eebus.org/spine/xsd/v1";
 
     }
 

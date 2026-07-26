@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -32,10 +31,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
     public class DataType(HeaderType      Header,
                           JToken          Payload,
-                          ExtensionType?  Extension    = null,
-                          CustomData?     CustomData   = null)
+                          ExtensionType?  Extension    = null)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -158,26 +155,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData    [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 DataType = new DataType(
                                Header,
                                Payload,
-                               Extension,
-                               CustomData
+                               Extension
                            );
 
                 if (CustomDataTypeParser is not null)
@@ -205,25 +188,18 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// </summary>
         /// <param name="CustomDataTypeSerializer">A delegate to serialize custom DataType objects.</param>
         /// <param name="CustomHeaderTypeSerializer">A delegate to serialize custom HeaderType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<DataType>?    CustomDataTypeSerializer     = null,
-                              CustomJObjectSerializerDelegate<HeaderType>?  CustomHeaderTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?  CustomCustomDataSerializer   = null)
+                              CustomJObjectSerializerDelegate<HeaderType>?  CustomHeaderTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("header",       Header.    ToJSON(CustomHeaderTypeSerializer,
-                                                                                 CustomCustomDataSerializer)),
+                                 new JProperty("header",       Header.    ToJSON(CustomHeaderTypeSerializer)),
 
                                  new JProperty("payload",      Payload),
 
                            Extension is not null
                                ? new JProperty("extension",    Extension. ToJSON())
-                               : null,
-
-                           CustomData is not null
-                               ? new JProperty("customData",   CustomData.ToJSON(CustomCustomDataSerializer))
                                : null
 
                        );

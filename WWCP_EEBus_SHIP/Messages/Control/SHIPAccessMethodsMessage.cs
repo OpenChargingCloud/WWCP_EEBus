@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP-Access-Methods Message
     /// </summary>
     /// <param name="AccessMethodsRequest">An access methods request.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPAccessMethodsMessage(AccessMethodsType  AccessMethodsRequest,
-                                          CustomData?        CustomData   = null)
+    public class SHIPAccessMethodsMessage(AccessMethodsType  AccessMethodsRequest)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.CONTROL)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData              [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPAccessMethodsMessage = new SHIPAccessMethodsMessage(
-                                                AccessMethodsRequest,
-                                                CustomData
+                                                AccessMethodsRequest
                                             );
 
                 if (CustomSHIPAccessMethodsMessageParser is not null)
@@ -176,22 +159,15 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="CustomSHIPAccessMethodsMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomAccessMethodsTypeSerializer">A delegate to serialize custom AccessMethodsType objects.</param>
         /// <param name="CustomAccessMethodsTypeDNSSerializer">A delegate to serialize custom AccessMethodsTypeDNS objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPAccessMethodsMessage>?  CustomSHIPAccessMethodsMessageSerializer   = null,
                               CustomJObjectSerializerDelegate<AccessMethodsType>?         CustomAccessMethodsTypeSerializer          = null,
-                              CustomJObjectSerializerDelegate<AccessMethodsTypeDNS>?      CustomAccessMethodsTypeDNSSerializer       = null,                              
-                              CustomJObjectSerializerDelegate<CustomData>?                CustomCustomDataSerializer                 = null)
+                              CustomJObjectSerializerDelegate<AccessMethodsTypeDNS>?      CustomAccessMethodsTypeDNSSerializer       = null)
         {
 
             var json = JSONObject.Create(
 
                                  new JProperty("accessMethodsRequest",   AccessMethodsRequest.ToJSON(CustomAccessMethodsTypeSerializer,
-                                                                                                     CustomAccessMethodsTypeDNSSerializer,
-                                                                                                     CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",             CustomData.          ToJSON(CustomCustomDataSerializer))
-                               : null
+                                                                                                     CustomAccessMethodsTypeDNSSerializer))
 
                        );
 
