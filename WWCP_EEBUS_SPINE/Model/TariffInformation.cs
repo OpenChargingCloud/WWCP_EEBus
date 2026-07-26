@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// CommodityDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class CommodityDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class CommodityDataElementsType
     {
 
         /// <summary>
@@ -79,7 +81,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// CommodityDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class CommodityDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class CommodityDataType
     {
 
         /// <summary>
@@ -119,7 +122,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// CommodityListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class CommodityListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class CommodityListDataSelectorsType
     {
 
         /// <summary>
@@ -140,7 +144,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// CommodityListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class CommodityListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class CommodityListDataType
     {
 
         /// <summary>
@@ -155,7 +160,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDataElementsType
     {
 
         /// <summary>
@@ -200,7 +206,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDataType
     {
 
         /// <summary>
@@ -246,7 +253,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDescriptionDataElementsType
     {
 
         /// <summary>
@@ -297,7 +305,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDescriptionDataType
     {
 
         /// <summary>
@@ -349,7 +358,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -370,7 +380,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveDescriptionListDataType
     {
 
         /// <summary>
@@ -385,7 +396,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveListDataSelectorsType
     {
 
         /// <summary>
@@ -412,7 +424,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class IncentiveListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveListDataType
     {
 
         /// <summary>
@@ -427,7 +440,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffBoundaryRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffBoundaryRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffBoundaryRelationDataElementsType
     {
 
         /// <summary>
@@ -448,7 +462,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffBoundaryRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffBoundaryRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffBoundaryRelationDataType
     {
 
         /// <summary>
@@ -470,7 +485,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffBoundaryRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffBoundaryRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffBoundaryRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -491,7 +507,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffBoundaryRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffBoundaryRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffBoundaryRelationListDataType
     {
 
         /// <summary>
@@ -506,7 +523,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDataElementsType
     {
 
         /// <summary>
@@ -527,7 +545,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDataType
     {
 
         /// <summary>
@@ -549,7 +568,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDescriptionDataElementsType
     {
 
         /// <summary>
@@ -612,7 +632,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDescriptionDataType
     {
 
         /// <summary>
@@ -676,7 +697,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -709,7 +731,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffDescriptionListDataType
     {
 
         /// <summary>
@@ -724,7 +747,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffListDataSelectorsType
     {
 
         /// <summary>
@@ -745,7 +769,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffListDataType
     {
 
         /// <summary>
@@ -760,7 +785,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffOverallConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffOverallConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffOverallConstraintsDataElementsType
     {
 
         /// <summary>
@@ -817,7 +843,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffOverallConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffOverallConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffOverallConstraintsDataType
     {
 
         /// <summary>
@@ -874,7 +901,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffTierRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffTierRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffTierRelationDataElementsType
     {
 
         /// <summary>
@@ -895,7 +923,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffTierRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffTierRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffTierRelationDataType
     {
 
         /// <summary>
@@ -917,7 +946,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffTierRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffTierRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffTierRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -938,7 +968,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TariffTierRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TariffTierRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TariffTierRelationListDataType
     {
 
         /// <summary>
@@ -953,7 +984,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDataElementsType
     {
 
         /// <summary>
@@ -992,7 +1024,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDataType
     {
 
         /// <summary>
@@ -1032,7 +1065,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDescriptionDataElementsType
     {
 
         /// <summary>
@@ -1089,7 +1123,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDescriptionDataType
     {
 
         /// <summary>
@@ -1147,7 +1182,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -1168,7 +1204,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryDescriptionListDataType
     {
 
         /// <summary>
@@ -1183,7 +1220,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryListDataSelectorsType
     {
 
         /// <summary>
@@ -1198,7 +1236,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierBoundaryListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierBoundaryListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierBoundaryListDataType
     {
 
         /// <summary>
@@ -1213,7 +1252,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDataElementsType
     {
 
         /// <summary>
@@ -1246,7 +1286,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDataType
     {
 
         /// <summary>
@@ -1280,7 +1321,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDescriptionDataElementsType
     {
 
         /// <summary>
@@ -1313,7 +1355,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDescriptionDataType
     {
 
         /// <summary>
@@ -1347,7 +1390,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -1368,7 +1412,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierDescriptionListDataType
     {
 
         /// <summary>
@@ -1383,7 +1428,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierIncentiveRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierIncentiveRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierIncentiveRelationDataElementsType
     {
 
         /// <summary>
@@ -1404,7 +1450,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierIncentiveRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierIncentiveRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierIncentiveRelationDataType
     {
 
         /// <summary>
@@ -1426,7 +1473,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierIncentiveRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierIncentiveRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierIncentiveRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -1447,7 +1495,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierIncentiveRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierIncentiveRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierIncentiveRelationListDataType
     {
 
         /// <summary>
@@ -1462,7 +1511,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierListDataSelectorsType
     {
 
         /// <summary>
@@ -1483,7 +1533,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TierListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TariffInformation.xsd).
     /// </summary>
-    public class TierListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TierListDataType
     {
 
         /// <summary>

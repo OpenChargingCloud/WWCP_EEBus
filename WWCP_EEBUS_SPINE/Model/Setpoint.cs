@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointConstraintsDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointConstraintsDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointConstraintsListDataType
     {
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDataElementsType
     {
 
         /// <summary>
@@ -200,7 +206,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDataType
     {
 
         /// <summary>
@@ -264,7 +271,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDescriptionDataElementsType
     {
 
         /// <summary>
@@ -321,7 +329,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDescriptionDataType
     {
 
         /// <summary>
@@ -381,7 +390,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -420,7 +430,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointDescriptionListDataType
     {
 
         /// <summary>
@@ -435,7 +446,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointListDataSelectorsType
     {
 
         /// <summary>
@@ -450,7 +462,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SetpointListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Setpoint.xsd).
     /// </summary>
-    public class SetpointListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SetpointListDataType
     {
 
         /// <summary>

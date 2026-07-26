@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableConstraintsDataElementsType
     {
 
         /// <summary>
@@ -97,7 +99,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableConstraintsDataType
     {
 
         /// <summary>
@@ -155,7 +158,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -170,7 +174,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableConstraintsListDataType
     {
 
         /// <summary>
@@ -185,7 +190,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDataElementsType
     {
 
         /// <summary>
@@ -224,7 +230,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDataType
     {
 
         /// <summary>
@@ -265,7 +272,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDescriptionDataElementsType
     {
 
         /// <summary>
@@ -310,7 +318,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDescriptionDataType
     {
 
         /// <summary>
@@ -356,7 +365,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -371,7 +381,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableDescriptionListDataType
     {
 
         /// <summary>
@@ -386,7 +397,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableListDataSelectorsType
     {
 
         /// <summary>
@@ -407,7 +419,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeTableListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeTable.xsd).
     /// </summary>
-    public class TimeTableListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeTableListDataType
     {
 
         /// <summary>

@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsDurationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsDurationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsDurationDataElementsType
     {
 
         /// <summary>
@@ -91,7 +93,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsDurationDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsDurationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsDurationDataType
     {
 
         /// <summary>
@@ -143,7 +146,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsDurationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsDurationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsDurationListDataSelectorsType
     {
 
         /// <summary>
@@ -158,7 +162,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsDurationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsDurationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsDurationListDataType
     {
 
         /// <summary>
@@ -173,7 +178,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsInterruptDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsInterruptDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsInterruptDataElementsType
     {
 
         /// <summary>
@@ -212,7 +218,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsInterruptDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsInterruptDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsInterruptDataType
     {
 
         /// <summary>
@@ -252,7 +259,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsInterruptListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsInterruptListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsInterruptListDataSelectorsType
     {
 
         /// <summary>
@@ -267,7 +275,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsInterruptListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsInterruptListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsInterruptListDataType
     {
 
         /// <summary>
@@ -282,7 +291,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerDescriptionDataElementsType
     {
 
         /// <summary>
@@ -321,7 +331,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerDescriptionDataType
     {
 
         /// <summary>
@@ -361,7 +372,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -376,7 +388,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerDescriptionListDataType
     {
 
         /// <summary>
@@ -391,7 +404,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerLevelDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerLevelDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerLevelDataElementsType
     {
 
         /// <summary>
@@ -412,7 +426,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerLevelDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerLevelDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerLevelDataType
     {
 
         /// <summary>
@@ -434,7 +449,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerLevelListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerLevelListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerLevelListDataSelectorsType
     {
 
         /// <summary>
@@ -449,7 +465,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerLevelListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerLevelListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerLevelListDataType
     {
 
         /// <summary>
@@ -464,7 +481,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerRangeDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerRangeDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerRangeDataElementsType
     {
 
         /// <summary>
@@ -503,7 +521,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerRangeDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerRangeDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerRangeDataType
     {
 
         /// <summary>
@@ -543,7 +562,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerRangeListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerRangeListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerRangeListDataSelectorsType
     {
 
         /// <summary>
@@ -558,7 +578,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsPowerRangeListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsPowerRangeListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsPowerRangeListDataType
     {
 
         /// <summary>
@@ -573,7 +594,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsResumeImplicationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsResumeImplicationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsResumeImplicationDataElementsType
     {
 
         /// <summary>
@@ -612,7 +634,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsResumeImplicationDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsResumeImplicationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsResumeImplicationDataType
     {
 
         /// <summary>
@@ -652,7 +675,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsResumeImplicationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsResumeImplicationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsResumeImplicationListDataSelectorsType
     {
 
         /// <summary>
@@ -667,7 +691,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// OperatingConstraintsResumeImplicationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_OperatingConstraints.xsd).
     /// </summary>
-    public class OperatingConstraintsResumeImplicationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class OperatingConstraintsResumeImplicationListDataType
     {
 
         /// <summary>

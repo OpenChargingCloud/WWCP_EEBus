@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IdentificationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class IdentificationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IdentificationDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IdentificationDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class IdentificationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IdentificationDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IdentificationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class IdentificationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IdentificationListDataSelectorsType
     {
 
         /// <summary>
@@ -128,7 +132,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IdentificationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class IdentificationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IdentificationListDataType
     {
 
         /// <summary>
@@ -143,7 +148,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionIdentificationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionIdentificationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionIdentificationDataElementsType
     {
 
         /// <summary>
@@ -176,7 +182,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionIdentificationDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionIdentificationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionIdentificationDataType
     {
 
         /// <summary>
@@ -210,7 +217,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionIdentificationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionIdentificationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionIdentificationListDataSelectorsType
     {
 
         /// <summary>
@@ -243,7 +251,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionIdentificationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionIdentificationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionIdentificationListDataType
     {
 
         /// <summary>
@@ -258,7 +267,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionMeasurementRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionMeasurementRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionMeasurementRelationDataElementsType
     {
 
         /// <summary>
@@ -279,7 +289,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionMeasurementRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionMeasurementRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionMeasurementRelationDataType
     {
 
         /// <summary>
@@ -301,7 +312,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionMeasurementRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionMeasurementRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionMeasurementRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -322,7 +334,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SessionMeasurementRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Identification.xsd).
     /// </summary>
-    public class SessionMeasurementRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SessionMeasurementRelationListDataType
     {
 
         /// <summary>

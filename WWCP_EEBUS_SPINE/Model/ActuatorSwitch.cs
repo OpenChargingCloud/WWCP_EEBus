@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ActuatorSwitchDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ActuatorSwitch.xsd).
     /// </summary>
-    public class ActuatorSwitchDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ActuatorSwitchDataElementsType
     {
 
         /// <summary>
@@ -55,7 +57,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ActuatorSwitchDataType (SPINE 1.3.0, EEBus_SPINE_TS_ActuatorSwitch.xsd).
     /// </summary>
-    public class ActuatorSwitchDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ActuatorSwitchDataType
     {
 
         /// <summary>
@@ -70,7 +73,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ActuatorSwitchDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ActuatorSwitch.xsd).
     /// </summary>
-    public class ActuatorSwitchDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ActuatorSwitchDescriptionDataElementsType
     {
 
         /// <summary>
@@ -91,7 +95,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ActuatorSwitchDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_ActuatorSwitch.xsd).
     /// </summary>
-    public class ActuatorSwitchDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ActuatorSwitchDescriptionDataType
     {
 
         /// <summary>

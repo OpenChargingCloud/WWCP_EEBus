@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillConstraintsDataElementsType
     {
 
         /// <summary>
@@ -67,7 +69,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillConstraintsDataType
     {
 
         /// <summary>
@@ -95,7 +98,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -110,7 +114,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillConstraintsListDataType
     {
 
         /// <summary>
@@ -125,7 +130,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillCostElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillCostElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillCostElementsType
     {
 
         /// <summary>
@@ -176,7 +182,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillCostType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillCostType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillCostType
     {
 
         /// <summary>
@@ -227,7 +234,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDataElementsType
     {
 
         /// <summary>
@@ -266,7 +274,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDataType
     {
 
         /// <summary>
@@ -306,7 +315,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDescriptionDataElementsType
     {
 
         /// <summary>
@@ -345,7 +355,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDescriptionDataType
     {
 
         /// <summary>
@@ -385,7 +396,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -400,7 +412,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillDescriptionListDataType
     {
 
         /// <summary>
@@ -415,7 +428,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillListDataSelectorsType
     {
 
         /// <summary>
@@ -436,7 +450,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillListDataType
     {
 
         /// <summary>
@@ -451,7 +466,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillPositionElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillPositionElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillPositionElementsType
     {
 
         /// <summary>
@@ -502,7 +518,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillPositionType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillPositionType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillPositionType
     {
 
         /// <summary>
@@ -553,7 +570,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillValueElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillValueElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillValueElementsType
     {
 
         /// <summary>
@@ -586,7 +604,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// BillValueType (SPINE 1.3.0, EEBus_SPINE_TS_Bill.xsd).
     /// </summary>
-    public class BillValueType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class BillValueType
     {
 
         /// <summary>

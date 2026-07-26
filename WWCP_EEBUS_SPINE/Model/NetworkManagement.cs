@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementAbortCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementAbortCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementAbortCallElementsType
     {
 
     }
@@ -49,7 +51,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementAbortCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementAbortCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementAbortCallType
     {
 
     }
@@ -58,7 +61,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementAddNodeCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementAddNodeCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementAddNodeCallElementsType
     {
 
         /// <summary>
@@ -97,7 +101,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementAddNodeCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementAddNodeCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementAddNodeCallType
     {
 
         /// <summary>
@@ -136,7 +141,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDeviceDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDeviceDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDeviceDescriptionDataElementsType
     {
 
         /// <summary>
@@ -211,7 +217,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDeviceDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDeviceDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDeviceDescriptionDataType
     {
 
         /// <summary>
@@ -287,7 +294,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDeviceDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDeviceDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDeviceDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -308,7 +316,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDeviceDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDeviceDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDeviceDescriptionListDataType
     {
 
         /// <summary>
@@ -323,7 +332,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDiscoverCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDiscoverCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDiscoverCallElementsType
     {
 
         /// <summary>
@@ -338,7 +348,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementDiscoverCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementDiscoverCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementDiscoverCallType
     {
 
         /// <summary>
@@ -353,7 +364,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementEntityDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementEntityDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementEntityDescriptionDataElementsType
     {
 
         /// <summary>
@@ -398,7 +410,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementEntityDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementEntityDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementEntityDescriptionDataType
     {
 
         /// <summary>
@@ -444,7 +457,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementEntityDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementEntityDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementEntityDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -465,7 +479,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementEntityDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementEntityDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementEntityDescriptionListDataType
     {
 
         /// <summary>
@@ -480,7 +495,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementFeatureDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementFeatureDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementFeatureDescriptionDataElementsType
     {
 
         /// <summary>
@@ -555,7 +571,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementFeatureDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementFeatureDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementFeatureDescriptionDataType
     {
 
         /// <summary>
@@ -631,7 +648,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementFeatureDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementFeatureDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementFeatureDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -652,7 +670,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementFeatureDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementFeatureDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementFeatureDescriptionListDataType
     {
 
         /// <summary>
@@ -667,7 +686,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementJoiningModeDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementJoiningModeDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementJoiningModeDataElementsType
     {
 
         /// <summary>
@@ -682,7 +702,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementJoiningModeDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementJoiningModeDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementJoiningModeDataType
     {
 
         /// <summary>
@@ -697,7 +718,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementModifyNodeCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementModifyNodeCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementModifyNodeCallElementsType
     {
 
         /// <summary>
@@ -736,7 +758,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementModifyNodeCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementModifyNodeCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementModifyNodeCallType
     {
 
         /// <summary>
@@ -775,7 +798,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementProcessStateDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementProcessStateDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementProcessStateDataElementsType
     {
 
         /// <summary>
@@ -796,7 +820,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementProcessStateDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementProcessStateDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementProcessStateDataType
     {
 
         /// <summary>
@@ -817,7 +842,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementRemoveNodeCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementRemoveNodeCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementRemoveNodeCallElementsType
     {
 
         /// <summary>
@@ -838,7 +864,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementRemoveNodeCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementRemoveNodeCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementRemoveNodeCallType
     {
 
         /// <summary>
@@ -859,7 +886,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementReportCandidateDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementReportCandidateDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementReportCandidateDataElementsType
     {
 
         /// <summary>
@@ -892,7 +920,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementReportCandidateDataType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementReportCandidateDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementReportCandidateDataType
     {
 
         /// <summary>
@@ -925,7 +954,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementScanNetworkCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementScanNetworkCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementScanNetworkCallElementsType
     {
 
         /// <summary>
@@ -946,7 +976,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NetworkManagementScanNetworkCallType (SPINE 1.3.0, EEBus_SPINE_TS_NetworkManagement.xsd).
     /// </summary>
-    public class NetworkManagementScanNetworkCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NetworkManagementScanNetworkCallType
     {
 
         /// <summary>

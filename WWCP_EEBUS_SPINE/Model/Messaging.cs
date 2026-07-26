@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MessagingDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Messaging.xsd).
     /// </summary>
-    public class MessagingDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MessagingDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MessagingDataType (SPINE 1.3.0, EEBus_SPINE_TS_Messaging.xsd).
     /// </summary>
-    public class MessagingDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MessagingDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MessagingListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Messaging.xsd).
     /// </summary>
-    public class MessagingListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MessagingListDataSelectorsType
     {
 
         /// <summary>
@@ -128,7 +132,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MessagingListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Messaging.xsd).
     /// </summary>
-    public class MessagingListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MessagingListDataType
     {
 
         /// <summary>

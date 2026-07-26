@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOperationModeDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOperationModeDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOperationModeDescriptionDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOperationModeDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOperationModeDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOperationModeDescriptionDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOperationModeDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOperationModeDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOperationModeDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOperationModeDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOperationModeDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOperationModeDescriptionListDataType
     {
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDataElementsType
     {
 
         /// <summary>
@@ -170,7 +176,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDataType
     {
 
         /// <summary>
@@ -204,7 +211,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDescriptionDataElementsType
     {
 
         /// <summary>
@@ -243,7 +251,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDescriptionDataType
     {
 
         /// <summary>
@@ -283,7 +292,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -298,7 +308,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunDescriptionListDataType
     {
 
         /// <summary>
@@ -313,7 +324,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunListDataSelectorsType
     {
 
         /// <summary>
@@ -328,7 +340,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacOverrunListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacOverrunListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacOverrunListDataType
     {
 
         /// <summary>
@@ -343,7 +356,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDataElementsType
     {
 
         /// <summary>
@@ -388,7 +402,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDataType
     {
 
         /// <summary>
@@ -434,7 +449,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDescriptionDataElementsType
     {
 
         /// <summary>
@@ -467,7 +483,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDescriptionDataType
     {
 
         /// <summary>
@@ -501,7 +518,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -516,7 +534,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionDescriptionListDataType
     {
 
         /// <summary>
@@ -531,7 +550,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionListDataSelectorsType
     {
 
         /// <summary>
@@ -546,7 +566,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionListDataType
     {
 
         /// <summary>
@@ -561,7 +582,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionOperationModeRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionOperationModeRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionOperationModeRelationDataElementsType
     {
 
         /// <summary>
@@ -582,7 +604,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionOperationModeRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionOperationModeRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionOperationModeRelationDataType
     {
 
         /// <summary>
@@ -604,7 +627,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionOperationModeRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionOperationModeRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionOperationModeRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -619,7 +643,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionOperationModeRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionOperationModeRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionOperationModeRelationListDataType
     {
 
         /// <summary>
@@ -634,7 +659,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionPowerSequenceRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionPowerSequenceRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionPowerSequenceRelationDataElementsType
     {
 
         /// <summary>
@@ -655,7 +681,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionPowerSequenceRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionPowerSequenceRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionPowerSequenceRelationDataType
     {
 
         /// <summary>
@@ -677,7 +704,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionPowerSequenceRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionPowerSequenceRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionPowerSequenceRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -692,7 +720,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionPowerSequenceRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionPowerSequenceRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionPowerSequenceRelationListDataType
     {
 
         /// <summary>
@@ -707,7 +736,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionSetpointRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionSetpointRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionSetpointRelationDataElementsType
     {
 
         /// <summary>
@@ -734,7 +764,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionSetpointRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionSetpointRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionSetpointRelationDataType
     {
 
         /// <summary>
@@ -763,7 +794,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionSetpointRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionSetpointRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionSetpointRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -784,7 +816,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// HvacSystemFunctionSetpointRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_HVAC.xsd).
     /// </summary>
-    public class HvacSystemFunctionSetpointRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class HvacSystemFunctionSetpointRelationListDataType
     {
 
         /// <summary>

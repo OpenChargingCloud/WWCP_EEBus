@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementDirectControlRelatedElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementDirectControlRelatedElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementDirectControlRelatedElementsType
     {
 
     }
@@ -49,7 +51,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementDirectControlRelatedType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementDirectControlRelatedType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementDirectControlRelatedType
     {
 
     }
@@ -58,7 +61,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementHvacRelatedElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementHvacRelatedElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementHvacRelatedElementsType
     {
 
         /// <summary>
@@ -73,7 +77,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementHvacRelatedType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementHvacRelatedType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementHvacRelatedType
     {
 
         /// <summary>
@@ -88,7 +93,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDataElementsType
     {
 
         /// <summary>
@@ -127,7 +133,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDataType
     {
 
         /// <summary>
@@ -167,7 +174,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDescriptionDataElementsType
     {
 
         /// <summary>
@@ -200,7 +208,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDescriptionDataType
     {
 
         /// <summary>
@@ -234,7 +243,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -255,7 +265,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobDescriptionListDataType
     {
 
         /// <summary>
@@ -270,7 +281,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobListDataSelectorsType
     {
 
         /// <summary>
@@ -291,7 +303,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobListDataType
     {
 
         /// <summary>
@@ -306,7 +319,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobRelationDataElementsType
     {
 
         /// <summary>
@@ -351,7 +365,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobRelationDataType
     {
 
         /// <summary>
@@ -397,7 +412,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -412,7 +428,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementJobRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementJobRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementJobRelationListDataType
     {
 
         /// <summary>
@@ -427,7 +444,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementLoadControlReleatedElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementLoadControlReleatedElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementLoadControlReleatedElementsType
     {
 
         /// <summary>
@@ -442,7 +460,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementLoadControlReleatedType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementLoadControlReleatedType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementLoadControlReleatedType
     {
 
         /// <summary>
@@ -457,7 +476,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementOverviewDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementOverviewDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementOverviewDataElementsType
     {
 
         /// <summary>
@@ -478,7 +498,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementOverviewDataType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementOverviewDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementOverviewDataType
     {
 
         /// <summary>
@@ -499,7 +520,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementPowerSequencesRelatedElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementPowerSequencesRelatedElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementPowerSequencesRelatedElementsType
     {
 
         /// <summary>
@@ -514,7 +536,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementPowerSequencesRelatedType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementPowerSequencesRelatedType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementPowerSequencesRelatedType
     {
 
         /// <summary>
@@ -529,7 +552,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementSmartEnergyManagementPsRelatedElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementSmartEnergyManagementPsRelatedElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementSmartEnergyManagementPsRelatedElementsType
     {
 
         /// <summary>
@@ -544,7 +568,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TaskManagementSmartEnergyManagementPsRelatedType (SPINE 1.3.0, EEBus_SPINE_TS_TaskManagement.xsd).
     /// </summary>
-    public class TaskManagementSmartEnergyManagementPsRelatedType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TaskManagementSmartEnergyManagementPsRelatedType
     {
 
         /// <summary>

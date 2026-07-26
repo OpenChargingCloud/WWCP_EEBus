@@ -109,10 +109,19 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
         /// </summary>
         private static Dictionary<String, Type> ModelTypes()
 
+            // Public, top level, not static, and named "...Type": that is
+            // exactly the data types of the XSD, because every complex type of
+            // SPINE is called that way. The helpers of the additions are
+            // internal or static, the closures the compiler puts next to a
+            // lambda are nested, and "SPINEFunctionInfo" is a registry entry
+            // rather than something which ever goes over the wire.
             => modelAssembly.GetTypes().
                    Where       (type => type.Namespace == ModelNamespace &&
                                         type.IsClass                     &&
-                                        !type.IsAbstract).
+                                        type.IsPublic                    &&
+                                        !type.IsNested                   &&
+                                        !type.IsAbstract                 &&
+                                        type.Name.EndsWith("Type", StringComparison.Ordinal)).
                    ToDictionary(type => type.Name,
                                 type => type,
                                 StringComparer.Ordinal);
@@ -513,6 +522,90 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
 
             Assert.That(problems, Is.Empty,
                         String.Join(Environment.NewLine, problems));
+
+        }
+
+        #endregion
+
+        #region EveryDataType_SerialisesOnlyWhatTheXSDDeclares()
+
+        /// <summary>
+        /// A data type may only put the properties of the XSD on the wire.
+        ///
+        /// The generated types are partial and carry hand-written behaviour next
+        /// to them - what a scaled number is worth, whether a result reports
+        /// success, which function a command carries. All of those are public
+        /// properties, and the JSON library would serialise every one of them by
+        /// default. "OptIn" is what keeps a convenience property from turning
+        /// into a field of the protocol.
+        /// </summary>
+        [Test]
+        public void EveryDataType_SerialisesOnlyWhatTheXSDDeclares()
+        {
+
+            var modelTypes = ModelTypes();
+            var problems   = new List<String>();
+
+            Assert.That(modelTypes, Has.Count.GreaterThan(500),
+                        "Too few data types were found - is the filter still the right one?");
+
+            foreach (var (typeName, type) in modelTypes)
+            {
+
+                var attribute = type.GetCustomAttribute<JsonObjectAttribute>();
+
+                if (attribute is null)
+                    problems.Add($"{typeName} does not say which of its members are serialised.");
+
+                else if (attribute.MemberSerialization != MemberSerialization.OptIn)
+                    problems.Add($"{typeName} serialises its members as '{attribute.MemberSerialization}' instead of OptIn.");
+
+            }
+
+            Assert.That(problems, Is.Empty,
+                        String.Join(Environment.NewLine, problems));
+
+        }
+
+        #endregion
+
+        #region AddedProperties_StayOutOfTheDatagram()
+
+        /// <summary>
+        /// The same thing, seen from the outside: the additions of WP06b really
+        /// do not appear in a datagram.
+        /// </summary>
+        [Test]
+        public void AddedProperties_StayOutOfTheDatagram()
+        {
+
+            Assert.Multiple(() => {
+
+                // ScaledNumberType.Value
+                Assert.That(JsonConvert.SerializeObject(new ScaledNumberType { Number = 1185, Scale = -1 },
+                                                        Formatting.None,
+                                                        SPINEJSON.Settings),
+                            Is.EqualTo("{\"number\":1185,\"scale\":-1}"));
+
+                // ResultDataType.IsSuccess / IsError
+                Assert.That(JsonConvert.SerializeObject(ResultDataType.Success(),
+                                                        Formatting.None,
+                                                        SPINEJSON.Settings),
+                            Is.EqualTo("{\"errorNumber\":0}"));
+
+                // FeatureAddressType.IsComplete
+                Assert.That(JsonConvert.SerializeObject(new FeatureAddressType { Entity = [ 1 ], Feature = 2 },
+                                                        Formatting.None,
+                                                        SPINEJSON.Settings),
+                            Is.EqualTo("{\"entity\":[1],\"feature\":2}"));
+
+                // CmdType.DataFunction / Data / DataCount
+                Assert.That(JsonConvert.SerializeObject(new CmdType { ResultData = ResultDataType.Success() },
+                                                        Formatting.None,
+                                                        SPINEJSON.Settings),
+                            Is.EqualTo("{\"resultData\":{\"errorNumber\":0}}"));
+
+            });
 
         }
 

@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeDistributorDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeDistributorDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeDistributorDataElementsType
     {
 
         /// <summary>
@@ -61,7 +63,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeDistributorDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeDistributorDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeDistributorDataType
     {
 
         /// <summary>
@@ -82,7 +85,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeDistributorEnquiryCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeDistributorEnquiryCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeDistributorEnquiryCallElementsType
     {
 
     }
@@ -91,7 +95,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeDistributorEnquiryCallType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeDistributorEnquiryCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeDistributorEnquiryCallType
     {
 
     }
@@ -100,7 +105,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeInformationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeInformationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeInformationDataElementsType
     {
 
         /// <summary>
@@ -133,7 +139,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeInformationDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimeInformationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeInformationDataType
     {
 
         /// <summary>
@@ -166,7 +173,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimePrecisionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimePrecisionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimePrecisionDataElementsType
     {
 
         /// <summary>
@@ -193,7 +201,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimePrecisionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeInformation.xsd).
     /// </summary>
-    public class TimePrecisionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimePrecisionDataType
     {
 
         /// <summary>

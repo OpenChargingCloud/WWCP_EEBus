@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementConstraintsDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementConstraintsDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementConstraintsListDataType
     {
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDataElementsType
     {
 
         /// <summary>
@@ -194,7 +200,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDataType
     {
 
         /// <summary>
@@ -253,7 +260,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDescriptionDataElementsType
     {
 
         /// <summary>
@@ -310,7 +318,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDescriptionDataType
     {
 
         /// <summary>
@@ -368,7 +377,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -401,7 +411,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementDescriptionListDataType
     {
 
         /// <summary>
@@ -416,7 +427,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementListDataSelectorsType
     {
 
         /// <summary>
@@ -443,7 +455,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementListDataType
     {
 
         /// <summary>
@@ -458,7 +471,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementSeriesDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementSeriesDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementSeriesDataElementsType
     {
 
         /// <summary>
@@ -515,7 +529,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementSeriesDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementSeriesDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementSeriesDataType
     {
 
         /// <summary>
@@ -575,7 +590,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementSeriesListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementSeriesListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementSeriesListDataSelectorsType
     {
 
         /// <summary>
@@ -602,7 +618,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementSeriesListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementSeriesListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementSeriesListDataType
     {
 
         /// <summary>
@@ -617,7 +634,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementThresholdRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementThresholdRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementThresholdRelationDataElementsType
     {
 
         /// <summary>
@@ -638,7 +656,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementThresholdRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementThresholdRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementThresholdRelationDataType
     {
 
         /// <summary>
@@ -660,7 +679,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementThresholdRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementThresholdRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementThresholdRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -681,7 +701,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// MeasurementThresholdRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Measurement.xsd).
     /// </summary>
-    public class MeasurementThresholdRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class MeasurementThresholdRelationListDataType
     {
 
         /// <summary>

@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueConstraintsDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueConstraintsDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueConstraintsListDataType
     {
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDataElementsType
     {
 
         /// <summary>
@@ -164,7 +170,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDataType
     {
 
         /// <summary>
@@ -192,7 +199,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDescriptionDataElementsType
     {
 
         /// <summary>
@@ -237,7 +245,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDescriptionDataType
     {
 
         /// <summary>
@@ -283,7 +292,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -304,7 +314,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueDescriptionListDataType
     {
 
         /// <summary>
@@ -319,7 +330,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueListDataSelectorsType
     {
 
         /// <summary>
@@ -334,7 +346,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueListDataType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueListDataType
     {
 
         /// <summary>
@@ -349,7 +362,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueValueElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueValueElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueValueElementsType
     {
 
         /// <summary>
@@ -400,7 +414,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceConfigurationKeyValueValueType (SPINE 1.3.0, EEBus_SPINE_TS_DeviceConfiguration.xsd).
     /// </summary>
-    public class DeviceConfigurationKeyValueValueType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceConfigurationKeyValueValueType
     {
 
         /// <summary>

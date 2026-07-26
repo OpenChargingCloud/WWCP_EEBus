@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesConstraintsDataElementsType
     {
 
         /// <summary>
@@ -115,7 +117,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesConstraintsDataType
     {
 
         /// <summary>
@@ -191,7 +194,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -206,7 +210,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesConstraintsListDataType
     {
 
         /// <summary>
@@ -221,7 +226,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDataElementsType
     {
 
         /// <summary>
@@ -248,7 +254,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDataType
     {
 
         /// <summary>
@@ -276,7 +283,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDescriptionDataElementsType
     {
 
         /// <summary>
@@ -345,7 +353,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDescriptionDataType
     {
 
         /// <summary>
@@ -415,7 +424,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -448,7 +458,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesDescriptionListDataType
     {
 
         /// <summary>
@@ -463,7 +474,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesListDataSelectorsType
     {
 
         /// <summary>
@@ -484,7 +496,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesListDataType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesListDataType
     {
 
         /// <summary>
@@ -499,7 +512,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesSlotElementsType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesSlotElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesSlotElementsType
     {
 
         /// <summary>
@@ -550,7 +564,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimeSeriesSlotType (SPINE 1.3.0, EEBus_SPINE_TS_TimeSeries.xsd).
     /// </summary>
-    public class TimeSeriesSlotType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimeSeriesSlotType
     {
 
         /// <summary>

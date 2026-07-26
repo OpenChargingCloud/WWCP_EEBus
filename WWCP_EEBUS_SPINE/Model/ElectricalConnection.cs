@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionCharacteristicDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionCharacteristicDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionCharacteristicDataElementsType
     {
 
         /// <summary>
@@ -91,7 +93,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionCharacteristicDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionCharacteristicDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionCharacteristicDataType
     {
 
         /// <summary>
@@ -145,7 +148,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionCharacteristicListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionCharacteristicListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionCharacteristicListDataSelectorsType
     {
 
         /// <summary>
@@ -184,7 +188,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionCharacteristicListDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionCharacteristicListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionCharacteristicListDataType
     {
 
         /// <summary>
@@ -199,7 +204,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionDescriptionDataElementsType
     {
 
         /// <summary>
@@ -256,7 +262,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionDescriptionDataType
     {
 
         /// <summary>
@@ -314,7 +321,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -335,7 +343,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionDescriptionListDataType
     {
 
         /// <summary>
@@ -350,7 +359,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionParameterDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionParameterDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionParameterDescriptionDataElementsType
     {
 
         /// <summary>
@@ -431,7 +441,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionParameterDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionParameterDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionParameterDescriptionDataType
     {
 
         /// <summary>
@@ -514,7 +525,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionParameterDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionParameterDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionParameterDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -547,7 +559,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionParameterDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionParameterDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionParameterDescriptionListDataType
     {
 
         /// <summary>
@@ -562,7 +575,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionPermittedValueSetDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionPermittedValueSetDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionPermittedValueSetDataElementsType
     {
 
         /// <summary>
@@ -589,7 +603,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionPermittedValueSetDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionPermittedValueSetDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionPermittedValueSetDataType
     {
 
         /// <summary>
@@ -618,7 +633,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionPermittedValueSetListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionPermittedValueSetListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionPermittedValueSetListDataSelectorsType
     {
 
         /// <summary>
@@ -639,7 +655,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionPermittedValueSetListDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionPermittedValueSetListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionPermittedValueSetListDataType
     {
 
         /// <summary>
@@ -654,7 +671,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionStateDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionStateDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionStateDataElementsType
     {
 
         /// <summary>
@@ -705,7 +723,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionStateDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionStateDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionStateDataType
     {
 
         /// <summary>
@@ -757,7 +776,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionStateListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionStateListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionStateListDataSelectorsType
     {
 
         /// <summary>
@@ -772,7 +792,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElectricalConnectionStateListDataType (SPINE 1.3.0, EEBus_SPINE_TS_ElectricalConnection.xsd).
     /// </summary>
-    public class ElectricalConnectionStateListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElectricalConnectionStateListDataType
     {
 
         /// <summary>

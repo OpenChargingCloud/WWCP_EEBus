@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceAlternativesRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceAlternativesRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceAlternativesRelationDataElementsType
     {
 
         /// <summary>
@@ -61,7 +63,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceAlternativesRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceAlternativesRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceAlternativesRelationDataType
     {
 
         /// <summary>
@@ -83,7 +86,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceAlternativesRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceAlternativesRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceAlternativesRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -104,7 +108,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceAlternativesRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceAlternativesRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceAlternativesRelationListDataType
     {
 
         /// <summary>
@@ -119,7 +124,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceDescriptionDataElementsType
     {
 
         /// <summary>
@@ -182,7 +188,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceDescriptionDataType
     {
 
         /// <summary>
@@ -246,7 +253,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -261,7 +269,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceDescriptionListDataType
     {
 
         /// <summary>
@@ -276,7 +285,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceNodeScheduleInformationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceNodeScheduleInformationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceNodeScheduleInformationDataElementsType
     {
 
         /// <summary>
@@ -315,7 +325,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceNodeScheduleInformationDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceNodeScheduleInformationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceNodeScheduleInformationDataType
     {
 
         /// <summary>
@@ -354,7 +365,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceCalculationRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceCalculationRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceCalculationRequestCallElementsType
     {
 
         /// <summary>
@@ -375,7 +387,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceCalculationRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceCalculationRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceCalculationRequestCallType
     {
 
         /// <summary>
@@ -396,7 +409,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceDataElementsType
     {
 
         /// <summary>
@@ -429,7 +443,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceDataType
     {
 
         /// <summary>
@@ -463,7 +478,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceListDataSelectorsType
     {
 
         /// <summary>
@@ -484,7 +500,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequencePriceListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequencePriceListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequencePriceListDataType
     {
 
         /// <summary>
@@ -499,7 +516,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConfigurationRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConfigurationRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConfigurationRequestCallElementsType
     {
 
         /// <summary>
@@ -514,7 +532,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConfigurationRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConfigurationRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConfigurationRequestCallType
     {
 
         /// <summary>
@@ -529,7 +548,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConstraintsDataElementsType
     {
 
         /// <summary>
@@ -574,7 +594,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConstraintsDataType
     {
 
         /// <summary>
@@ -620,7 +641,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -635,7 +657,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleConstraintsListDataType
     {
 
         /// <summary>
@@ -650,7 +673,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleDataElementsType
     {
 
         /// <summary>
@@ -677,7 +701,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleDataType
     {
 
         /// <summary>
@@ -705,7 +730,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleListDataSelectorsType
     {
 
         /// <summary>
@@ -720,7 +746,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceScheduleListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceScheduleListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceScheduleListDataType
     {
 
         /// <summary>
@@ -735,7 +762,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceSchedulePreferenceDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceSchedulePreferenceDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceSchedulePreferenceDataElementsType
     {
 
         /// <summary>
@@ -762,7 +790,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceSchedulePreferenceDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceSchedulePreferenceDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceSchedulePreferenceDataType
     {
 
         /// <summary>
@@ -790,7 +819,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceSchedulePreferenceListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceSchedulePreferenceListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceSchedulePreferenceListDataSelectorsType
     {
 
         /// <summary>
@@ -805,7 +835,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceSchedulePreferenceListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceSchedulePreferenceListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceSchedulePreferenceListDataType
     {
 
         /// <summary>
@@ -820,7 +851,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceStateDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceStateDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceStateDataElementsType
     {
 
         /// <summary>
@@ -877,7 +909,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceStateDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceStateDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceStateDataType
     {
 
         /// <summary>
@@ -935,7 +968,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceStateListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceStateListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceStateListDataSelectorsType
     {
 
         /// <summary>
@@ -950,7 +984,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerSequenceStateListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerSequenceStateListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerSequenceStateListDataType
     {
 
         /// <summary>
@@ -965,7 +1000,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleConstraintsDataElementsType
     {
 
         /// <summary>
@@ -1016,7 +1052,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleConstraintsDataType
     {
 
         /// <summary>
@@ -1068,7 +1105,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -1089,7 +1127,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleConstraintsListDataType
     {
 
         /// <summary>
@@ -1104,7 +1143,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleDataElementsType
     {
 
         /// <summary>
@@ -1155,7 +1195,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleDataType
     {
 
         /// <summary>
@@ -1207,7 +1248,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleListDataSelectorsType
     {
 
         /// <summary>
@@ -1228,7 +1270,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotScheduleListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotScheduleListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotScheduleListDataType
     {
 
         /// <summary>
@@ -1243,7 +1286,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotValueDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotValueDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotValueDataElementsType
     {
 
         /// <summary>
@@ -1276,7 +1320,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotValueDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotValueDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotValueDataType
     {
 
         /// <summary>
@@ -1310,7 +1355,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotValueListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotValueListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotValueListDataSelectorsType
     {
 
         /// <summary>
@@ -1337,7 +1383,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PowerTimeSlotValueListDataType (SPINE 1.3.0, EEBus_SPINE_TS_PowerSequences.xsd).
     /// </summary>
-    public class PowerTimeSlotValueListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PowerTimeSlotValueListDataType
     {
 
         /// <summary>

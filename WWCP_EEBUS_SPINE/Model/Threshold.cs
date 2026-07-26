@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdConstraintsDataElementsType
     {
 
         /// <summary>
@@ -73,7 +75,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdConstraintsDataType
     {
 
         /// <summary>
@@ -107,7 +110,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdConstraintsListDataType
     {
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDataElementsType
     {
 
         /// <summary>
@@ -158,7 +164,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDataType
     {
 
         /// <summary>
@@ -180,7 +187,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDescriptionDataElementsType
     {
 
         /// <summary>
@@ -225,7 +233,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDescriptionDataType
     {
 
         /// <summary>
@@ -271,7 +280,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -292,7 +302,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdDescriptionListDataType
     {
 
         /// <summary>
@@ -307,7 +318,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdListDataSelectorsType
     {
 
         /// <summary>
@@ -322,7 +334,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ThresholdListDataType (SPINE 1.3.0, EEBus_SPINE_TS_Threshold.xsd).
     /// </summary>
-    public class ThresholdListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ThresholdListDataType
     {
 
         /// <summary>

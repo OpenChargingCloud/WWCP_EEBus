@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementDeleteCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementDeleteCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementDeleteCallElementsType
     {
 
         /// <summary>
@@ -67,7 +69,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementDeleteCallType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementDeleteCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementDeleteCallType
     {
 
         /// <summary>
@@ -94,7 +97,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementEntryDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementEntryDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementEntryDataElementsType
     {
 
         /// <summary>
@@ -133,7 +137,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementEntryDataType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementEntryDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementEntryDataType
     {
 
         /// <summary>
@@ -173,7 +178,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementEntryListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementEntryListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementEntryListDataSelectorsType
     {
 
         /// <summary>
@@ -200,7 +206,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementEntryListDataType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementEntryListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementEntryListDataType
     {
 
         /// <summary>
@@ -215,7 +222,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementRequestCallElementsType
     {
 
         /// <summary>
@@ -242,7 +250,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SubscriptionManagementRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_SubscriptionManagement.xsd).
     /// </summary>
-    public class SubscriptionManagementRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SubscriptionManagementRequestCallType
     {
 
         /// <summary>

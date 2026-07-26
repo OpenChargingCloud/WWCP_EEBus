@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlActivityDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlActivityDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlActivityDataElementsType
     {
 
         /// <summary>
@@ -109,7 +111,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlActivityDataType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlActivityDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlActivityDataType
     {
 
         /// <summary>
@@ -178,7 +181,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlActivityListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlActivityListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlActivityListDataSelectorsType
     {
 
         /// <summary>
@@ -193,7 +197,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlActivityListDataType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlActivityListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlActivityListDataType
     {
 
         /// <summary>
@@ -208,7 +213,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlDescriptionDataElementsType
     {
 
         /// <summary>
@@ -235,7 +241,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DirectControlDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_DirectControl.xsd).
     /// </summary>
-    public class DirectControlDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DirectControlDescriptionDataType
     {
 
         /// <summary>

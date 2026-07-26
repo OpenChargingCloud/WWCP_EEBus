@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// AbsoluteOrRecurringTimeElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class AbsoluteOrRecurringTimeElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class AbsoluteOrRecurringTimeElementsType
     {
 
         /// <summary>
@@ -97,7 +99,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// AbsoluteOrRecurringTimeType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class AbsoluteOrRecurringTimeType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class AbsoluteOrRecurringTimeType
     {
 
         /// <summary>
@@ -154,7 +157,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DaysOfWeekType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class DaysOfWeekType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DaysOfWeekType
     {
 
         /// <summary>
@@ -205,7 +209,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceAddressElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class DeviceAddressElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceAddressElementsType
     {
 
         /// <summary>
@@ -220,7 +225,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// DeviceAddressType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class DeviceAddressType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class DeviceAddressType
     {
 
         /// <summary>
@@ -235,7 +241,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ElementTagType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ElementTagType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ElementTagType
     {
 
     }
@@ -244,7 +251,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// EntityAddressElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class EntityAddressElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class EntityAddressElementsType
     {
 
         /// <summary>
@@ -265,7 +273,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// EntityAddressType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class EntityAddressType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class EntityAddressType
     {
 
         /// <summary>
@@ -286,7 +295,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// FeatureAddressElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class FeatureAddressElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class FeatureAddressElementsType
     {
 
         /// <summary>
@@ -313,7 +323,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// FeatureAddressType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class FeatureAddressType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class FeatureAddressType
     {
 
         /// <summary>
@@ -340,7 +351,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// FunctionPropertyElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class FunctionPropertyElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class FunctionPropertyElementsType
     {
 
         /// <summary>
@@ -361,7 +373,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// FunctionPropertyType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class FunctionPropertyType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class FunctionPropertyType
     {
 
         /// <summary>
@@ -382,7 +395,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PossibleOperationsClassifierType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class PossibleOperationsClassifierType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PossibleOperationsClassifierType
     {
 
         /// <summary>
@@ -397,7 +411,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PossibleOperationsElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class PossibleOperationsElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PossibleOperationsElementsType
     {
 
         /// <summary>
@@ -418,7 +433,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PossibleOperationsReadType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class PossibleOperationsReadType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PossibleOperationsReadType
     {
 
         /// <summary>
@@ -433,7 +449,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PossibleOperationsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class PossibleOperationsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PossibleOperationsType
     {
 
         /// <summary>
@@ -454,7 +471,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// PossibleOperationsWriteType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class PossibleOperationsWriteType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class PossibleOperationsWriteType
     {
 
         /// <summary>
@@ -469,7 +487,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// RecurrenceInformationElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class RecurrenceInformationElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class RecurrenceInformationElementsType
     {
 
         /// <summary>
@@ -508,7 +527,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// RecurrenceInformationType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class RecurrenceInformationType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class RecurrenceInformationType
     {
 
         /// <summary>
@@ -547,7 +567,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberElementsType
     {
 
         /// <summary>
@@ -568,7 +589,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberRangeElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberRangeElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberRangeElementsType
     {
 
         /// <summary>
@@ -589,7 +611,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberRangeType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberRangeType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberRangeType
     {
 
         /// <summary>
@@ -610,7 +633,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberSetElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberSetElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberSetElementsType
     {
 
         /// <summary>
@@ -631,7 +655,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberSetType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberSetType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberSetType
     {
 
         /// <summary>
@@ -652,7 +677,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// ScaledNumberType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class ScaledNumberType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class ScaledNumberType
     {
 
         /// <summary>
@@ -673,7 +699,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimePeriodElementsType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class TimePeriodElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimePeriodElementsType
     {
 
         /// <summary>
@@ -694,7 +721,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimePeriodType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class TimePeriodType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimePeriodType
     {
 
         /// <summary>
@@ -715,7 +743,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// TimestampIntervalType (SPINE 1.3.0, EEBus_SPINE_TS_CommonDataTypes.xsd).
     /// </summary>
-    public class TimestampIntervalType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class TimestampIntervalType
     {
 
         /// <summary>

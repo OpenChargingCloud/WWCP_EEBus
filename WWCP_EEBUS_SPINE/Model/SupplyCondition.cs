@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDataElementsType
     {
 
         /// <summary>
@@ -103,7 +105,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDataType
     {
 
         /// <summary>
@@ -167,7 +170,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDescriptionDataElementsType
     {
 
         /// <summary>
@@ -206,7 +210,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDescriptionDataType
     {
 
         /// <summary>
@@ -246,7 +251,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -261,7 +267,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionDescriptionListDataType
     {
 
         /// <summary>
@@ -276,7 +283,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionListDataSelectorsType
     {
 
         /// <summary>
@@ -309,7 +317,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionListDataType
     {
 
         /// <summary>
@@ -324,7 +333,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionThresholdRelationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionThresholdRelationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionThresholdRelationDataElementsType
     {
 
         /// <summary>
@@ -345,7 +355,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionThresholdRelationDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionThresholdRelationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionThresholdRelationDataType
     {
 
         /// <summary>
@@ -367,7 +378,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionThresholdRelationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionThresholdRelationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionThresholdRelationListDataSelectorsType
     {
 
         /// <summary>
@@ -388,7 +400,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SupplyConditionThresholdRelationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_SupplyCondition.xsd).
     /// </summary>
-    public class SupplyConditionThresholdRelationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SupplyConditionThresholdRelationListDataType
     {
 
         /// <summary>

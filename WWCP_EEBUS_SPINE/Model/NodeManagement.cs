@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingDataElementsType
     {
 
         /// <summary>
@@ -55,7 +57,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingDataSelectorsType
     {
 
         /// <summary>
@@ -70,7 +73,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingDataType
     {
 
         /// <summary>
@@ -85,7 +89,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingDeleteCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingDeleteCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingDeleteCallElementsType
     {
 
         /// <summary>
@@ -100,7 +105,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingDeleteCallType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingDeleteCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingDeleteCallType
     {
 
         /// <summary>
@@ -115,7 +121,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingRequestCallElementsType
     {
 
         /// <summary>
@@ -130,7 +137,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementBindingRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementBindingRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementBindingRequestCallType
     {
 
         /// <summary>
@@ -145,7 +153,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDestinationDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDestinationDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDestinationDataElementsType
     {
 
         /// <summary>
@@ -160,7 +169,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDestinationDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDestinationDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDestinationDataType
     {
 
         /// <summary>
@@ -175,7 +185,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDestinationListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDestinationListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDestinationListDataSelectorsType
     {
 
         /// <summary>
@@ -190,7 +201,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDestinationListDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDestinationListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDestinationListDataType
     {
 
         /// <summary>
@@ -205,7 +217,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryDataElementsType
     {
 
         /// <summary>
@@ -238,7 +251,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryDataSelectorsType
     {
 
         /// <summary>
@@ -265,7 +279,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryDataType
     {
 
         /// <summary>
@@ -298,7 +313,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryDeviceInformationElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryDeviceInformationElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryDeviceInformationElementsType
     {
 
         /// <summary>
@@ -313,7 +329,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryDeviceInformationType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryDeviceInformationType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryDeviceInformationType
     {
 
         /// <summary>
@@ -328,7 +345,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryEntityInformationElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryEntityInformationElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryEntityInformationElementsType
     {
 
         /// <summary>
@@ -343,7 +361,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryEntityInformationType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryEntityInformationType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryEntityInformationType
     {
 
         /// <summary>
@@ -358,7 +377,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryFeatureInformationElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryFeatureInformationElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryFeatureInformationElementsType
     {
 
         /// <summary>
@@ -373,7 +393,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementDetailedDiscoveryFeatureInformationType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementDetailedDiscoveryFeatureInformationType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementDetailedDiscoveryFeatureInformationType
     {
 
         /// <summary>
@@ -388,7 +409,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSpecificationVersionListElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSpecificationVersionListElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSpecificationVersionListElementsType
     {
 
         /// <summary>
@@ -403,7 +425,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSpecificationVersionListType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSpecificationVersionListType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSpecificationVersionListType
     {
 
         /// <summary>
@@ -418,7 +441,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionDataElementsType
     {
 
         /// <summary>
@@ -433,7 +457,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionDataSelectorsType
     {
 
         /// <summary>
@@ -448,7 +473,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionDataType
     {
 
         /// <summary>
@@ -463,7 +489,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionDeleteCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionDeleteCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionDeleteCallElementsType
     {
 
         /// <summary>
@@ -478,7 +505,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionDeleteCallType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionDeleteCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionDeleteCallType
     {
 
         /// <summary>
@@ -493,7 +521,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionRequestCallElementsType
     {
 
         /// <summary>
@@ -508,7 +537,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementSubscriptionRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementSubscriptionRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementSubscriptionRequestCallType
     {
 
         /// <summary>
@@ -523,7 +553,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementUseCaseDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementUseCaseDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementUseCaseDataElementsType
     {
 
         /// <summary>
@@ -538,7 +569,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementUseCaseDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementUseCaseDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementUseCaseDataSelectorsType
     {
 
         /// <summary>
@@ -553,7 +585,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// NodeManagementUseCaseDataType (SPINE 1.3.0, EEBus_SPINE_TS_NodeManagement.xsd).
     /// </summary>
-    public class NodeManagementUseCaseDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class NodeManagementUseCaseDataType
     {
 
         /// <summary>

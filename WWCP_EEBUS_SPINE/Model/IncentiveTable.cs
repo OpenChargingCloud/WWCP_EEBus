@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableConstraintsDataElementsType
     {
 
         /// <summary>
@@ -55,7 +57,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableConstraintsDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableConstraintsDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableConstraintsDataSelectorsType
     {
 
         /// <summary>
@@ -70,7 +73,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableConstraintsDataType
     {
 
         /// <summary>
@@ -85,7 +89,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableConstraintsElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableConstraintsElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableConstraintsElementsType
     {
 
         /// <summary>
@@ -112,7 +117,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableConstraintsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableConstraintsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableConstraintsType
     {
 
         /// <summary>
@@ -139,7 +145,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDataElementsType
     {
 
         /// <summary>
@@ -154,7 +161,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDataSelectorsType
     {
 
         /// <summary>
@@ -169,7 +177,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDataType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDataType
     {
 
         /// <summary>
@@ -184,7 +193,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionDataElementsType
     {
 
         /// <summary>
@@ -199,7 +209,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionDataSelectorsType
     {
 
         /// <summary>
@@ -214,7 +225,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionDataType
     {
 
         /// <summary>
@@ -229,7 +241,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionElementsType
     {
 
         /// <summary>
@@ -250,7 +263,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionTierElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionTierElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionTierElementsType
     {
 
         /// <summary>
@@ -277,7 +291,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionTierType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionTierType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionTierType
     {
 
         /// <summary>
@@ -304,7 +319,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableDescriptionType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableDescriptionType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableDescriptionType
     {
 
         /// <summary>
@@ -325,7 +341,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableElementsType
     {
 
         /// <summary>
@@ -346,7 +363,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableIncentiveSlotElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableIncentiveSlotElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableIncentiveSlotElementsType
     {
 
         /// <summary>
@@ -367,7 +385,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableIncentiveSlotType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableIncentiveSlotType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableIncentiveSlotType
     {
 
         /// <summary>
@@ -388,7 +407,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableTierElementsType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableTierElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableTierElementsType
     {
 
         /// <summary>
@@ -415,7 +435,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableTierType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableTierType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableTierType
     {
 
         /// <summary>
@@ -442,7 +463,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// IncentiveTableType (SPINE 1.3.0, EEBus_SPINE_TS_IncentiveTable.xsd).
     /// </summary>
-    public class IncentiveTableType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class IncentiveTableType
     {
 
         /// <summary>

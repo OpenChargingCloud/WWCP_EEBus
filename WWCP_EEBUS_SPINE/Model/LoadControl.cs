@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlEventDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlEventDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlEventDataElementsType
     {
 
         /// <summary>
@@ -79,7 +81,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlEventDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlEventDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlEventDataType
     {
 
         /// <summary>
@@ -119,7 +122,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlEventListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlEventListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlEventListDataSelectorsType
     {
 
         /// <summary>
@@ -140,7 +144,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlEventListDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlEventListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlEventListDataType
     {
 
         /// <summary>
@@ -155,7 +160,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitConstraintsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitConstraintsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitConstraintsDataElementsType
     {
 
         /// <summary>
@@ -188,7 +194,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitConstraintsDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitConstraintsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitConstraintsDataType
     {
 
         /// <summary>
@@ -222,7 +229,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitConstraintsListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitConstraintsListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitConstraintsListDataSelectorsType
     {
 
         /// <summary>
@@ -237,7 +245,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitConstraintsListDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitConstraintsListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitConstraintsListDataType
     {
 
         /// <summary>
@@ -252,7 +261,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDataElementsType
     {
 
         /// <summary>
@@ -291,7 +301,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDataType
     {
 
         /// <summary>
@@ -331,7 +342,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDescriptionDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDescriptionDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDescriptionDataElementsType
     {
 
         /// <summary>
@@ -394,7 +406,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDescriptionDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDescriptionDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDescriptionDataType
     {
 
         /// <summary>
@@ -458,7 +471,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDescriptionListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDescriptionListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDescriptionListDataSelectorsType
     {
 
         /// <summary>
@@ -497,7 +511,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitDescriptionListDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitDescriptionListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitDescriptionListDataType
     {
 
         /// <summary>
@@ -512,7 +527,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitListDataSelectorsType
     {
 
         /// <summary>
@@ -527,7 +543,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlLimitListDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlLimitListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlLimitListDataType
     {
 
         /// <summary>
@@ -542,7 +559,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlNodeDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlNodeDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlNodeDataElementsType
     {
 
         /// <summary>
@@ -557,7 +575,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlNodeDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlNodeDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlNodeDataType
     {
 
         /// <summary>
@@ -572,7 +591,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlStateDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlStateDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlStateDataElementsType
     {
 
         /// <summary>
@@ -617,7 +637,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlStateDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlStateDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlStateDataType
     {
 
         /// <summary>
@@ -663,7 +684,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlStateListDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlStateListDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlStateListDataSelectorsType
     {
 
         /// <summary>
@@ -684,7 +706,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// LoadControlStateListDataType (SPINE 1.3.0, EEBus_SPINE_TS_LoadControl.xsd).
     /// </summary>
-    public class LoadControlStateListDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class LoadControlStateListDataType
     {
 
         /// <summary>

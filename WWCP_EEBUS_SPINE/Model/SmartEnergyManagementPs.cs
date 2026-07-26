@@ -21,9 +21,10 @@
 //     Generated from the official SPINE 1.3.0 XSDs by Apps/EEBUSModelGen.
 //     Every change made here is lost the next time the generator runs.
 //
-//     Where the XSD cannot express what is needed - the ISO 8601 types, the
-//     identifiers of a data type - the answer belongs into the generator or
-//     into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/.
+//     Where the XSD cannot express what is needed, the answer belongs into the
+//     generator, into a hand-written type below WWCP_EEBUS_SPINE/DataStructures/,
+//     or - for behaviour of a generated type - into its partial class below
+//     WWCP_EEBUS_SPINE/Additions/.
 // </auto-generated>
 
 #region Usings
@@ -40,7 +41,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsAlternativesElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsAlternativesElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsAlternativesElementsType
     {
 
         /// <summary>
@@ -61,7 +63,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsAlternativesRelationElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsAlternativesRelationElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsAlternativesRelationElementsType
     {
 
         /// <summary>
@@ -76,7 +79,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsAlternativesRelationType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsAlternativesRelationType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsAlternativesRelationType
     {
 
         /// <summary>
@@ -91,7 +95,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsAlternativesType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsAlternativesType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsAlternativesType
     {
 
         /// <summary>
@@ -112,7 +117,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsConfigurationRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsConfigurationRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsConfigurationRequestCallElementsType
     {
 
         /// <summary>
@@ -127,7 +133,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsConfigurationRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsConfigurationRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsConfigurationRequestCallType
     {
 
         /// <summary>
@@ -142,7 +149,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsDataElementsType
     {
 
         /// <summary>
@@ -163,7 +171,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsDataSelectorsType
     {
 
         /// <summary>
@@ -196,7 +205,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsDataType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsDataType
     {
 
         /// <summary>
@@ -217,7 +227,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerSequenceElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerSequenceElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerSequenceElementsType
     {
 
         /// <summary>
@@ -280,7 +291,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerSequenceType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerSequenceType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerSequenceType
     {
 
         /// <summary>
@@ -343,7 +355,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerTimeSlotElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerTimeSlotElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerTimeSlotElementsType
     {
 
         /// <summary>
@@ -370,7 +383,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerTimeSlotType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerTimeSlotType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerTimeSlotType
     {
 
         /// <summary>
@@ -397,7 +411,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerTimeSlotValueListElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerTimeSlotValueListElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerTimeSlotValueListElementsType
     {
 
         /// <summary>
@@ -412,7 +427,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPowerTimeSlotValueListType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPowerTimeSlotValueListType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPowerTimeSlotValueListType
     {
 
         /// <summary>
@@ -427,7 +443,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPriceCalculationRequestCallElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPriceCalculationRequestCallElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPriceCalculationRequestCallElementsType
     {
 
         /// <summary>
@@ -442,7 +459,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPriceCalculationRequestCallType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPriceCalculationRequestCallType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPriceCalculationRequestCallType
     {
 
         /// <summary>
@@ -457,7 +475,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPriceDataElementsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPriceDataElementsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPriceDataElementsType
     {
 
         /// <summary>
@@ -472,7 +491,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPriceDataSelectorsType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPriceDataSelectorsType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPriceDataSelectorsType
     {
 
         /// <summary>
@@ -487,7 +507,8 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
     /// <summary>
     /// SmartEnergyManagementPsPriceDataType (SPINE 1.3.0, EEBus_SPINE_TS_SmartEnergyManagementPs.xsd).
     /// </summary>
-    public class SmartEnergyManagementPsPriceDataType
+    [JsonObject(MemberSerialization.OptIn)]
+    public partial class SmartEnergyManagementPsPriceDataType
     {
 
         /// <summary>
