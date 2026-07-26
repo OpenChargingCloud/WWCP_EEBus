@@ -212,6 +212,27 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #endregion
 
+        #region Validity
+
+        /// <summary>
+        /// All connection hello phases defined by SHIP TS 1.0.1, chapter 13.4.4.1.
+        /// </summary>
+        public static IEnumerable<ConnectionHelloPhase>  All    { get; }
+            = [ Pending, Ready, Aborted ];
+
+        /// <summary>
+        /// Whether this is one of the connection hello phases defined by SHIP TS 1.0.1.
+        ///
+        /// Parsing is deliberately tolerant, so that a value sent by a communication
+        /// partner can be reported precisely instead of failing to parse. Validating
+        /// it is the task of the state machines and the conformance tests.
+        /// </summary>
+        public Boolean IsDefined
+            => All.Contains(this);
+
+        #endregion
+
+
 
         #region Operator overloading
 

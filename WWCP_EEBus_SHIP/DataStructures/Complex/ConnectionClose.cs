@@ -143,8 +143,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #region Reason         [optional]
 
-                if (JSON.ParseOptional("dns",
-                                       "dns",
+                if (JSON.ParseOptional("reason",
+                                       "connection close reason",
                                        ConnectionCloseReasonsExtensions.TryParse,
                                        out ConnectionCloseReasons? Reason,
                                        out ErrorResponse))

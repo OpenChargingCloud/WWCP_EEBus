@@ -32,8 +32,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// <summary>
     /// SHIP-Access-Methods Message
     /// </summary>
-    /// <param name="AccessMethodsRequest">An access methods request.</param>
-    public class SHIPAccessMethodsMessage(AccessMethodsType  AccessMethodsRequest)
+    /// <param name="AccessMethods">An access methods request.</param>
+    public class SHIPAccessMethodsMessage(AccessMethodsType  AccessMethods)
 
         : ASHIPMessage(SHIPMessageTypes.CONTROL)
 
@@ -42,10 +42,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #region Properties
 
         /// <summary>
-        /// The access methods request.
+        /// The announced access methods.
         /// </summary>
         [Mandatory]
-        public AccessMethodsType  AccessMethodsRequest    { get; } = AccessMethodsRequest;
+        public AccessMethodsType  AccessMethods    { get; } = AccessMethods;
 
         #endregion
 
@@ -114,12 +114,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 SHIPAccessMethodsMessage = default;
 
-                #region AccessMethodsRequest    [mandatory]
+                #region AccessMethods    [mandatory]
 
-                if (!JSON.ParseMandatoryJSON("accessMethodsRequest",
-                                             "access methods request",
+                if (!JSON.ParseMandatoryJSON("accessMethods",
+                                             "access methods",
                                              AccessMethodsType.TryParse,
-                                             out AccessMethodsType? AccessMethodsRequest,
+                                             out AccessMethodsType? AccessMethods,
                                              out ErrorResponse))
                 {
                     return false;
@@ -130,7 +130,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
 
                 SHIPAccessMethodsMessage = new SHIPAccessMethodsMessage(
-                                                AccessMethodsRequest
+                                                AccessMethods
                                             );
 
                 if (CustomSHIPAccessMethodsMessageParser is not null)
@@ -166,7 +166,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
             var json = JSONObject.Create(
 
-                                 new JProperty("accessMethodsRequest",   AccessMethodsRequest.ToJSON(CustomAccessMethodsTypeSerializer,
+                                 new JProperty("accessMethods",   AccessMethods.ToJSON(CustomAccessMethodsTypeSerializer,
                                                                                                      CustomAccessMethodsTypeDNSSerializer))
 
                        );
@@ -176,6 +176,19 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                        : json;
 
         }
+
+        #endregion
+
+
+
+        #region ToMessageJSON()
+
+        /// <summary>
+        /// Return the JSON representation of this message.
+        /// </summary>
+        public override JObject ToMessageJSON()
+
+            => ToJSON();
 
         #endregion
 

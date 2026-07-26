@@ -29,25 +29,37 @@ using org.GraphDefined.Vanaheimr.Illias;
 namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
-    public class MessageProtocolHandshake(ProtocolHandshakeTypeTypes       HandshakeType,
-                                          MessageProtocolHandshakeVersion  Version,
-                                          IEnumerable<String>              Formats)
-
+    /// <summary>
+    /// The SHIP message protocol handshake (SHIP TS 1.0.1, chapter 13.4.4.2).
+    /// </summary>
+    /// <param name="HandshakeType">Whether the maximum supported version is announced, or one is selected.</param>
+    /// <param name="Version">The announced or selected protocol version.</param>
+    /// <param name="Formats">The announced or selected message protocol formats.</param>
+    public class MessageProtocolHandshake(ProtocolHandshakeTypeTypes           HandshakeType,
+                                          MessageProtocolHandshakeVersion      Version,
+                                          IEnumerable<MessageProtocolFormat>   Formats)
 
     {
 
         #region Properties
 
+        /// <summary>
+        /// Whether the maximum supported version is announced, or one is selected.
+        /// </summary>
         [Mandatory]
-        public ProtocolHandshakeTypeTypes           HandshakeType    { get; } = HandshakeType;
+        public ProtocolHandshakeTypeTypes          HandshakeType    { get; } = HandshakeType;
 
-
+        /// <summary>
+        /// The announced or selected protocol version.
+        /// </summary>
         [Mandatory]
-        public MessageProtocolHandshakeVersion  Version          { get; } = Version;
+        public MessageProtocolHandshakeVersion     Version          { get; } = Version;
 
-
+        /// <summary>
+        /// The announced or selected message protocol formats.
+        /// </summary>
         [Mandatory]
-        public IEnumerable<String>                  Formats          { get; } = Formats;
+        public IEnumerable<MessageProtocolFormat>  Formats          { get; } = Formats.Distinct();
 
         #endregion
 
@@ -144,14 +156,35 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #region Formats          [mandatory]
 
-                if (!JSON.ParseMandatory("formats",
-                                         "formats",
-                                         out IEnumerable<String> Formats,
-                                         out ErrorResponse))
+                // The XSD wraps the repeated "format" elements within a "formats"
+                // complex type: { "formats": { "format": [ "JSON-UTF8" ] } }
+                if (JSON["formats"] is not JObject formatsJSON)
                 {
-                    // The underlying parser does not guarantee an error response!
-                    ErrorResponse ??= "The given message protocol formats are invalid!";
+                    ErrorResponse = "The given message protocol formats are missing or invalid!";
                     return false;
+                }
+
+                if (formatsJSON["format"] is not JArray formatArray ||
+                    formatArray.Count == 0)
+                {
+                    ErrorResponse = "The given message protocol formats must contain at least one format!";
+                    return false;
+                }
+
+                var Formats = new List<MessageProtocolFormat>();
+
+                foreach (var format in formatArray)
+                {
+
+                    if (format.Type != JTokenType.String ||
+                        !MessageProtocolFormat.TryParse(format.Value<String>() ?? "", out var messageProtocolFormat))
+                    {
+                        ErrorResponse = $"The message protocol format '{format}' is invalid!";
+                        return false;
+                    }
+
+                    Formats.Add(messageProtocolFormat);
+
                 }
 
                 #endregion
@@ -199,7 +232,11 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                                  new JProperty("version",         Version.      ToJSON(CustomMessageProtocolHandshakeVersionSerializer)),
 
-                                 new JProperty("formats",         new JArray(Formats))
+                                 new JProperty("formats",         new JObject(
+                                                                      new JProperty("format",
+                                                                          new JArray(Formats.Select(format => format.ToString()))
+                                                                      )
+                                                                  ))
 
                        );
 

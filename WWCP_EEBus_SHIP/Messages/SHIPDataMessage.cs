@@ -180,6 +180,19 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         #endregion
 
 
+
+        #region ToMessageJSON()
+
+        /// <summary>
+        /// Return the JSON representation of this message.
+        /// </summary>
+        public override JObject ToMessageJSON()
+
+            => ToJSON();
+
+        #endregion
+
+
     }
 
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2014-2026 GraphDefined GmbH <achim.friedland@graphdefined.com>
  * This file is part of WWCP EEBus <https://github.com/OpenChargingCloud/WWCP_EEBus>
  *
@@ -113,9 +113,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP.tests
             Assert.That(connectionHello, Is.Not.Null);
 
             Assert.Multiple(() => {
-                Assert.That(connectionHello.Phase,                Is.EqualTo(ConnectionHelloPhase.Pending));
-                Assert.That(connectionHello.Waiting,              Is.EqualTo(60000));
-                Assert.That(connectionHello.ProlongationRequest,  Is.True);
+                Assert.That(connectionHello!.Phase,                Is.EqualTo(ConnectionHelloPhase.Pending));
+                Assert.That(connectionHello!.Waiting,              Is.EqualTo(60000));
+                Assert.That(connectionHello!.ProlongationRequest,  Is.True);
             });
 
         }
@@ -152,7 +152,7 @@ namespace cloud.charging.open.protocols.EEBus.SHIP.tests
 
             Assert.That(ConnectionHello.TryParse(json, out var parsed, out var errorResponse), Is.True, errorResponse);
 
-            var json2 = parsed.ToJSON();
+            var json2 = parsed!.ToJSON();
 
             Assert.Multiple(() => {
                 Assert.That(json2["phase"]?.  Value<String>(),  Is.EqualTo(Phase));
