@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>cloud.charging.open.protocols.EEBUS.UseCases</RootNamespace>
+    <AssemblyName>cloud.charging.open.protocols.EEBUS.UseCases</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj" />
+    <ProjectReference Include="..\..\Styx\Styx\Styx.csproj" />
+    <ProjectReference Include="..\WWCP_EEBUS_SHIP\WWCP_EEBUS_SHIP.csproj" />
+    <ProjectReference Include="..\WWCP_EEBUS_SPINE\WWCP_EEBUS_SPINE.csproj" />
+  </ItemGroup>
+
+</Project>
