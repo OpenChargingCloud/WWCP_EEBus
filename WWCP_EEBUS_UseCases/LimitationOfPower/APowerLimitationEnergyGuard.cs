@@ -42,6 +42,17 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
     public abstract class APowerLimitationEnergyGuard : AUseCase
     {
 
+        #region Data
+
+        /// <summary>
+        /// The last limit written to each controllable system, so that rule 913
+        /// has something to say when communication comes back.
+        /// </summary>
+        private readonly Dictionary<String, (Decimal Value, Boolean IsActive, TimeSpan? Duration)> lastWritten
+            = new (StringComparer.Ordinal);
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -59,6 +70,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
         /// The heartbeat itself.
         /// </summary>
         public SPINEHeartbeat     Heartbeat    { get; }
+
+        /// <summary>
+        /// Whether this energy guard introduces itself to a controllable system
+        /// as soon as it discovers one, as rule 913 requires.
+        /// </summary>
+        public Boolean            AnnounceOnDiscovery   { get; set; } = true;
 
         #endregion
 
@@ -104,7 +121,111 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 
             Heartbeat = new SPINEHeartbeat(Diagnosis);
 
+            // Rule 913: "After initial connection or restoration of
+            // communication, the EG SHALL send a heartbeat and a following APCL
+            // within 60 seconds to the CS after having determined that the
+            // communication is possible again."
+            //
+            // Determining that is exactly what this event says. Without it a
+            // controllable system which has just rebooted sits in "init" waiting
+            // for someone to take charge of it, and after 120 seconds decides
+            // that nobody will - which is a house limited to its failsafe value
+            // because two devices were each waiting for the other to speak first.
+            //
+            // The announcement is queued rather than awaited here: this runs
+            // inside the handling of a datagram, and sending one from there would
+            // put the sender back into itself.
+            // The trigger is the arrival of the partner's use case data, not a
+            // *change* in it. After a reconnection nothing about the partner has
+            // changed - it is the same device saying the same things - so
+            // anything watching for a change would stay silent exactly when the
+            // rule needs it to speak. What has changed is that the data arrived
+            // at all, which is precisely "having determined that the
+            // communication is possible again".
+            //
+            // The base class subscribes first and at the same level, so by the
+            // time this runs it has already worked out who the partners are.
+            //
+            // Sent here and now rather than handed to the thread pool. A test
+            // bench and a simulation both have to be able to run the same
+            // scenario twice and get the same log, and an announcement which
+            // races the next test step gives neither - the whole point of the
+            // FakeTimeProvider is that nothing happens except when something
+            // makes it happen.
+            Device.Events.Subscribe<SPINEDataChanged>(
+                @event => {
+
+                    if (!AnnounceOnDiscovery ||
+                        @event.Change.Function != SPINENodeManagement.UseCaseData)
+                        return;
+
+                    var device   = @event.Change.RemoteFeature.Device.DeviceAddress;
+
+                    var partners = Partners.
+                                       Where (partner => partner.Entity.Address.Device == device).
+                                       Select(partner => partner.Entity).
+                                       ToList();
+
+                    foreach (var partner in partners)
+                        try
+                        {
+                            AnnounceTo(partner).GetAwaiter().GetResult();
+                        }
+                        catch
+                        {
+                            // A partner which vanished again between the event
+                            // and the write is not an error worth propagating
+                            // into somebody else's event loop.
+                        }
+
+                },
+                SPINEEventLevel.Core
+            );
+
         }
+
+        #endregion
+
+        #region AnnounceTo(Partner, CancellationToken = default)
+
+        /// <summary>
+        /// Tell a controllable system that this energy guard is here and what it
+        /// wants: one heartbeat, and then the limit (rule 913).
+        ///
+        /// The order matters and is the whole rule. In "init", the failsafe state
+        /// and "unlimited/autonomous" a controllable system evaluates a limit
+        /// only when a heartbeat came first, so an energy guard which writes the
+        /// limit before saying hello has written nothing at all.
+        ///
+        /// What is announced is the last limit this energy guard wrote to that
+        /// partner, or a deactivated one where it has written none yet - which
+        /// is the correct opening statement: "I am here, and I am not limiting
+        /// you".
+        /// </summary>
+        /// <param name="Partner">An entity of a controllable system.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        public async Task AnnounceTo(SPINERemoteEntity  Partner,
+                                     CancellationToken  CancellationToken   = default)
+        {
+
+            await Heartbeat.SendOnce(PowerLimitation.HeartbeatInterval, CancellationToken);
+
+            var (value, isActive, duration) = lastWritten.TryGetValue(KeyOf(Partner), out var remembered)
+                                                  ? remembered
+                                                  : (0m, false, (TimeSpan?) null);
+
+            await WriteConsumptionLimit(Partner,
+                                        value,
+                                        isActive,
+                                        duration,
+                                        CancellationToken);
+
+        }
+
+
+        private static String KeyOf(SPINERemoteEntity Entity)
+
+            => $"{Entity.Address.Device?.ToLowerInvariant()}:[{String.Join(',', Entity.EntityId)}]";
 
         #endregion
 
@@ -202,23 +323,31 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
                                    ?? throw new InvalidOperationException(
                                           $"{Partner.Address} has no active power consumption limit of this use case.");
 
-            return await loadControl.WriteData(
-                             PowerLimitation.LimitListData,
-                             new LoadControlLimitListDataType {
-                                 LoadControlLimitData = [
-                                     new LoadControlLimitDataType {
-                                         LimitId        = limitId,
-                                         IsLimitActive  = IsActive,
-                                         Value          = ScaledNumberType.FromValue(Value),
-                                         TimePeriod     = Duration is not null
-                                                              ? TimePeriodType.FromDuration(Duration.Value)
-                                                              : null
-                                     }
-                                 ]
-                             },
-                             Partial: true,
-                             CancellationToken: CancellationToken
-                         );
+            var response = await loadControl.WriteData(
+                                     PowerLimitation.LimitListData,
+                                     new LoadControlLimitListDataType {
+                                         LoadControlLimitData = [
+                                             new LoadControlLimitDataType {
+                                                 LimitId        = limitId,
+                                                 IsLimitActive  = IsActive,
+                                                 Value          = ScaledNumberType.FromValue(Value),
+                                                 TimePeriod     = Duration is not null
+                                                                      ? TimePeriodType.FromDuration(Duration.Value)
+                                                                      : null
+                                             }
+                                         ]
+                                     },
+                                     Partial: true,
+                                     CancellationToken: CancellationToken
+                                 );
+
+            // What was said last is what gets said again after a reconnection
+            // (rule 913). Remembered whether or not it was accepted: a limit the
+            // controllable system refused is still this energy guard's intent,
+            // and refusing it again is its answer to give.
+            lastWritten[KeyOf(Partner)] = (Value, IsActive, Duration);
+
+            return response;
 
         }
 

@@ -292,15 +292,27 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
                                                          ? To(PowerLimitationState.Limited,             2, $"{Profile.Rule("904")} heartbeat and an activated limit which can be applied")
                                                          : To(PowerLimitationState.UnlimitedControlled, 1, $"{Profile.Rule("902")}, {Profile.Rule("905")} heartbeat and a deactivated limit, or one which cannot be applied"),
 
-                    // 4: unlimited/controlled --> limited
-                    PowerLimitationState.UnlimitedControlled  => limited
-                                                         ? To(PowerLimitationState.Limited,             4, $"{Profile.Rule("910")} an activated limit which can be applied")
-                                                         : null,
-
-                    // 6: limited --> unlimited/controlled
-                    PowerLimitationState.Limited              => limited
+                    // 4: unlimited/controlled --> limited.
+                    //
+                    // A limit which was *rejected* changes nothing here, and that
+                    // is a rule of its own rather than a special case of this one
+                    // ([LPC-907/1]): in the two controlled states the energy
+                    // guard is already known to be there, so a refusal carries no
+                    // news and moving on it would let a device be talked out of a
+                    // limitation by a value it could not even apply.
+                    PowerLimitationState.UnlimitedControlled  => !CanBeApplied
                                                          ? null
-                                                         : To(PowerLimitationState.UnlimitedControlled, 6, $"{Profile.Rule("909")} a deactivated limit"),
+                                                         : Activated
+                                                               ? To(PowerLimitationState.Limited,       4, $"{Profile.Rule("910")} an activated limit which can be applied")
+                                                               : null,
+
+                    // 6: limited --> unlimited/controlled, on a deactivation
+                    // which was accepted - and only on that ([LPC-907/2]).
+                    PowerLimitationState.Limited              => !CanBeApplied
+                                                         ? null
+                                                         : Activated
+                                                               ? null
+                                                               : To(PowerLimitationState.UnlimitedControlled, 6, $"{Profile.Rule("909")} a deactivated limit"),
 
                     // 9 / 8: failsafe --> limited, or --> unlimited/controlled
                     PowerLimitationState.FailsafeState        => limited

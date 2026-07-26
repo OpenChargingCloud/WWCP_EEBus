@@ -249,6 +249,16 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                     measurement.ValueType != MeasurementValueTypeType.Value)
                     continue;
 
+                // A value the monitored device has marked "out of range" or
+                // "error" SHALL be ignored (MPC 1.0.0 section 2.5.2, MGCP 1.0.0
+                // section 2.6.2). Ignored means not read at all - not "read and
+                // then hope somebody checks the state", because everything above
+                // this line reads a list of numbers and cannot tell which of
+                // them a sensor was lying about.
+                if (measurement.ValueState is MeasurementValueStateType state &&
+                    state != MeasurementValueStateType.Normal)
+                    continue;
+
                 readings.Add(new MonitoringReading(quantity,
                                                    value,
                                                    measurement.Timestamp?.AsDateTimeOffset));

@@ -224,11 +224,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
         /// <param name="Value">Its value, in the unit of the quantity.</param>
         /// <param name="CancellationToken">An optional cancellation token.</param>
         /// <exception cref="ArgumentException">When this device does not publish that quantity.</exception>
-        public Task Set(MonitoringQuantity  Quantity,
-                        Decimal             Value,
-                        CancellationToken   CancellationToken   = default)
+        public Task Set(MonitoringQuantity          Quantity,
+                        Decimal                     Value,
+                        MeasurementValueStateType?  ValueState          = null,
+                        CancellationToken           CancellationToken   = default)
 
-            => Set([ (Quantity, Value) ], CancellationToken);
+            => Set([ (Quantity, Value) ], ValueState, CancellationToken);
 
 
         /// <summary>
@@ -236,8 +237,10 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
         /// than several.
         /// </summary>
         /// <param name="Values">The quantities and their values.</param>
+        /// <param name="ValueState">Whether the values are normal, out of range or erroneous. Normal by omission.</param>
         /// <param name="CancellationToken">An optional cancellation token.</param>
         public async Task Set(IEnumerable<(MonitoringQuantity Quantity, Decimal Value)>  Values,
+                              MeasurementValueStateType?                                 ValueState          = null,
                               CancellationToken                                          CancellationToken   = default)
         {
 
@@ -263,9 +266,17 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                     data.MeasurementData.Add(entry);
                 }
 
-                entry.ValueType  = MeasurementValueTypeType.Value;
-                entry.Value      = ScaledNumberType.FromValue(value);
-                entry.Timestamp  = timestamp;
+                entry.ValueType   = MeasurementValueTypeType.Value;
+                entry.Value       = ScaledNumberType.FromValue(value);
+                entry.Timestamp   = timestamp;
+
+                // A measurement is normal unless the device says otherwise, and
+                // saying otherwise is not decoration: a value marked "outOfRange"
+                // or "error" is one the reader has to throw away rather than act
+                // on (MPC 1.0.0, section 2.5.2). A sensor which has failed and
+                // keeps publishing its last plausible number is worse than one
+                // which admits it.
+                entry.ValueState  = ValueState;
 
             }
 

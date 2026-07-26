@@ -182,6 +182,36 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         #endregion
 
+        #region SendOnce(Interval = null, CancellationToken = default)
+
+        /// <summary>
+        /// Send a single heartbeat, now, without starting or disturbing the
+        /// timer.
+        ///
+        /// The limitation use cases ask for exactly this. Rule 913: after the
+        /// initial connection or the restoration of communication, the energy
+        /// guard sends "a heartbeat and a following APCL within 60 seconds ...
+        /// after having determined that the communication is possible again" -
+        /// which is a beat caused by an event rather than by a period, and
+        /// waiting for the next tick of the timer would miss the window.
+        /// </summary>
+        /// <param name="Interval">Which timeout to announce, when no timer is running.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        public async Task SendOnce(TimeSpan?          Interval            = null,
+                                   CancellationToken  CancellationToken   = default)
+        {
+
+            lock (heartbeatLock)
+            {
+                this.Interval ??= Interval ?? TimeSpan.FromSeconds(60);
+            }
+
+            await Beat(CancellationToken);
+
+        }
+
+        #endregion
+
         #region (private) Beat(CancellationToken)
 
         private async Task Beat(CancellationToken CancellationToken)

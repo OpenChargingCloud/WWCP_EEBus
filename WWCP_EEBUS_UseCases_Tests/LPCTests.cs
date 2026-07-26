@@ -120,6 +120,14 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.tests
 
             await guard.StartHeartbeat();
 
+            // A commissioning is not finished until the controllable system has
+            // been told what it may draw. Until then it is in "init", where
+            // section 2.2 has it evaluate a limit only right after a heartbeat
+            // and nothing else at all - so a test which skipped this step would
+            // be writing failsafe values into a device which is required to
+            // refuse them.
+            await guard.WriteConsumptionLimit(CS, 0, IsActive: false);
+
         }
 
         #endregion

@@ -90,6 +90,19 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
         public SPINELocalFeature   HeartbeatServer { get; }
 
         /// <summary>
+        /// The heartbeat of this controllable system.
+        ///
+        /// Both sides of this use case have one and both are required to send it
+        /// at least every 60 seconds ([LPC-006] and [LPC-032], sections 2.1 and
+        /// 2.6.3.1). The energy guard's is the famous one, because losing it
+        /// pushes the controllable system into its failsafe state - but the one
+        /// in this direction is what lets an energy guard tell "the limit was
+        /// accepted and is being kept" from "the appliance stopped answering
+        /// ten minutes ago".
+        /// </summary>
+        public SPINEHeartbeat      Heartbeat       { get; }
+
+        /// <summary>
         /// The electrical connection server feature, which holds the nominal
         /// maximum.
         /// </summary>
@@ -357,6 +370,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 
             HeartbeatServer.AddFunction(PowerLimitation.HeartbeatData);
 
+            Heartbeat = new SPINEHeartbeat(HeartbeatServer);
+
             Diagnosis = Entity.Feature(FeatureTypeType.DeviceDiagnosis, RoleType.Client)
                             ?? Entity.AddFeature(FeatureTypeType.DeviceDiagnosis, RoleType.Client);
 
@@ -564,18 +579,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 
             var value = written.Value?.Value ?? ConsumptionLimit.Value ?? 0;
 
-            #region A limit below zero is refused (section 2.2)
+            #region Only a write which follows a heartbeat is evaluated at all (section 2.2)
 
-            if (value < 0)
-                return Task.FromResult<ResultDataType?>(
-                           ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
-                                                $"An active power {Profile.Direction.ToString().ToLower()} limit below zero is refused (section 2.2).")
-                       );
-
-            #endregion
-
-            #region Only a write which follows a heartbeat is evaluated (section 2.2)
-
+            // This one comes first, and it is the only check which leaves the
+            // state alone. A limit which arrives without a heartbeat before it
+            // was not evaluated - the energy guard has not established that it
+            // is talking to this device yet - so nothing about the device's
+            // state may follow from it.
             if (!StateMachine.MayEvaluateLimitWrite())
                 return Task.FromResult<ResultDataType?>(
                            ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
@@ -585,15 +595,28 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
 
             #endregion
 
-            var activated  = written.IsLimitActive ?? ConsumptionLimit.IsActive;
-            var applicable = CanApplyLimit?.Invoke(value) ?? true;
+            var activated   = written.IsLimitActive ?? ConsumptionLimit.IsActive;
 
-            // The state follows either way: a limit which cannot be applied
-            // still takes the controllable system out of its failsafe state
-            // (rules 916 and 918).
-            var transition = StateMachine.LimitWritten(activated, applicable);
+            // A limit below zero is one this device cannot apply, and that is
+            // all it is. The distinction matters: an unusable *value* is still
+            // an energy guard talking, and rules 902, 918 and the transitions 1,
+            // 8 and 11 all say that being talked to is what ends "init", the
+            // failsafe state and "unlimited/autonomous" - whatever the number
+            // was. A device which refuses the value and stays in its failsafe
+            // state has taken the one message which proves it is not alone and
+            // concluded from it that it is.
+            var belowZero   = value < 0;
+            var applicable  = !belowZero && (CanApplyLimit?.Invoke(value) ?? true);
+
+            var transition  = StateMachine.LimitWritten(activated, applicable);
 
             OnLimitWritten?.Invoke(this, value, activated, applicable);
+
+            if (belowZero)
+                return Task.FromResult<ResultDataType?>(
+                           ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
+                                                $"An active power {Profile.Direction.ToString().ToLower()} limit below zero is refused (section 2.2).")
+                       );
 
             if (!applicable)
                 return Task.FromResult<ResultDataType?>(
@@ -624,6 +647,26 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
             if (Message.Data is not DeviceConfigurationKeyValueListDataType data)
                 return Task.FromResult<ResultDataType?>(null);
 
+            #region Nothing else is evaluated before a heartbeat and a limit (section 2.2)
+
+            // Rule 037, the second gate. The first one guards the limit itself;
+            // this one guards everything else, and it is the stricter of the two
+            // because the failsafe values are what applies when everything else
+            // has failed. A device which lets an unproven partner rewrite them
+            // has handed over the one number it was supposed to be able to fall
+            // back on. Leaving those three states is what proves the partner:
+            // it happens only through a heartbeat and a limit which followed it.
+            if (StateMachine.State is PowerLimitationState.Init
+                                   or PowerLimitationState.FailsafeState
+                                   or PowerLimitationState.UnlimitedAutonomous)
+                return Task.FromResult<ResultDataType?>(
+                           ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
+                                                $"In state '{StateMachine.State}' commands on any data point other than the limit " +
+                                                $"are evaluated only after a heartbeat and a following limit (section 2.2).")
+                       );
+
+            #endregion
+
             foreach (var entry in data.DeviceConfigurationKeyValueData ?? [])
             {
 
@@ -639,12 +682,25 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
                     entry.Value?.Duration?.AsTimeSpan is TimeSpan duration &&
                     (duration < PowerLimitation.FailsafeDurationMinimumLowerBound ||
                      duration > PowerLimitation.FailsafeDurationMinimumUpperBound))
+                {
+
+                    // Rule 022/5: having refused a value which was too long, the
+                    // controllable system moves to its own maximum rather than
+                    // keeping what it had. Otherwise the energy guard is left
+                    // believing a number it never chose and this device never
+                    // confirmed - and the two of them disagree about how long a
+                    // failsafe state would last.
+                    if (duration > PowerLimitation.FailsafeDurationMinimumUpperBound)
+                        FailsafeDurationMinimum = PowerLimitation.FailsafeDurationMinimumUpperBound;
+
                     return Task.FromResult<ResultDataType?>(
                                ResultDataType.Error(SPINEErrorNumbers.CommandRejected,
                                                     $"The failsafe duration minimum has to be between " +
                                                     $"{PowerLimitation.FailsafeDurationMinimumLowerBound} and {PowerLimitation.FailsafeDurationMinimumUpperBound} " +
                                                     $"({Profile.Rule("022/3")}).")
                            );
+
+                }
 
             }
 
