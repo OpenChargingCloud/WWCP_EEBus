@@ -38,6 +38,18 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases
                                          String?                       Description   = null)
     {
 
+        /// <summary>
+        /// Whether a device implementing the use case at all has to support this
+        /// scenario.
+        ///
+        /// Only meaningful where a use case is described as a whole - a profile
+        /// listing every scenario the document has. The list an actor hands to
+        /// <see cref="AUseCase"/> is what it actually supports, and there the
+        /// question no longer arises.
+        /// </summary>
+        public Boolean  Mandatory    { get; init; }
+
+
         /// <summary>Return a text representation of this scenario.</summary>
         public override String ToString()
 

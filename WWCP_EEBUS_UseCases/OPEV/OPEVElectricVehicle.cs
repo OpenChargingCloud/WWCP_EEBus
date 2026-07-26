@@ -101,6 +101,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.OPEV
 
         private readonly Dictionary<UInt32, UInt32>   limitIdOfPhase          = [];
 
+        private readonly Dictionary<UInt32, UInt32>   parameterIdOfPhase      = [];
+
         private          DateTimeOffset?              lastHeartbeat;
 
         private          Boolean                      energyGuardFailed;
@@ -192,30 +194,50 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.OPEV
 
             #region The electrical connection: which phase is which (scenario 1)
 
+            // An EV entity is regularly the server of several use cases at once
+            // - the commissioning, the electricity measurement and the state of
+            // charge all write to this same feature - and SPINE allows only one
+            // of it per entity. So the identifiers are picked around whatever is
+            // already there and the entries are appended rather than replacing
+            // the list (see docs/adr/0006-one-feature-many-use-cases.md).
             Electrical = Entity.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server)
                              ?? Entity.AddFeature(FeatureTypeType.ElectricalConnection, RoleType.Server);
 
             Electrical.AddFunction(OverloadProtection.ParameterDescriptionListData);
             Electrical.AddFunction(OverloadProtection.PermittedValueSetListData);
 
-            var phases = new[] { ElectricalConnectionPhaseNameType.A,
-                                 ElectricalConnectionPhaseNameType.B,
-                                 ElectricalConnectionPhaseNameType.C };
+            var phases     = new[] { ElectricalConnectionPhaseNameType.A,
+                                     ElectricalConnectionPhaseNameType.B,
+                                     ElectricalConnectionPhaseNameType.C };
+
+            var parameters = Electrical.DataCopy<ElectricalConnectionParameterDescriptionListDataType>(OverloadProtection.ParameterDescriptionListData)?.
+                                 ElectricalConnectionParameterDescriptionData?.ToList() ?? [];
+
+            foreach (var (phase, parameterId) in Enumerable.Range(0, (Int32) PhaseCount).
+                                                     Zip(UseCaseIds.NextFree(parameters.Select(parameter => parameter.ParameterId),
+                                                                             Count:       PhaseCount,
+                                                                             StartingAt:  0)))
+            {
+
+                parameterIdOfPhase[(UInt32) phase] = parameterId;
+
+                parameters.Add(new ElectricalConnectionParameterDescriptionDataType {
+                                   ElectricalConnectionId  = electricalConnectionId,
+                                   ParameterId             = parameterId,
+                                   MeasurementId           = parameterId,
+                                   VoltageType             = ElectricalConnectionVoltageTypeType.Ac,
+                                   AcMeasuredPhases        = phases[phase],
+                                   AcMeasuredInReferenceTo = ElectricalConnectionPhaseNameType.Neutral,
+                                   AcMeasurementType       = ElectricalConnectionAcMeasurementTypeType.Real,
+                                   AcMeasurementVariant    = ElectricalConnectionMeasurandVariantType.Rms,
+                                   ScopeType               = ScopeTypeType.AcCurrent
+                               });
+
+            }
 
             Electrical.FunctionData(OverloadProtection.ParameterDescriptionListData)!.SetData(
                 new ElectricalConnectionParameterDescriptionListDataType {
-                    ElectricalConnectionParameterDescriptionData = [.. Enumerable.Range(0, (Int32) PhaseCount).
-                        Select(phase => new ElectricalConnectionParameterDescriptionDataType {
-                                            ElectricalConnectionId  = electricalConnectionId,
-                                            ParameterId             = (UInt32) phase,
-                                            MeasurementId           = (UInt32) phase,
-                                            VoltageType             = ElectricalConnectionVoltageTypeType.Ac,
-                                            AcMeasuredPhases        = phases[phase],
-                                            AcMeasuredInReferenceTo = ElectricalConnectionPhaseNameType.Neutral,
-                                            AcMeasurementType       = ElectricalConnectionAcMeasurementTypeType.Real,
-                                            AcMeasurementVariant    = ElectricalConnectionMeasurandVariantType.Rms,
-                                            ScopeType               = ScopeTypeType.AcCurrent
-                                        })]
+                    ElectricalConnectionParameterDescriptionData = parameters
                 }
             );
 
@@ -236,17 +258,23 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.OPEV
                                     PartialRead:   true,
                                     PartialWrite:  true);
 
-            var descriptions = new List<LoadControlLimitDescriptionDataType>();
-            var limits       = new List<LoadControlLimitDataType>();
+            // The same rule as for the electrical connection above: an EV which
+            // also runs the optimisation of self consumption puts its own
+            // recommendations on this feature.
+            var descriptions = LoadControl.DataCopy<LoadControlLimitDescriptionListDataType>(OverloadProtection.LimitDescriptionListData)?.
+                                   LoadControlLimitDescriptionData?.ToList() ?? [];
 
-            for (var phase = 0u; phase < PhaseCount; phase++)
+            var limits       = LoadControl.DataCopy<LoadControlLimitListDataType>(OverloadProtection.LimitListData)?.
+                                   LoadControlLimitData?.ToList() ?? [];
+
+            foreach (var (phase, limitId) in Enumerable.Range(0, (Int32) PhaseCount).
+                                                 Zip(UseCaseIds.NextFree(descriptions.Select(description => description.LimitId),
+                                                                         Count: PhaseCount)))
             {
 
-                var limitId = phase + 1;
+                limitIdOfPhase[(UInt32) phase] = limitId;
 
-                limitIdOfPhase[phase] = limitId;
-
-                descriptions.Add(OverloadProtection.LimitDescription(limitId, phase));
+                descriptions.Add(OverloadProtection.LimitDescription(limitId, (UInt32) phase));
 
                 limits.Add(new LoadControlLimitDataType {
                                LimitId            = limitId,
@@ -265,7 +293,14 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.OPEV
                 new LoadControlLimitListDataType { LoadControlLimitData = limits }
             );
 
-            LoadControl.WriteApproval = ApproveLimits;
+            // Chained rather than assigned: whoever else is on this feature gets
+            // to keep its veto.
+            var approvedBySomeoneElse  = LoadControl.WriteApproval;
+            LoadControl.WriteApproval  = async (message, cancellationToken) =>
+                await ApproveLimits(message, cancellationToken)
+                    ?? (approvedBySomeoneElse is not null
+                            ? await approvedBySomeoneElse(message, cancellationToken)
+                            : null);
 
             #endregion
 
@@ -298,23 +333,34 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.OPEV
                                          Decimal  Maximum)
         {
 
+            // Only our own parameters are rewritten: the charging power limits
+            // of the EV commissioning use case live in this same list.
+            var mine      = parameterIdOfPhase.Values.ToHashSet();
+
+            var permitted = Electrical.DataCopy<ElectricalConnectionPermittedValueSetListDataType>(OverloadProtection.PermittedValueSetListData)?.
+                                ElectricalConnectionPermittedValueSetData?.
+                                Where(entry => entry.ParameterId is not UInt32 id || !mine.Contains(id)).
+                                ToList() ?? [];
+
+            foreach (var parameterId in parameterIdOfPhase.OrderBy(entry => entry.Key).Select(entry => entry.Value))
+                permitted.Add(new ElectricalConnectionPermittedValueSetDataType {
+                                  ElectricalConnectionId  = electricalConnectionId,
+                                  ParameterId             = parameterId,
+                                  PermittedValueSet       = [
+                                      new ScaledNumberSetType {
+                                          Range = [
+                                              new ScaledNumberRangeType {
+                                                  Min = ScaledNumberType.FromValue(Minimum),
+                                                  Max = ScaledNumberType.FromValue(Maximum)
+                                              }
+                                          ]
+                                      }
+                                  ]
+                              });
+
             Electrical.FunctionData(OverloadProtection.PermittedValueSetListData)!.SetData(
                 new ElectricalConnectionPermittedValueSetListDataType {
-                    ElectricalConnectionPermittedValueSetData = [.. Enumerable.Range(0, (Int32) PhaseCount).
-                        Select(phase => new ElectricalConnectionPermittedValueSetDataType {
-                                            ElectricalConnectionId  = electricalConnectionId,
-                                            ParameterId             = (UInt32) phase,
-                                            PermittedValueSet       = [
-                                                new ScaledNumberSetType {
-                                                    Range = [
-                                                        new ScaledNumberRangeType {
-                                                            Min = ScaledNumberType.FromValue(Minimum),
-                                                            Max = ScaledNumberType.FromValue(Maximum)
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        })]
+                    ElectricalConnectionPermittedValueSetData = permitted
                 }
             );
 

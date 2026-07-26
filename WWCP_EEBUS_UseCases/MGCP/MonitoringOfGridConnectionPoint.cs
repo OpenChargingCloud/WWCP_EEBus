@@ -181,13 +181,13 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MGCP
                                            EntityTypeType.GridConnectionPointOfPremises ],
 
                    Scenarios: [
-                       new (ScenarioCurtailment,     "Monitor the PV curtailment limit factor",  false,  [ FeatureTypeType.DeviceConfiguration ]),
-                       new (ScenarioPower,           "Monitor the momentary power",              true,   Measured),
-                       new (ScenarioEnergyFeedIn,    "Monitor the total feed-in energy",         true,   Measured),
-                       new (ScenarioEnergyConsumed,  "Monitor the total consumed energy",        true,   Measured),
-                       new (ScenarioCurrent,         "Monitor the current",                      false,  Measured),
-                       new (ScenarioVoltage,         "Monitor the voltage",                      false,  Measured),
-                       new (ScenarioFrequency,       "Monitor the frequency",                    false,  Measured)
+                       new (ScenarioCurtailment,     [ FeatureTypeType.DeviceConfiguration ], "Monitor the PV curtailment limit factor"),
+                       new (ScenarioPower,           Measured, "Monitor the momentary power")        { Mandatory = true },
+                       new (ScenarioEnergyFeedIn,    Measured, "Monitor the total feed-in energy")   { Mandatory = true },
+                       new (ScenarioEnergyConsumed,  Measured, "Monitor the total consumed energy")  { Mandatory = true },
+                       new (ScenarioCurrent,         Measured, "Monitor the current"),
+                       new (ScenarioVoltage,         Measured, "Monitor the voltage"),
+                       new (ScenarioFrequency,       Measured, "Monitor the frequency")
                    ],
 
                    ScenarioOfScope: new Dictionary<ScopeTypeType, UInt32> {

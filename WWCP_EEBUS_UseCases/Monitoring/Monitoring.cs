@@ -46,6 +46,19 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                                             ElectricalConnectionPhaseNameType?  Phase   = null)
     {
 
+        /// <summary>
+        /// Which commodity this is a measurement of, where the use case says.
+        ///
+        /// Electricity for everything a meter measures, which is why it is the
+        /// default - but not everything a monitoring use case carries is a
+        /// commodity at all. The state of health of a battery and the remaining
+        /// travel range of a car are measurements of the thing itself, and the
+        /// use case leaves the element out rather than calling them electricity
+        /// (EVSOC 1.0.0 RC1, Table 7). Null means the same here: leave it out.
+        /// </summary>
+        public CommodityTypeType?  Commodity    { get; init; } = CommodityTypeType.Electricity;
+
+
         /// <summary>Return a text representation of this quantity.</summary>
         public override String ToString()
 
@@ -75,27 +88,6 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
 
 
     /// <summary>
-    /// One scenario of a monitoring use case.
-    /// </summary>
-    /// <param name="Number">Its number in the use case document.</param>
-    /// <param name="Name">What it is called there.</param>
-    /// <param name="Mandatory">Whether a device implementing the use case has to support it.</param>
-    /// <param name="ServerFeatures">Which server features the client side needs for it.</param>
-    public sealed record MonitoringScenario(UInt32                        Number,
-                                            String                        Name,
-                                            Boolean                       Mandatory,
-                                            IEnumerable<FeatureTypeType>  ServerFeatures)
-    {
-
-        /// <summary>Return a text representation of this scenario.</summary>
-        public override String ToString()
-
-            => $"{Number}: {Name}";
-
-    }
-
-
-    /// <summary>
     /// What tells one monitoring use case from another.
     ///
     /// The monitoring use cases are the same use case pointed at different
@@ -120,9 +112,70 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                                            String                                      ServerActor,
                                            String                                      ClientActor,
                                            IEnumerable<EntityTypeType>?                ClientEntityTypes,
-                                           IReadOnlyList<MonitoringScenario>           Scenarios,
+                                           IReadOnlyList<UseCaseScenario>              Scenarios,
                                            IReadOnlyDictionary<ScopeTypeType, UInt32>  ScenarioOfScope)
     {
+
+        #region ElectricalParameters / PositiveEnergyDirection / AtLeastOneScenario
+
+        /// <summary>
+        /// Whether the measurements of this use case are measurements of an
+        /// electrical connection.
+        ///
+        /// For most of them they are, and then each one also gets an electrical
+        /// connection parameter description saying which phase it is on - the
+        /// join which is the whole of the client side.
+        ///
+        /// But not every monitored quantity is on a wire. A state of charge in
+        /// percent, a state of health, a travel range in metres: none of them has
+        /// a phase, an rms variant or a voltage type, and the use case which
+        /// carries them lists no parameter description at all (EVSOC 1.0.0 RC1,
+        /// Table 6). Publishing one anyway would put a claim on the wire which
+        /// the specification does not make.
+        /// </summary>
+        public Boolean              ElectricalParameters      { get; init; } = true;
+
+        /// <summary>
+        /// Which direction of energy this use case counts as positive, where it
+        /// measures an electrical connection.
+        /// </summary>
+        public EnergyDirectionType  PositiveEnergyDirection   { get; init; } = EnergyDirectionType.Consume;
+
+        /// <summary>
+        /// Whether supporting the use case means supporting at least one of its
+        /// scenarios, rather than a particular one.
+        ///
+        /// Most use cases name a mandatory scenario. The measurement of
+        /// electricity during EV charging does not: "The EV SHALL support at
+        /// least one of Scenario 1, 2 or 3, as all 3 scenarios measure
+        /// electricity and can be converted into each other" (EVCEM 1.0.1,
+        /// section 2.3). So a device which publishes nothing at all is the only
+        /// one which fails - which is a different check, not a missing one.
+        /// </summary>
+        public Boolean              AtLeastOneScenario        { get; init; }
+
+        /// <summary>
+        /// A second name the watching side goes by, where the field does not
+        /// agree with the document.
+        ///
+        /// The state of charge use case calls its client MonitoringAppliance and
+        /// the certified Go implementation announces a CEM. A monitored device
+        /// which accepts only one of the two would ignore half the field, so it
+        /// accepts both and the appliance may announce either.
+        /// </summary>
+        public String?              AlsoKnownAsClientActor    { get; init; }
+
+
+        /// <summary>
+        /// Every name the watching side may announce itself as.
+        /// </summary>
+        public IEnumerable<String>  ClientActors
+
+            => AlsoKnownAsClientActor is not null
+                   ? [ ClientActor, AlsoKnownAsClientActor ]
+                   : [ ClientActor ];
+
+        #endregion
 
         #region MandatoryScenarios
 
@@ -176,7 +229,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                           Where (scenario => supported.Contains(scenario.Number)).
                           Select(scenario => new UseCaseScenario(scenario.Number,
                                                                  ForClient ? scenario.ServerFeatures : [],
-                                                                 scenario.Name))];
+                                                                 scenario.Description))];
 
         }
 
@@ -208,6 +261,9 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
 
         /// <summary>The function describing the electrical connection itself.</summary>
         public const String ElectricalDescriptionListData   = "electricalConnectionDescriptionListData";
+
+        /// <summary>The function carrying the fixed characteristics of an electrical connection.</summary>
+        public const String CharacteristicListData          = "electricalConnectionCharacteristicListData";
 
     }
 

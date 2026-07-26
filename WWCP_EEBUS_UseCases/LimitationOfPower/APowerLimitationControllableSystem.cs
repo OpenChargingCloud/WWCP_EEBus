@@ -139,20 +139,8 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.LimitationOfPower
         /// <param name="StartingAt">The lowest identifier worth having.</param>
         private static UInt32 NextFree(IEnumerable<UInt32?>  Used,
                                        UInt32                StartingAt   = 1)
-        {
 
-            var used = Used.Where (identifier => identifier.HasValue).
-                            Select(identifier => identifier!.Value).
-                            ToHashSet();
-
-            var next = StartingAt;
-
-            while (used.Contains(next))
-                next++;
-
-            return next;
-
-        }
+            => UseCaseIds.NextFree(Used, StartingAt);
 
         #endregion
 

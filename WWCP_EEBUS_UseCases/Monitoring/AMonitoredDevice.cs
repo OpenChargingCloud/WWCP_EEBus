@@ -50,7 +50,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
 
         private readonly Dictionary<MonitoringQuantity, UInt32>   measurementIdOf         = [];
 
-        private          UInt32                                   nextMeasurementId;
+        private readonly Dictionary<MonitoringQuantity, UInt32>   parameterIdOf           = [];
 
         #endregion
 
@@ -68,9 +68,10 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
 
         /// <summary>
         /// The electrical connection server feature, which says which
-        /// measurement is on which phase.
+        /// measurement is on which phase - or null for a use case whose
+        /// measurements are not measurements of an electrical connection.
         /// </summary>
-        public SPINELocalFeature                                 Electrical     { get; }
+        public SPINELocalFeature?                                Electrical     { get; }
 
         /// <summary>
         /// The phases this device measures.
@@ -111,7 +112,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                        Scenarios:  [.. Quantities.Select(quantity => quantity.Scenario),
                                     .. AlsoSupports ?? []]
                    ),
-                   [ Profile.ClientActor ],
+                   Profile.ClientActors,
                    PartnerEntityTypes:   null,
                    DocumentSubRevision:  Profile.DocumentSubRevision)
 
@@ -131,27 +132,80 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                                     Read:         true,
                                     PartialRead:  true);
 
-            Electrical    = Entity.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server)
-                                ?? Entity.AddFeature(FeatureTypeType.ElectricalConnection, RoleType.Server);
+            if (Profile.ElectricalParameters)
+            {
 
-            Electrical.AddFunction(MonitoringFunctions.ParameterDescriptionListData);
+                Electrical = Entity.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server)
+                                 ?? Entity.AddFeature(FeatureTypeType.ElectricalConnection, RoleType.Server);
+
+                Electrical.AddFunction(MonitoringFunctions.ElectricalDescriptionListData);
+                Electrical.AddFunction(MonitoringFunctions.ParameterDescriptionListData);
+
+            }
 
             // One entity may be measured by more than one monitoring use case -
-            // the meter at a grid connection point is regularly the monitored
-            // unit of the monitoring of power consumption as well - and SPINE
-            // allows only one measurement feature per entity. So the two share
-            // it, and the identifiers have to be picked around each other.
-            nextMeasurementId = (UInt32) (1 + (Measurement.
-                                                   DataCopy<MeasurementDescriptionListDataType>(MonitoringFunctions.MeasurementDescriptionListData)?.
-                                                   MeasurementDescriptionData?.
-                                                   Max(description => (Int64?) description.MeasurementId) ?? -1));
+            // an electric vehicle is measured by the electricity measurement and
+            // by the state of charge at once, the meter at a grid connection
+            // point is regularly the monitored unit of the monitoring of power
+            // consumption as well - and SPINE allows only one measurement feature
+            // per entity. So they share it, and the identifiers have to be picked
+            // around each other rather than started from one.
+            var quantities = Quantities.Distinct().ToList();
 
-            foreach (var quantity in Quantities)
-                Declare(quantity);
+            foreach (var (quantity, measurementId) in quantities.Zip(FreeMeasurementIds((UInt32) quantities.Count)))
+                measurementIdOf[quantity] = measurementId;
+
+            foreach (var (quantity, parameterId)   in quantities.Zip(FreeParameterIds  ((UInt32) quantities.Count)))
+                parameterIdOf  [quantity] = parameterId;
+
+            // A use case which names no mandatory scenario still has to be
+            // implemented as something: the measurement of electricity during EV
+            // charging asks for at least one of its three, because they measure
+            // the same electricity and convert into each other.
+            if (Profile.AtLeastOneScenario &&
+                this.Scenarios.Count == 0)
+                throw new ArgumentException($"A {Profile.ServerActor} of the {Profile.UseCaseName} has to support at least one of its scenarios.",
+                                            nameof(Quantities));
 
             Publish();
 
         }
+
+
+        /// <summary>
+        /// Measurement identifiers nobody else on this measurement feature has
+        /// taken.
+        /// </summary>
+        private IEnumerable<UInt32> FreeMeasurementIds(UInt32 Count)
+
+            => UseCaseIds.NextFree(Measurement.
+                                       DataCopy<MeasurementDescriptionListDataType>(MonitoringFunctions.MeasurementDescriptionListData)?.
+                                       MeasurementDescriptionData?.
+                                       Select(description => description.MeasurementId) ?? [],
+                                   Count,
+                                   StartingAt: 0);
+
+
+        /// <summary>
+        /// Parameter identifiers nobody else on this electrical connection
+        /// feature has taken.
+        ///
+        /// Not the same numbers as the measurement identifiers, even though a
+        /// use case on its own could get away with using one for both: the EV
+        /// commissioning use case puts a parameter on this feature which
+        /// describes no measurement at all (its scenario 6, the charging power
+        /// limits), so the two sequences are not interchangeable.
+        /// </summary>
+        private IEnumerable<UInt32> FreeParameterIds(UInt32 Count)
+
+            => Electrical is null
+                   ? []
+                   : UseCaseIds.NextFree(Electrical.
+                                             DataCopy<ElectricalConnectionParameterDescriptionListDataType>(MonitoringFunctions.ParameterDescriptionListData)?.
+                                             ElectricalConnectionParameterDescriptionData?.
+                                             Select(parameter => parameter.ParameterId) ?? [],
+                                         Count,
+                                         StartingAt: 0);
 
         #endregion
 
@@ -241,25 +295,12 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
         #endregion
 
 
-        #region (private) Declare(Quantity) / Publish()
-
-        /// <summary>
-        /// Give a quantity a measurement identifier, so that its description and
-        /// its values can refer to each other.
-        /// </summary>
-        private void Declare(MonitoringQuantity Quantity)
-        {
-
-            if (!measurementIdOf.ContainsKey(Quantity))
-                measurementIdOf[Quantity] = nextMeasurementId++;
-
-        }
-
+        #region (private) Publish()
 
         /// <summary>
         /// Write the descriptions of everything this device measures.
         ///
-        /// Two of them per quantity which is on a phase: the measurement
+        /// Two of them per quantity which is on a wire: the measurement
         /// description says what it is, and the electrical connection parameter
         /// description says where. A monitoring appliance which reads only one
         /// of the two learns a number without knowing which wire it came from.
@@ -267,18 +308,22 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
         private void Publish()
         {
 
-            // Whatever another monitoring use case on this entity has already
-            // described stays; only our own measurements are rewritten.
+            // Whatever another use case on this entity has already described
+            // stays; only our own entries are rewritten. Matched on the
+            // identifier we were given rather than on "the identifier or zero" -
+            // an entry with no measurement identifier at all is somebody else's
+            // by definition, and the lowest free identifier really can be zero.
             var mine          = measurementIdOf.Values.ToHashSet();
+            var minesToo      = parameterIdOf.  Values.ToHashSet();
 
             var descriptions  = Measurement.DataCopy<MeasurementDescriptionListDataType>(MonitoringFunctions.MeasurementDescriptionListData)?.
                                     MeasurementDescriptionData?.
-                                    Where(description => !mine.Contains(description.MeasurementId ?? 0)).
+                                    Where(description => description.MeasurementId is not UInt32 id || !mine.Contains(id)).
                                     ToList() ?? [];
 
-            var parameters    = Electrical. DataCopy<ElectricalConnectionParameterDescriptionListDataType>(MonitoringFunctions.ParameterDescriptionListData)?.
+            var parameters    = Electrical?.DataCopy<ElectricalConnectionParameterDescriptionListDataType>(MonitoringFunctions.ParameterDescriptionListData)?.
                                     ElectricalConnectionParameterDescriptionData?.
-                                    Where(parameter => !mine.Contains(parameter.MeasurementId ?? 0)).
+                                    Where(parameter => parameter.ParameterId is not UInt32 id || !minesToo.Contains(id)).
                                     ToList() ?? [];
 
             foreach (var (quantity, measurementId) in measurementIdOf.OrderBy(entry => entry.Value))
@@ -287,14 +332,17 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                 descriptions.Add(new MeasurementDescriptionDataType {
                                      MeasurementId    = measurementId,
                                      MeasurementType  = quantity.Type,
-                                     CommodityType    = CommodityTypeType.Electricity,
+                                     CommodityType    = quantity.Commodity,
                                      Unit             = quantity.Unit,
                                      ScopeType        = quantity.Scope
                                  });
 
+                if (Electrical is null)
+                    continue;
+
                 parameters.Add(new ElectricalConnectionParameterDescriptionDataType {
                                    ElectricalConnectionId   = electricalConnectionId,
-                                   ParameterId              = measurementId,
+                                   ParameterId              = parameterIdOf[quantity],
                                    MeasurementId            = measurementId,
                                    VoltageType              = ElectricalConnectionVoltageTypeType.Ac,
 
@@ -316,9 +364,34 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                 new MeasurementDescriptionListDataType { MeasurementDescriptionData = descriptions }
             );
 
+            if (Electrical is null)
+                return;
+
             Electrical.FunctionData(MonitoringFunctions.ParameterDescriptionListData)!.SetData(
                 new ElectricalConnectionParameterDescriptionListDataType { ElectricalConnectionParameterDescriptionData = parameters }
             );
+
+            // Which connection these parameters belong to, and which way round
+            // its numbers are meant. Written once and left alone when another
+            // use case has already described the same connection.
+            var connections = Electrical.DataCopy<ElectricalConnectionDescriptionListDataType>(MonitoringFunctions.ElectricalDescriptionListData)?.
+                                  ElectricalConnectionDescriptionData?.ToList() ?? [];
+
+            if (!connections.Any(connection => connection.ElectricalConnectionId == electricalConnectionId))
+            {
+
+                connections.Add(new ElectricalConnectionDescriptionDataType {
+                                    ElectricalConnectionId   = electricalConnectionId,
+                                    PowerSupplyType          = ElectricalConnectionVoltageTypeType.Ac,
+                                    AcConnectedPhases        = (UInt32) Phases.Count,
+                                    PositiveEnergyDirection  = Profile.PositiveEnergyDirection
+                                });
+
+                Electrical.FunctionData(MonitoringFunctions.ElectricalDescriptionListData)!.SetData(
+                    new ElectricalConnectionDescriptionListDataType { ElectricalConnectionDescriptionData = connections }
+                );
+
+            }
 
         }
 

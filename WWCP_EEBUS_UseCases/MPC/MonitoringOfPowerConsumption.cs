@@ -144,11 +144,11 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.MPC
                    ClientEntityTypes:    null,
 
                    Scenarios: [
-                       new (ScenarioPower,      "Monitor power",      true,   Measured),
-                       new (ScenarioEnergy,     "Monitor energy",     false,  Measured),
-                       new (ScenarioCurrent,    "Monitor current",    false,  Measured),
-                       new (ScenarioVoltage,    "Monitor voltage",    false,  Measured),
-                       new (ScenarioFrequency,  "Monitor frequency",  false,  Measured)
+                       new (ScenarioPower,      Measured, "Monitor power")     { Mandatory = true },
+                       new (ScenarioEnergy,     Measured, "Monitor energy"),
+                       new (ScenarioCurrent,    Measured, "Monitor current"),
+                       new (ScenarioVoltage,    Measured, "Monitor voltage"),
+                       new (ScenarioFrequency,  Measured, "Monitor frequency")
                    ],
 
                    ScenarioOfScope: new Dictionary<ScopeTypeType, UInt32> {

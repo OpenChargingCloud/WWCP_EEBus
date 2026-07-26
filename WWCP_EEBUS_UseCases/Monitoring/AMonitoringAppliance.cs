@@ -57,12 +57,16 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
         /// <param name="Entity">The entity which watches.</param>
         /// <param name="Profile">Which of the monitoring use cases this is.</param>
         /// <param name="Scenarios">Which optional scenarios it is interested in. The mandatory ones are always included.</param>
+        /// <param name="AnnounceAsAlternateActor">Whether to announce the second actor name of the profile rather than the one its document gives.</param>
         protected AMonitoringAppliance(SPINELocalEntity      Entity,
                                        MonitoringProfile     Profile,
-                                       IEnumerable<UInt32>?  Scenarios   = null)
+                                       IEnumerable<UInt32>?  Scenarios                  = null,
+                                       Boolean               AnnounceAsAlternateActor   = false)
 
             : base(Entity,
-                   Profile.ClientActor,
+                   AnnounceAsAlternateActor
+                       ? Profile.AlsoKnownAsClientActor ?? Profile.ClientActor
+                       : Profile.ClientActor,
                    Profile.UseCaseName,
                    Profile.Version,
                    Profile.SupportedScenarios(ForClient: true,
@@ -100,12 +104,23 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
 
         /// <summary>
         /// Its electrical connection, which says which measurement is on which
-        /// phase.
+        /// phase - or null when there is nothing to join.
+        ///
+        /// Null for two different reasons, and both of them are ordinary rather
+        /// than errors: this use case may not measure an electrical connection at
+        /// all (a state of charge has no phase), or the monitored device may not
+        /// offer the feature because it supports none of the scenarios which need
+        /// it.
         /// </summary>
         /// <param name="Partner">An entity of a monitored device.</param>
-        public UseCaseFeature ElectricalOf(SPINERemoteEntity Partner)
+        public UseCaseFeature? ElectricalOf(SPINERemoteEntity Partner)
 
-            => new (FeatureTypeType.ElectricalConnection, Entity, Partner);
+            => Profile.ElectricalParameters &&
+               Partner.Feature(FeatureTypeType.ElectricalConnection, RoleType.Server) is not null &&
+               Entity. Feature(FeatureTypeType.ElectricalConnection, RoleType.Client) is not null
+
+                   ? new (FeatureTypeType.ElectricalConnection, Entity, Partner)
+                   : null;
 
         #endregion
 
@@ -131,7 +146,9 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
             var electrical  = ElectricalOf (Partner);
 
             await measurement.RequestData(MonitoringFunctions.MeasurementDescriptionListData, CancellationToken: CancellationToken);
-            await electrical. RequestData(MonitoringFunctions.ParameterDescriptionListData,   CancellationToken: CancellationToken);
+
+            if (electrical is not null)
+                await electrical.RequestData(MonitoringFunctions.ParameterDescriptionListData, CancellationToken: CancellationToken);
 
             await measurement.Subscribe(CancellationToken);
 
@@ -164,7 +181,7 @@ namespace cloud.charging.open.protocols.EEBUS.UseCases.Monitoring
                                    Data<MeasurementDescriptionListDataType>(MonitoringFunctions.MeasurementDescriptionListData)?.
                                    MeasurementDescriptionData ?? [];
 
-            var parameters   = ElectricalOf(Partner).
+            var parameters   = ElectricalOf(Partner)?.
                                    Data<ElectricalConnectionParameterDescriptionListDataType>(MonitoringFunctions.ParameterDescriptionListData)?.
                                    ElectricalConnectionParameterDescriptionData ?? [];
 
