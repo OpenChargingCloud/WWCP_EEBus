@@ -267,6 +267,43 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP.tests
 
         #endregion
 
+        #region TryParse_ATimestamp_KeepsItsText()
+
+        /// <summary>
+        /// A timestamp arrives as the text the sender wrote, and stays that
+        /// text.
+        ///
+        /// This is the outermost layer of the stack, and the JSON library reads
+        /// anything which looks like a timestamp as a DateTime unless it is told
+        /// not to. That happens before any SPINE type has seen the message, and
+        /// what comes out the other side is then whatever the machine's locale
+        /// makes of it - on a German Windows, "2016-03-14T18:19:00.0Z" turned
+        /// into "14.03.2016 18:19:00". A test bench which cannot report what
+        /// stood in the datagram has no reason to exist.
+        /// </summary>
+        [Test]
+        public void TryParse_ATimestamp_KeepsItsText()
+        {
+
+            var frame = Frame(
+                            SHIPMessageTypes.DATA,
+                            """{"data":[{"header":[{"protocolId":"ee1.0"}]},{"payload":[{"datagram":[{"header":[{"timestamp":"2016-03-14T18:19:00.0Z"}]}]}]}]}"""
+                        );
+
+            Assert.That(SHIPFrame.TryParse(frame, out var parsed, out var errorResponse), Is.True, errorResponse);
+
+            var timestamp = parsed!.Payload?["data"]?["payload"]?["datagram"]?["header"]?["timestamp"];
+
+            Assert.Multiple(() => {
+                Assert.That(timestamp?.Type,      Is.EqualTo(JTokenType.String),
+                            "The timestamp was interpreted instead of being kept.");
+                Assert.That(timestamp?.Value<String>(), Is.EqualTo("2016-03-14T18:19:00.0Z"));
+            });
+
+        }
+
+        #endregion
+
     }
 
 }

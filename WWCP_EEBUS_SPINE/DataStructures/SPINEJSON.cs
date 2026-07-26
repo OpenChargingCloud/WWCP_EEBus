@@ -66,6 +66,12 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         #endregion
 
+        #region Data
+
+        private static readonly JsonSerializer serializer = JsonSerializer.Create(Settings);
+
+        #endregion
+
         #region (private static) Create(MissingMembers)
 
         private static JsonSerializerSettings Create(MissingMemberHandling MissingMembers)
@@ -90,6 +96,38 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         public static T? Parse<T>(String JSON)
 
             => JsonConvert.DeserializeObject<T>(JSON, Settings);
+
+        #endregion
+
+        #region Read    <T>(JSON)
+
+        /// <summary>
+        /// Read a SPINE data type out of JSON which has already been parsed.
+        ///
+        /// This is the way in from the SHIP layer, which hands the payload of a
+        /// data message over as a JSON object.
+        /// </summary>
+        /// <typeparam name="T">A SPINE data type.</typeparam>
+        /// <param name="JSON">Its JSON representation.</param>
+        public static T? Read<T>(JToken JSON)
+
+            => JSON.ToObject<T>(serializer);
+
+        #endregion
+
+        #region ToJObject(Value)
+
+        /// <summary>
+        /// Write a SPINE data type as a JSON object.
+        ///
+        /// Going through text and "JObject.Parse" would look like the same
+        /// thing and is not: the parser would read every timestamp we just
+        /// wrote as a DateTime again.
+        /// </summary>
+        /// <param name="Value">A SPINE data type.</param>
+        public static JObject ToJObject(Object Value)
+
+            => JObject.FromObject(Value, serializer);
 
         #endregion
 

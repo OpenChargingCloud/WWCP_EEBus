@@ -185,8 +185,21 @@ namespace cloud.charging.open.protocols.EEBUS.SHIP
 
             try
             {
+
                 // Whitespace formatting of the JSON text is explicitly allowed.
-                eebusJSON = JObject.Parse(text);
+                //
+                // Read with the interpretation of timestamps switched off: the
+                // library would otherwise turn everything which looks like one
+                // into a DateTime here, at the outermost layer, and the exact
+                // text of a SPINE timestamp - which is part of the message and
+                // which this test bench has to be able to report - would be gone
+                // before any SPINE type has seen it.
+                using var reader = new JsonTextReader(new StringReader(text)) {
+                                       DateParseHandling = DateParseHandling.None
+                                   };
+
+                eebusJSON = JObject.Load(reader);
+
             }
             catch (JsonException e)
             {
