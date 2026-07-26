@@ -23,7 +23,7 @@ using cloud.charging.open.protocols.EEBUS.SPINE.Model;
 
 #endregion
 
-namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
+namespace cloud.charging.open.protocols.EEBUS.SPINE
 {
 
     /// <summary>
@@ -32,12 +32,13 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
     /// The SPINE core knows one way out - <see cref="ISPINEWriter"/> - so the
     /// simplest possible partner is one which hands the datagram straight to the
     /// other device. Everything the two of them say to each other is recorded on
-    /// the way through, which is what makes the assertions in these tests
-    /// possible: not only what the data ended up being, but which datagrams
-    /// there were.
+    /// the way through, which is what makes it possible to assert not only what
+    /// the data ended up being, but which datagrams there were.
     ///
-    /// The message counters start at 1 on both sides and count up, so a
-    /// recorded exchange can be compared datagram by datagram.
+    /// This is a test aid and a bench component at the same time: the same wire
+    /// which carries a unit test is what a recorded exchange is replayed into.
+    /// The message counters start at 1 on both sides and count up, so a recorded
+    /// exchange can be compared datagram by datagram.
     /// </summary>
     public sealed class SPINELoopback
     {

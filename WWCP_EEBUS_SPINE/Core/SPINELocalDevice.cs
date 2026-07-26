@@ -113,6 +113,13 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
         /// </summary>
         public TimeProvider                      TimeProvider         { get; }
 
+        /// <summary>
+        /// How long to wait for an answer before giving up on it, where the
+        /// feature which is asked did not announce a maximum response delay of
+        /// its own.
+        /// </summary>
+        public TimeSpan                          ResponseTimeout      { get; set; } = TimeSpan.FromSeconds(10);
+
         #endregion
 
         #region Constructor(s)
@@ -492,6 +499,12 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
             if (error is not null)
             {
+
+                // Whoever is waiting for this message has to be told that it
+                // arrived and could not be used - otherwise a message we cannot
+                // make sense of stops the caller which asked for it.
+                if (header.MsgCounterReference is UInt64 reference)
+                    localFeature.Failed(reference, error, message);
 
                 // A result is never answered with a result: that is how two
                 // devices talk to each other until one of them gives up.

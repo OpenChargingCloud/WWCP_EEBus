@@ -577,6 +577,88 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.tests
         #endregion
 
 
+        #region AReadOfAFunctionWhichHoldsNothingStillNamesTheFunction()
+
+        /// <summary>
+        /// A function which holds no data yet is answered with an empty instance
+        /// of it - the specification writes that as
+        /// "&lt;setpointListData/&gt;" - and not with an empty command.
+        ///
+        /// A reply which names no function cannot be matched to the read it
+        /// answers, and the caller waits for something which has already
+        /// arrived. This was exactly that, until the use case layer read a
+        /// function nobody had filled in yet.
+        /// </summary>
+        [Test]
+        public async Task AReadOfAFunctionWhichHoldsNothingStillNamesTheFunction()
+        {
+
+            // No SetData: the feature has the function and no data for it.
+            var response = await hemsLoadControl.Read(limits, EVSELoadControl);
+
+            var reply    = loopback.BToA.Datagrams[0];
+
+            Assert.Multiple(() => {
+                Assert.That(response.IsError,                   Is.False, response.Result?.Description);
+                Assert.That(response.Function,                  Is.EqualTo(limits));
+                Assert.That(reply.Payload?.Cmd?[0].DataFunction, Is.EqualTo(limits),
+                            "The reply does not say which function it answers.");
+                Assert.That((response.Data as LoadControlLimitListDataType)?.LoadControlLimitData,
+                            Is.Null.Or.Empty);
+            });
+
+        }
+
+        #endregion
+
+        #region APartnerWhichDoesNotAnswerIsReportedRatherThanWaitedForForever()
+
+        /// <summary>
+        /// A device which never answers must not be able to stop this one. The
+        /// wait ends after the maximum response delay the feature announced, or
+        /// after the patience of the device, and the answer is a result saying
+        /// so - which a test bench can report.
+        /// </summary>
+        [Test]
+        public async Task APartnerWhichDoesNotAnswerIsReportedRatherThanWaitedForForever()
+        {
+
+            var time = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+
+            var hems = new SPINELocalDevice("d:_i:19667_HEMS", DeviceTypeType.EnergyManagementSystem, TimeProvider: time);
+            var evse = new SPINELocalDevice("d:_i:19667_EVSE", DeviceTypeType.ChargingStation,        TimeProvider: time);
+
+            var client = hems.AddEntity(EntityTypeType.CEM).
+                              AddFeature(FeatureTypeType.LoadControl, RoleType.Client);
+
+            evse.AddEntity(EntityTypeType.EVSE).
+                 AddFeature(FeatureTypeType.LoadControl, RoleType.Server).
+                 AddFunction(limits);
+
+            var wire   = new SPINELoopback(hems, evse).Mirror();
+
+            var server = wire.BAsSeenByA.Entity([ 1 ])!.
+                              Feature(FeatureTypeType.LoadControl, RoleType.Server)!;
+
+            // The cable is cut after the question left.
+            wire.AToB.Connected = false;
+
+            var reading = client.Read(limits, server);
+
+            time.Advance(hems.ResponseTimeout + TimeSpan.FromSeconds(1));
+
+            var response = await reading;
+
+            Assert.Multiple(() => {
+                Assert.That(response.IsError,             Is.True);
+                Assert.That(response.Result?.ErrorNumber, Is.EqualTo(SPINEErrorNumbers.Timeout));
+                Assert.That(response.Result?.Description, Does.Contain("did not answer"));
+            });
+
+        }
+
+        #endregion
+
         #region TheSameQuestionIsNotAskedTwiceWhileItIsUnanswered()
 
         /// <summary>

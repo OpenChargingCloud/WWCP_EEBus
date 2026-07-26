@@ -358,7 +358,13 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                 return ResultDataType.Error(SPINEErrorNumbers.CommandNotSupported,
                                             $"The function '{Message.Function}' may not be read.");
 
-            var data = functionData.DataCopy();
+            // A function which holds nothing is answered with an empty instance
+            // of it, not with nothing at all: the reply has to name the function
+            // it answers - the XML of the specification writes it as
+            // "<setpointListData/>" - or the client cannot tell what it is an
+            // answer to.
+            var data = functionData.DataCopy()
+                           ?? Activator.CreateInstance(functionData.DataType);
 
             // A partial read is answered with the part which was asked for -
             // but only where this feature announced that it can do that. SPINE
@@ -530,7 +536,11 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                                                            _ => new TaskCompletionSource<SPINEResponse>(
                                                                     TaskCreationOptions.RunContinuationsAsynchronously));
 
-            using var registration      = CancellationToken.Register(() => waiting.TrySetCanceled(CancellationToken));
+            // How long to wait: what the feature announced it may take, or the
+            // patience of this device. Waiting forever is not an option - a
+            // partner which never answers would otherwise stop this one, and a
+            // test bench has to be able to report "no answer" as a result.
+            var timeout                 = RemoteFeature.MaxResponseDelay ?? Device.ResponseTimeout;
 
             try
             {
@@ -540,7 +550,20 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                 if (datagram is not null)
                     await sender.Send(datagram, CancellationToken);
 
-                return await waiting.Task;
+                return await waiting.Task.WaitAsync(timeout,
+                                                    Device.TimeProvider,
+                                                    CancellationToken);
+
+            }
+            catch (TimeoutException)
+            {
+
+                return new SPINEResponse(msgCounter,
+                                         null,
+                                         null,
+                                         ResultDataType.Error(SPINEErrorNumbers.Timeout,
+                                                              $"{RemoteFeature.Address} did not answer within {timeout}."),
+                                         RemoteFeature);
 
             }
             finally
@@ -559,6 +582,27 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
             if (pending.TryGetValue(Response.MsgCounterReference, out var waiting))
                 waiting.TrySetResult(Response);
+
+        }
+
+
+        /// <summary>
+        /// An answer arrived which could not be handled.
+        ///
+        /// Whoever is waiting for it has to be told anyway. A message we cannot
+        /// make sense of is a reason to report an error, never a reason to leave
+        /// a caller waiting for something which has already arrived.
+        /// </summary>
+        internal void Failed(UInt64          MsgCounterReference,
+                             ResultDataType  Error,
+                             SPINEMessage    Message)
+        {
+
+            Answered(new SPINEResponse(MsgCounterReference,
+                                       Message.Function,
+                                       null,
+                                       Error,
+                                       Message.RemoteFeature));
 
         }
 

@@ -148,7 +148,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         #endregion
 
-        #region SetUseCaseData(UseCases)
+        #region SetUseCaseData(UseCases) / UseCases
 
         /// <summary>
         /// Say which use cases this device supports.
@@ -161,6 +161,184 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
                     UseCaseInformation = UseCases is not null ? [.. UseCases] : []
                 }
             );
+        }
+
+
+        /// <summary>
+        /// Which use cases this device says it supports, by actor.
+        /// </summary>
+        public IEnumerable<UseCaseInformationDataType> UseCases
+
+            => FunctionData(UseCaseData)?.
+                   DataCopy<NodeManagementUseCaseDataType>()?.
+                   UseCaseInformation ?? [];
+
+        #endregion
+
+        #region AddUseCaseSupport(...) / RemoveUseCaseSupport(...) / SetUseCaseAvailability(...)
+
+        /// <summary>
+        /// Say that an entity of this device supports a use case
+        /// (SPINE 1.3.0, 7.3).
+        ///
+        /// The use case discovery is grouped by actor: one entry per address and
+        /// actor, holding every use case that entity plays that actor in. Which
+        /// names and actors exist is not decided here - SPINE leaves the
+        /// enumerations of "useCaseName" and "actor" deliberately empty and lets
+        /// the use case specifications fill them.
+        /// </summary>
+        /// <param name="Address">The feature of the entity which supports it.</param>
+        /// <param name="Actor">Which actor of the use case it plays.</param>
+        /// <param name="UseCaseName">The name of the use case.</param>
+        /// <param name="UseCaseVersion">Which version of it is supported.</param>
+        /// <param name="Scenarios">Which of its scenarios are supported.</param>
+        /// <param name="DocumentSubRevision">The sub revision of the use case document, where there is one.</param>
+        /// <param name="Available">Whether the use case can be used right now.</param>
+        /// <param name="NotifySubscribers">Whether to tell the subscribers of node management.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        public async Task<UseCaseSupportType> AddUseCaseSupport(FeatureAddressType   Address,
+                                                                String               Actor,
+                                                                String               UseCaseName,
+                                                                String               UseCaseVersion,
+                                                                IEnumerable<UInt32>  Scenarios,
+                                                                String?              DocumentSubRevision   = null,
+                                                                Boolean              Available             = true,
+                                                                Boolean              NotifySubscribers     = true,
+                                                                CancellationToken    CancellationToken     = default)
+        {
+
+            var support = new UseCaseSupportType {
+                              UseCaseName                = UseCaseName,
+                              UseCaseVersion             = UseCaseVersion,
+                              UseCaseAvailable           = Available,
+                              ScenarioSupport            = [.. Scenarios],
+                              UseCaseDocumentSubRevision = DocumentSubRevision
+                          };
+
+            var useCases    = UseCases.ToList();
+
+            var information = useCases.FirstOrDefault(entry => String.Equals(entry.Actor, Actor, StringComparison.Ordinal) &&
+                                                               SPINEAddresses.AreEqual(entry.Address, Address));
+
+            if (information is null)
+            {
+
+                information = new UseCaseInformationDataType {
+                                  Address         = Address.Clone(),
+                                  Actor           = Actor,
+                                  UseCaseSupport  = []
+                              };
+
+                useCases.Add(information);
+
+            }
+
+            information.Set(support);
+
+            await Announce(useCases, NotifySubscribers, CancellationToken);
+
+            return support;
+
+        }
+
+
+        /// <summary>
+        /// Say that an entity of this device no longer supports a use case.
+        /// </summary>
+        /// <param name="Actor">Which actor of the use case it played.</param>
+        /// <param name="UseCaseName">The name of the use case.</param>
+        /// <param name="NotifySubscribers">Whether to tell the subscribers of node management.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        public async Task<Boolean> RemoveUseCaseSupport(String             Actor,
+                                                        String             UseCaseName,
+                                                        Boolean            NotifySubscribers   = true,
+                                                        CancellationToken  CancellationToken   = default)
+        {
+
+            var useCases  = UseCases.ToList();
+            var removed   = false;
+
+            foreach (var information in useCases.ToArray())
+            {
+
+                if (!String.Equals(information.Actor, Actor, StringComparison.Ordinal))
+                    continue;
+
+                removed |= information.Remove(UseCaseName);
+
+                // An actor which plays no use case any more says nothing.
+                if (information.UseCaseSupport is null || information.UseCaseSupport.Count == 0)
+                    useCases.Remove(information);
+
+            }
+
+            if (removed)
+                await Announce(useCases, NotifySubscribers, CancellationToken);
+
+            return removed;
+
+        }
+
+
+        /// <summary>
+        /// Say whether a use case can be used right now.
+        ///
+        /// This is the switch a device flips when it can still talk about a use
+        /// case but cannot currently carry it out - a charging station with no
+        /// car plugged in, an inverter which is off.
+        /// </summary>
+        /// <param name="Actor">Which actor of the use case it plays.</param>
+        /// <param name="UseCaseName">The name of the use case.</param>
+        /// <param name="Available">Whether it can be used right now.</param>
+        /// <param name="NotifySubscribers">Whether to tell the subscribers of node management.</param>
+        /// <param name="CancellationToken">An optional cancellation token.</param>
+        public async Task<Boolean> SetUseCaseAvailability(String             Actor,
+                                                          String             UseCaseName,
+                                                          Boolean            Available,
+                                                          Boolean            NotifySubscribers   = true,
+                                                          CancellationToken  CancellationToken   = default)
+        {
+
+            var useCases  = UseCases.ToList();
+            var changed   = false;
+
+            foreach (var information in useCases)
+            {
+
+                if (!String.Equals(information.Actor, Actor, StringComparison.Ordinal))
+                    continue;
+
+                if (information.Find(UseCaseName) is UseCaseSupportType support)
+                {
+                    support.UseCaseAvailable = Available;
+                    changed = true;
+                }
+
+            }
+
+            if (changed)
+                await Announce(useCases, NotifySubscribers, CancellationToken);
+
+            return changed;
+
+        }
+
+
+        /// <summary>
+        /// Write the use cases back and tell whoever subscribed.
+        /// </summary>
+        private async Task Announce(List<UseCaseInformationDataType>  UseCases,
+                                    Boolean                           NotifySubscribers,
+                                    CancellationToken                 CancellationToken)
+        {
+
+            SetUseCaseData(UseCases);
+
+            if (NotifySubscribers)
+                await Device.NotifySubscribers(this,
+                                               FunctionData(UseCaseData)!.ToCmd(),
+                                               CancellationToken);
+
         }
 
         #endregion

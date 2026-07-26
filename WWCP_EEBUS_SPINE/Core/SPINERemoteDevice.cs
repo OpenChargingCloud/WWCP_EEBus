@@ -171,6 +171,20 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE
 
         #endregion
 
+        #region UseCases
+
+        /// <summary>
+        /// Which use cases this device says it supports, as its node management
+        /// last told us. Empty until the use case data has been read.
+        /// </summary>
+        public IEnumerable<UseCaseInformationDataType> UseCases
+
+            => NodeManagement().
+                   DataCopy<NodeManagementUseCaseDataType>("nodeManagementUseCaseData")?.
+                   UseCaseInformation ?? [];
+
+        #endregion
+
 
         #region (private static) KeyOf(EntityId)
 
