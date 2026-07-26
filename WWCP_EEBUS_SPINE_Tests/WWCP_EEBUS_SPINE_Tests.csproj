@@ -20,4 +20,9 @@
     <ProjectReference Include="..\WWCP_EEBUS_SPINE\WWCP_EEBUS_SPINE.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The oracle of the model tests, generated from spine-go by Apps/EEBUSModelGen. -->
+    <None Update="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

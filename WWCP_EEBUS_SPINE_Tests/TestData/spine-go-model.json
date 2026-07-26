@@ -1,0 +1,1755 @@
+{
+
+  "_comment":       [
+                        "The data types of the Go reference implementation (enbility/spine-go), read from its",
+                        "struct tags by Apps/EEBUSModelGen and checked in as the oracle of the model tests.",
+                        "It is not hand-written: regenerate it with 'eebus-modelgen' after updating spine-go."
+                     ],
+  "source":         "libs/spine-go/model",
+  "spineVersion":   "1.3.0",
+  "types":          {
+    "AbsoluteOrRecurringTimeElementsType": {
+      "fields": [ "dateTime", "month", "dayOfMonth", "calendarWeek", "dayOfWeekOccurrence", "daysOfWeek", "time", "relative" ]
+    },
+    "AbsoluteOrRecurringTimeType": {
+      "fields": [ "dateTime", "month", "dayOfMonth", "calendarWeek", "dayOfWeekOccurrence", "daysOfWeek", "time", "relative" ]
+    },
+    "ActuatorLevelDataElementsType": {
+      "fields": [ "function", "value" ]
+    },
+    "ActuatorLevelDataType": {
+      "fields": [ "function", "value" ]
+    },
+    "ActuatorLevelDescriptionDataElementsType": {
+      "fields": [ "label", "description", "levelDefaultUnit" ]
+    },
+    "ActuatorLevelDescriptionDataType": {
+      "fields": [ "label", "description", "levelDefaultUnit" ]
+    },
+    "ActuatorSwitchDataElementsType": {
+      "fields": [ "function" ]
+    },
+    "ActuatorSwitchDataType": {
+      "fields": [ "function" ]
+    },
+    "ActuatorSwitchDescriptionDataElementsType": {
+      "fields": [ "label", "description" ]
+    },
+    "ActuatorSwitchDescriptionDataType": {
+      "fields": [ "label", "description" ]
+    },
+    "AlarmDataElementsType": {
+      "fields": [ "alarmId", "thresholdId", "timestamp", "alarmType", "measuredValue", "evaluationPeriod", "scopeType", "label", "description" ]
+    },
+    "AlarmDataType": {
+      "fields": [ "alarmId", "thresholdId", "timestamp", "alarmType", "measuredValue", "evaluationPeriod", "scopeType", "label", "description" ],
+      "keys":   { "alarmId": "primary" }
+    },
+    "AlarmListDataSelectorsType": {
+      "fields": [ "alarmId", "scopeType" ]
+    },
+    "AlarmListDataType": {
+      "fields": [ "alarmData" ]
+    },
+    "BillConstraintsDataElementsType": {
+      "fields": [ "billId", "positionCountMin", "positionCountMax" ]
+    },
+    "BillConstraintsDataType": {
+      "fields": [ "billId", "positionCountMin", "positionCountMax" ],
+      "keys":   { "billId": "primary" }
+    },
+    "BillConstraintsListDataSelectorsType": {
+      "fields": [ "billId" ]
+    },
+    "BillConstraintsListDataType": {
+      "fields": [ "billConstraintsData" ]
+    },
+    "BillCostElementsType": {
+      "fields": [ "costId", "costType", "valueId", "unit", "currency", "cost", "costPercentage" ]
+    },
+    "BillCostType": {
+      "fields": [ "costId", "costType", "valueId", "unit", "currency", "cost", "costPercentage" ]
+    },
+    "BillDataElementsType": {
+      "fields": [ "billId", "billType", "scopeType", "total", "position" ]
+    },
+    "BillDataType": {
+      "fields": [ "billId", "billType", "scopeType", "total", "position" ],
+      "keys":   { "billId": "primary" }
+    },
+    "BillDescriptionDataElementsType": {
+      "fields": [ "billId", "billWriteable", "updateRequired", "supportedBillType", "sessionId" ]
+    },
+    "BillDescriptionDataType": {
+      "fields": [ "billId", "billWriteable", "updateRequired", "supportedBillType", "sessionId" ],
+      "keys":   { "billId": "primary" }
+    },
+    "BillDescriptionListDataSelectorsType": {
+      "fields": [ "billId" ]
+    },
+    "BillDescriptionListDataType": {
+      "fields": [ "billDescriptionData" ]
+    },
+    "BillListDataSelectorsType": {
+      "fields": [ "billId", "scopeType" ]
+    },
+    "BillListDataType": {
+      "fields": [ "billData" ]
+    },
+    "BillPositionElementsType": {
+      "fields": [ "positionId", "positionType", "timePeriod", "value", "cost", "label", "description" ]
+    },
+    "BillPositionType": {
+      "fields": [ "positionId", "positionType", "timePeriod", "value", "cost", "label", "description" ]
+    },
+    "BillValueElementsType": {
+      "fields": [ "valueId", "unit", "value", "valuePercentage" ]
+    },
+    "BillValueType": {
+      "fields": [ "valueId", "unit", "value", "valuePercentage" ]
+    },
+    "BindingManagementDeleteCallElementsType": {
+      "fields": [ "bindingId", "clientAddress", "serverAddress" ]
+    },
+    "BindingManagementDeleteCallType": {
+      "fields": [ "bindingId", "clientAddress", "serverAddress" ]
+    },
+    "BindingManagementEntryDataElementsType": {
+      "fields": [ "bindingId", "clientAddress", "serverAddress", "label", "description" ]
+    },
+    "BindingManagementEntryDataType": {
+      "fields": [ "bindingId", "clientAddress", "serverAddress", "label", "description" ],
+      "keys":   { "bindingId": "primary" }
+    },
+    "BindingManagementEntryListDataSelectorsType": {
+      "fields": [ "bindingId", "clientAddress", "serverAddress" ]
+    },
+    "BindingManagementEntryListDataType": {
+      "fields": [ "bindingManagementEntryData" ]
+    },
+    "BindingManagementRequestCallElementsType": {
+      "fields": [ "clientAddress", "serverAddress", "serverFeatureType" ]
+    },
+    "BindingManagementRequestCallType": {
+      "fields": [ "clientAddress", "serverAddress", "serverFeatureType" ]
+    },
+    "CmdControlType": {
+      "fields": [ "delete", "partial" ]
+    },
+    "CmdType": {
+      "fields": [ "function", "filter", "actuatorLevelData", "actuatorLevelDescriptionData", "actuatorSwitchData", "actuatorSwitchDescriptionData", "alarmListData", "billConstraintsListData", "billDescriptionListData", "billListData", "bindingManagementDeleteCall", "bindingManagementEntryListData", "bindingManagementRequestCall", "commodityListData", "dataTunnelingCall", "deviceClassificationManufacturerData", "deviceClassificationUserData", "deviceConfigurationKeyValueConstraintsListData", "deviceConfigurationKeyValueDescriptionListData", "deviceConfigurationKeyValueListData", "deviceDiagnosisHeartbeatData", "deviceDiagnosisServiceData", "deviceDiagnosisStateData", "directControlActivityListData", "directControlDescriptionData", "electricalConnectionDescriptionListData", "electricalConnectionParameterDescriptionListData", "electricalConnectionPermittedValueSetListData", "electricalConnectionStateListData", "electricalConnectionCharacteristicData", "electricalConnectionCharacteristicListData", "hvacOperationModeDescriptionListData", "hvacOverrunDescriptionListData", "hvacOverrunListData", "hvacSystemFunctionDescriptionListData", "hvacSystemFunctionListData", "hvacSystemFunctionOperationModeRelationListData", "hvacSystemFunctionPowerSequenceRelationListData", "hvacSystemFunctionSetpointRelationListData", "identificationListData", "incentiveDescriptionListData", "incentiveListData", "incentiveTableConstraintsData", "incentiveTableData", "incentiveTableDescriptionData", "loadControlEventListData", "loadControlLimitConstraintsListData", "loadControlLimitDescriptionListData", "loadControlLimitListData", "loadControlNodeData", "loadControlStateListData", "measurementConstraintsListData", "measurementDescriptionListData", "measurementListData", "measurementSeriesListData", "measurementThresholdRelationListData", "messagingListData", "networkManagementAbortCall", "networkManagementAddNodeCall", "networkManagementDeviceDescriptionListData", "networkManagementDiscoverCall", "networkManagementEntityDescriptionListData", "networkManagementFeatureDescriptionListData", "networkManagementJoiningModeData", "networkManagementModifyNodeCall", "networkManagementProcessStateData", "networkManagementRemoveNodeCall", "networkManagementReportCandidateData", "networkManagementScanNetworkCall", "nodeManagementBindingData", "nodeManagementBindingDeleteCall", "nodeManagementBindingRequestCall", "nodeManagementDestinationListData", "nodeManagementDetailedDiscoveryData", "nodeManagementSubscriptionData", "nodeManagementSubscriptionDeleteCall", "nodeManagementSubscriptionRequestCall", "nodeManagementUseCaseData", "operatingConstraintsDurationListData", "operatingConstraintsInterruptListData", "operatingConstraintsPowerDescriptionListData", "operatingConstraintsPowerLevelListData", "operatingConstraintsPowerRangeListData", "operatingConstraintsResumeImplicationListData", "powerSequenceAlternativesRelationListData", "powerSequenceDescriptionListData", "powerSequenceNodeScheduleInformationData", "powerSequencePriceCalculationRequestCall", "powerSequencePriceListData", "powerSequenceScheduleConfigurationRequestCall", "powerSequenceScheduleConstraintsListData", "powerSequenceScheduleListData", "powerSequenceSchedulePreferenceListData", "powerSequenceStateListData", "powerTimeSlotScheduleConstraintsListData", "powerTimeSlotScheduleListData", "powerTimeSlotValueListData", "resultData", "sensingDescriptionData", "sensingListData", "sessionIdentificationListData", "sessionMeasurementRelationListData", "setpointConstraintsListData", "setpointDescriptionListData", "setpointListData", "smartEnergyManagementPsConfigurationRequestCall", "smartEnergyManagementPsData", "smartEnergyManagementPsPriceCalculationRequestCall", "smartEnergyManagementPsPriceData", "specificationVersionListData", "stateInformationListData", "subscriptionManagementDeleteCall", "subscriptionManagementEntryListData", "subscriptionManagementRequestCall", "supplyConditionDescriptionListData", "supplyConditionListData", "supplyConditionThresholdRelationListData", "tariffBoundaryRelationListData", "tariffDescriptionListData", "tariffListData", "tariffOverallConstraintsData", "tariffTierRelationListData", "taskManagementJobDescriptionListData", "taskManagementJobListData", "taskManagementJobRelationListData", "taskManagementOverviewData", "thresholdConstraintsListData", "thresholdDescriptionListData", "thresholdListData", "tierBoundaryDescriptionListData", "tierBoundaryListData", "tierDescriptionListData", "tierIncentiveRelationListData", "tierListData", "timeDistributorData", "timeDistributorEnquiryCall", "timeInformationData", "timePrecisionData", "timeSeriesConstraintsListData", "timeSeriesDescriptionListData", "timeSeriesListData", "timeTableConstraintsListData", "timeTableDescriptionListData", "timeTableListData", "useCaseInformationListData", "manufacturerSpecificExtension", "lastUpdateAt" ]
+    },
+    "CommodityDataElementsType": {
+      "fields": [ "commodityId", "commodityType", "positiveEnergyDirection", "label", "description" ]
+    },
+    "CommodityDataType": {
+      "fields": [ "commodityId", "commodityType", "positiveEnergyDirection", "label", "description" ],
+      "keys":   { "commodityId": "primary" }
+    },
+    "CommodityListDataSelectorsType": {
+      "fields": [ "commodityId", "commodityType" ]
+    },
+    "CommodityListDataType": {
+      "fields": [ "commodityData" ]
+    },
+    "DataTunnelingCallElementsType": {
+      "fields": [ "header", "payload" ]
+    },
+    "DataTunnelingCallType": {
+      "fields": [ "header", "payload" ]
+    },
+    "DataTunnelingHeaderElementsType": {
+      "fields": [ "purposeId", "channelId", "sequenceId" ]
+    },
+    "DataTunnelingHeaderType": {
+      "fields": [ "purposeId", "channelId", "sequenceId" ]
+    },
+    "Datagram": {
+      "fields": [ "datagram" ]
+    },
+    "DatagramType": {
+      "fields": [ "header", "payload" ]
+    },
+    "DaysOfWeekType": {
+      "fields": [ "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" ]
+    },
+    "DeviceAddressElementsType": {
+      "fields": [ "device" ]
+    },
+    "DeviceAddressType": {
+      "fields": [ "device" ]
+    },
+    "DeviceClassificationManufacturerDataElementsType": {
+      "fields": [ "deviceName", "deviceCode", "serialNumber", "softwareRevision", "hardwareRevision", "vendorName", "vendorCode", "brandName", "powerSource", "manufacturerNodeIdentification", "manufacturerLabel", "manufacturerDescription" ]
+    },
+    "DeviceClassificationManufacturerDataType": {
+      "fields": [ "deviceName", "deviceCode", "serialNumber", "softwareRevision", "hardwareRevision", "vendorName", "vendorCode", "brandName", "powerSource", "manufacturerNodeIdentification", "manufacturerLabel", "manufacturerDescription" ]
+    },
+    "DeviceClassificationUserDataElementsType": {
+      "fields": [ "userNodeIdentification", "userLabel", "userDescription" ]
+    },
+    "DeviceClassificationUserDataType": {
+      "fields": [ "userNodeIdentification", "userLabel", "userDescription" ]
+    },
+    "DeviceConfigurationKeyValueConstraintsDataElementsType": {
+      "fields": [ "keyId", "valueRangeMin", "valueRangeMax", "valueStepSize" ]
+    },
+    "DeviceConfigurationKeyValueConstraintsDataType": {
+      "fields": [ "keyId", "valueRangeMin", "valueRangeMax", "valueStepSize" ],
+      "keys":   { "keyId": "primary" }
+    },
+    "DeviceConfigurationKeyValueConstraintsListDataSelectorsType": {
+      "fields": [ "keyId" ]
+    },
+    "DeviceConfigurationKeyValueConstraintsListDataType": {
+      "fields": [ "deviceConfigurationKeyValueConstraintsData" ]
+    },
+    "DeviceConfigurationKeyValueDataElementsType": {
+      "fields": [ "keyId", "value", "isValueChangeable" ]
+    },
+    "DeviceConfigurationKeyValueDataType": {
+      "fields": [ "keyId", "value", "isValueChangeable" ],
+      "keys":   { "keyId": "primary" }
+    },
+    "DeviceConfigurationKeyValueDescriptionDataElementsType": {
+      "fields": [ "keyId", "keyName", "valueType", "unit", "label", "description" ]
+    },
+    "DeviceConfigurationKeyValueDescriptionDataType": {
+      "fields": [ "keyId", "keyName", "valueType", "unit", "label", "description" ],
+      "keys":   { "keyId": "primary" }
+    },
+    "DeviceConfigurationKeyValueDescriptionListDataSelectorsType": {
+      "fields": [ "keyId", "keyName" ]
+    },
+    "DeviceConfigurationKeyValueDescriptionListDataType": {
+      "fields": [ "deviceConfigurationKeyValueDescriptionData" ]
+    },
+    "DeviceConfigurationKeyValueListDataSelectorsType": {
+      "fields": [ "keyId" ]
+    },
+    "DeviceConfigurationKeyValueListDataType": {
+      "fields": [ "deviceConfigurationKeyValueData" ]
+    },
+    "DeviceConfigurationKeyValueValueElementsType": {
+      "fields": [ "boolean", "date", "dateTime", "duration", "string", "time", "scaledNumber" ]
+    },
+    "DeviceConfigurationKeyValueValueType": {
+      "fields": [ "boolean", "date", "dateTime", "duration", "string", "time", "scaledNumber", "integer" ]
+    },
+    "DeviceDiagnosisHeartbeatDataElementsType": {
+      "fields": [ "timestamp", "heartbeatCounter", "heartbeatTimeout" ]
+    },
+    "DeviceDiagnosisHeartbeatDataType": {
+      "fields": [ "timestamp", "heartbeatCounter", "heartbeatTimeout" ]
+    },
+    "DeviceDiagnosisServiceDataElementsType": {
+      "fields": [ "timestamp", "installationTime", "bootCounter", "nextService" ]
+    },
+    "DeviceDiagnosisServiceDataType": {
+      "fields": [ "timestamp", "installationTime", "bootCounter", "nextService" ]
+    },
+    "DeviceDiagnosisStateDataElementsType": {
+      "fields": [ "timestamp", "operatingState", "vendorStateCode", "lastErrorCode", "upTime", "totalUpTime", "powerSupplyCondition" ]
+    },
+    "DeviceDiagnosisStateDataType": {
+      "fields": [ "timestamp", "operatingState", "vendorStateCode", "lastErrorCode", "upTime", "totalUpTime", "powerSupplyCondition" ]
+    },
+    "DirectControlActivityDataElementsType": {
+      "fields": [ "timestamp", "activityState", "isActivityStateChangeable", "energyMode", "isEnergyModeChangeable", "power", "isPowerChangeable", "energy", "isEnergyChangeable", "sequenceId" ]
+    },
+    "DirectControlActivityDataType": {
+      "fields": [ "timestamp", "activityState", "isActivityStateChangeable", "energyMode", "isEnergyModeChangeable", "power", "isPowerChangeable", "energy", "isEnergyChangeable", "sequenceId" ]
+    },
+    "DirectControlActivityListDataSelectorsType": {
+      "fields": [ "timestampInterval" ]
+    },
+    "DirectControlActivityListDataType": {
+      "fields": [ "directControlActivityData" ]
+    },
+    "DirectControlDescriptionDataElementsType": {
+      "fields": [ "positiveEnergyDirection", "powerUnit", "energyUnit" ]
+    },
+    "DirectControlDescriptionDataType": {
+      "fields": [ "positiveEnergyDirection", "powerUnit", "energyUnit" ]
+    },
+    "ElectricalConnectionCharacteristicDataElementsType": {
+      "fields": [ "electricalConnectionId", "parameterId", "characteristicId", "characteristicContext", "characteristicType", "value", "unit" ]
+    },
+    "ElectricalConnectionCharacteristicDataType": {
+      "fields": [ "electricalConnectionId", "parameterId", "characteristicId", "characteristicContext", "characteristicType", "value", "unit" ],
+      "keys":   { "electricalConnectionId": "primary", "parameterId": "key", "characteristicId": "key" }
+    },
+    "ElectricalConnectionCharacteristicListDataSelectorsType": {
+      "fields": [ "electricalConnectionId", "parameterId", "characteristicId", "characteristicContext", "characteristicType" ]
+    },
+    "ElectricalConnectionCharacteristicListDataType": {
+      "fields": [ "electricalConnectionCharacteristicData" ]
+    },
+    "ElectricalConnectionDescriptionDataElementsType": {
+      "fields": [ "electricalConnectionId", "powerSupplyType", "acConnectedPhases", "acRmsPeriodDuration", "positiveEnergyDirection", "scopeType", "label", "description" ]
+    },
+    "ElectricalConnectionDescriptionDataType": {
+      "fields": [ "electricalConnectionId", "powerSupplyType", "acConnectedPhases", "acRmsPeriodDuration", "positiveEnergyDirection", "scopeType", "label", "description" ],
+      "keys":   { "electricalConnectionId": "key" }
+    },
+    "ElectricalConnectionDescriptionListDataSelectorsType": {
+      "fields": [ "electricalConnectionId", "scopeType" ]
+    },
+    "ElectricalConnectionDescriptionListDataType": {
+      "fields": [ "electricalConnectionDescriptionData" ]
+    },
+    "ElectricalConnectionParameterDescriptionDataElementsType": {
+      "fields": [ "electricalConnectionId", "parameterId", "measurementId", "voltageType", "acMeasuredPhases", "acMeasuredInReferenceTo", "acMeasurementType", "acMeasurementVariant", "acMeasuredHarmonic", "scopeType", "label", "description" ]
+    },
+    "ElectricalConnectionParameterDescriptionDataType": {
+      "fields": [ "electricalConnectionId", "parameterId", "measurementId", "voltageType", "acMeasuredPhases", "acMeasuredInReferenceTo", "acMeasurementType", "acMeasurementVariant", "acMeasuredHarmonic", "scopeType", "label", "description" ],
+      "keys":   { "electricalConnectionId": "primary", "parameterId": "key" }
+    },
+    "ElectricalConnectionParameterDescriptionListDataSelectorsType": {
+      "fields": [ "electricalConnectionId", "parameterId", "measurementId", "scopeType" ]
+    },
+    "ElectricalConnectionParameterDescriptionListDataType": {
+      "fields": [ "electricalConnectionParameterDescriptionData" ]
+    },
+    "ElectricalConnectionPermittedValueSetDataElementsType": {
+      "fields": [ "electricalConnectionId", "parameterId", "permittedValueSet" ]
+    },
+    "ElectricalConnectionPermittedValueSetDataType": {
+      "fields": [ "electricalConnectionId", "parameterId", "permittedValueSet" ],
+      "keys":   { "electricalConnectionId": "primary", "parameterId": "key" }
+    },
+    "ElectricalConnectionPermittedValueSetListDataSelectorsType": {
+      "fields": [ "electricalConnectionId", "parameterId" ]
+    },
+    "ElectricalConnectionPermittedValueSetListDataType": {
+      "fields": [ "electricalConnectionPermittedValueSetData" ]
+    },
+    "ElectricalConnectionStateDataElementsType": {
+      "fields": [ "electricalConnectionId", "timestamp", "currentEnergyMode", "consumptionTime", "productionTime", "totalConsumptionTime", "totalProductionTime" ]
+    },
+    "ElectricalConnectionStateDataType": {
+      "fields": [ "electricalConnectionId", "timestamp", "currentEnergyMode", "consumptionTime", "productionTime", "totalConsumptionTime", "totalProductionTime" ],
+      "keys":   { "electricalConnectionId": "key" }
+    },
+    "ElectricalConnectionStateListDataSelectorsType": {
+      "fields": [ "electricalConnectionId" ]
+    },
+    "ElectricalConnectionStateListDataType": {
+      "fields": [ "electricalConnectionStateData" ]
+    },
+    "EntityAddressElementsType": {
+      "fields": [ "device", "entity" ]
+    },
+    "EntityAddressType": {
+      "fields": [ "device", "entity" ]
+    },
+    "FeatureAddressElementsType": {
+      "fields": [ "device", "entity", "feature" ]
+    },
+    "FeatureAddressType": {
+      "fields": [ "device", "entity", "feature" ]
+    },
+    "FilterType": {
+      "fields": [ "filterId", "cmdControl", "alarmListDataSelectors", "billConstraintsListDataSelectors", "billDescriptionListDataSelectors", "billListDataSelectors", "bindingManagementEntryListDataSelectors", "commodityListDataSelectors", "deviceConfigurationKeyValueConstraintsListDataSelectors", "deviceConfigurationKeyValueDescriptionListDataSelectors", "deviceConfigurationKeyValueListDataSelectors", "directControlActivityListDataSelectors", "electricalConnectionDescriptionListDataSelectors", "electricalConnectionParameterDescriptionListDataSelectors", "electricalConnectionPermittedValueSetListDataSelectors", "electricalConnectionStateListDataSelectors", "electricalConnectionCharacteristicListDataSelectors", "hvacOperationModeDescriptionListDataSelectors", "hvacOverrunDescriptionListDataSelectors", "hvacOverrunListDataSelectors", "hvacSystemFunctionDescriptionListDataSelectors", "hvacSystemFunctionListDataSelectors", "hvacSystemFunctionOperationModeRelationListDataSelectors", "hvacSystemFunctionPowerSequenceRelationListDataSelectors", "hvacSystemFunctionSetpointRelationListDataSelectors", "identificationListDataSelectors", "incentiveDescriptionListDataSelectors", "incentiveListDataSelectors", "incentiveTableConstraintsDataSelectors", "incentiveTableDataSelectors", "incentiveTableDescriptionDataSelectors", "loadControlEventListDataSelectors", "loadControlLimitConstraintsListDataSelectors", "loadControlLimitDescriptionListDataSelectors", "loadControlLimitListDataSelectors", "loadControlStateListDataSelectors", "measurementConstraintsListDataSelectors", "measurementDescriptionListDataSelectors", "measurementListDataSelectors", "measurementSeriesListDataSelectors", "measurementThresholdRelationListDataSelectors", "messagingListDataSelectors", "networkManagementDeviceDescriptionListDataSelectors", "networkManagementEntityDescriptionListDataSelectors", "networkManagementFeatureDescriptionListDataSelectors", "nodeManagementBindingDataSelectors", "nodeManagementDestinationListDataSelectors", "nodeManagementDetailedDiscoveryDataSelectors", "nodeManagementSubscriptionDataSelectors", "nodeManagementUseCaseDataSelectors", "operatingConstraintsDurationListDataSelectors", "operatingConstraintsInterruptListDataSelectors", "operatingConstraintsPowerDescriptionListDataSelectors", "operatingConstraintsPowerLevelListDataSelectors", "operatingConstraintsPowerRangeListDataSelectors", "operatingConstraintsResumeImplicationListDataSelectors", "powerSequenceAlternativesRelationListDataSelectors", "powerSequenceDescriptionListDataSelectors", "powerSequencePriceListDataSelectors", "powerSequenceScheduleConstraintsListDataSelectors", "powerSequenceScheduleListDataSelectors", "powerSequenceSchedulePreferenceListDataSelectors", "powerSequenceStateListDataSelectors", "powerTimeSlotScheduleConstraintsListDataSelectors", "powerTimeSlotScheduleListDataSelectors", "powerTimeSlotValueListDataSelectors", "sensingListDataSelectors", "sessionIdentificationListDataSelectors", "sessionMeasurementRelationListDataSelectors", "setpointConstraintsListDataSelectors", "setpointDescriptionListDataSelectors", "setpointListDataSelectors", "smartEnergyManagementPsDataSelectors", "smartEnergyManagementPsPriceDataSelectors", "specificationVersionListDataSelectors", "stateInformationListDataSelectors", "subscriptionManagementEntryListDataSelectors", "supplyConditionDescriptionListDataSelectors", "supplyConditionListDataSelectors", "supplyConditionThresholdRelationListDataSelectors", "tariffBoundaryRelationListDataSelectors", "tariffDescriptionListDataSelectors", "tariffListDataSelectors", "tariffTierRelationListDataSelectors", "taskManagementJobDescriptionListDataSelectors", "taskManagementJobListDataSelectors", "taskManagementJobRelationListDataSelectors", "thresholdConstraintsListDataSelectors", "thresholdDescriptionListDataSelectors", "thresholdListDataSelectors", "tierBoundaryDescriptionListDataSelectors", "tierBoundaryListDataSelectors", "tierDescriptionListDataSelectors", "tierIncentiveRelationListDataSelectors", "tierListDataSelectors", "timeSeriesConstraintsListDataSelectors", "timeSeriesDescriptionListDataSelectors", "timeSeriesListDataSelectors", "timeTableConstraintsListDataSelectors", "timeTableDescriptionListDataSelectors", "timeTableListDataSelectors", "useCaseInformationListDataSelectors", "actuatorLevelDataElements", "actuatorLevelDescriptionDataElements", "actuatorSwitchDataElements", "actuatorSwitchDescriptionDataElements", "alarmDataElements", "billConstraintsDataElements", "billDataElements", "billDescriptionDataElements", "bindingManagementDeleteCallElements", "bindingManagementEntryDataElements", "bindingManagementRequestCallElements", "commodityDataElements", "dataTunnelingCallElements", "deviceClassificationManufacturerDataElements", "deviceClassificationUserDataElements", "deviceConfigurationKeyValueConstraintsDataElements", "deviceConfigurationKeyValueDataElements", "deviceConfigurationKeyValueDescriptionDataElements", "deviceDiagnosisHeartbeatDataElements", "deviceDiagnosisServiceDataElements", "deviceDiagnosisStateDataElements", "directControlActivityDataElements", "directControlDescriptionDataElements", "electricalConnectionDescriptionDataElements", "electricalConnectionParameterDescriptionDataElements", "electricalConnectionPermittedValueSetDataElements", "electricalConnectionStateDataElements", "electricalConnectionCharacteristicDataElements", "hvacOperationModeDescriptionDataElements", "hvacOverrunDataElements", "hvacOverrunDescriptionDataElements", "hvacSystemFunctionDataElements", "hvacSystemFunctionDescriptionDataElements", "hvacSystemFunctionOperationModeRelationDataElements", "hvacSystemFunctionPowerSequenceRelationDataElements", "hvacSystemFunctionSetpointRelationDataElements", "identificationDataElements", "incentiveDataElements", "incentiveDescriptionDataElements", "incentiveTableConstraintsDataElements", "incentiveTableDataElements", "incentiveTableDescriptionDataElements", "loadControlEventDataElements", "loadControlLimitConstraintsDataElements", "loadControlLimitDataElements", "loadControlLimitDescriptionDataElements", "loadControlNodeDataElements", "loadControlStateDataElements", "measurementConstraintsDataElements", "measurementDataElements", "measurementDescriptionDataElements", "measurementSeriesDataElements", "measurementThresholdRelationDataElements", "messagingDataElements", "networkManagementAbortCallElements", "networkManagementAddNodeCallElements", "networkManagementDeviceDescriptionDataElements", "networkManagementDiscoverCallElements", "networkManagementEntityDescriptionDataElements", "networkManagementFeatureDescriptionDataElements", "networkManagementJoiningModeDataElements", "networkManagementModifyNodeCallElements", "networkManagementProcessStateDataElements", "networkManagementRemoveNodeCallElements", "networkManagementReportCandidateDataElements", "networkManagementScanNetworkCallElements", "nodeManagementBindingDataElements", "nodeManagementBindingDeleteCallElements", "nodeManagementBindingRequestCallElements", "nodeManagementDestinationDataElements", "nodeManagementDetailedDiscoveryDataElements", "nodeManagementSubscriptionDataElements", "nodeManagementSubscriptionDeleteCallElements", "nodeManagementSubscriptionRequestCallElements", "nodeManagementUseCaseDataElements", "operatingConstraintsDurationDataElements", "operatingConstraintsInterruptDataElements", "operatingConstraintsPowerDescriptionDataElements", "operatingConstraintsPowerLevelDataElements", "operatingConstraintsPowerRangeDataElements", "operatingConstraintsResumeImplicationDataElements", "powerSequenceAlternativesRelationDataElements", "powerSequenceDescriptionDataElements", "powerSequenceNodeScheduleInformationDataElements", "powerSequencePriceCalculationRequestCallElements", "powerSequencePriceDataElements", "powerSequenceScheduleConfigurationRequestCallElements", "powerSequenceScheduleConstraintsDataElements", "powerSequenceScheduleDataElements", "powerSequenceSchedulePreferenceDataElements", "powerSequenceStateDataElements", "powerTimeSlotScheduleConstraintsDataElements", "powerTimeSlotScheduleDataElements", "powerTimeSlotValueDataElements", "sensingDataElements", "sensingDescriptionDataElements", "sessionIdentificationDataElements", "sessionMeasurementRelationDataElements", "setpointConstraintsDataElements", "setpointDataElements", "setpointDescriptionDataElements", "smartEnergyManagementPsConfigurationRequestCallElements", "smartEnergyManagementPsDataElements", "smartEnergyManagementPsPriceCalculationRequestCallElements", "smartEnergyManagementPsPriceDataElements", "specificationVersionDataElements", "stateInformationDataElements", "subscriptionManagementDeleteCallElements", "subscriptionManagementEntryDataElements", "subscriptionManagementRequestCallElements", "supplyConditionDataElements", "supplyConditionDescriptionDataElements", "supplyConditionThresholdRelationDataElements", "tariffBoundaryRelationDataElements", "tariffDataElements", "tariffDescriptionDataElements", "tariffOverallConstraintsDataElements", "tariffTierRelationDataElements", "taskManagementJobDataElements", "taskManagementJobDescriptionDataElements", "taskManagementJobRelationDataElements", "taskManagementOverviewDataElements", "thresholdConstraintsDataElements", "thresholdDataElements", "thresholdDescriptionDataElements", "tierBoundaryDataElements", "tierBoundaryDescriptionDataElements", "tierDataElements", "tierDescriptionDataElements", "tierIncentiveRelationDataElements", "timeDistributorDataElements", "timeDistributorEnquiryCallElements", "timeInformationDataElements", "timePrecisionDataElements", "timeSeriesConstraintsDataElements", "timeSeriesDataElements", "timeSeriesDescriptionDataElements", "timeTableConstraintsDataElements", "timeTableDataElements", "timeTableDescriptionDataElements", "useCaseInformationDataElements" ]
+    },
+    "FunctionPropertyElementsType": {
+      "fields": [ "function", "possibleOperations" ]
+    },
+    "FunctionPropertyType": {
+      "fields": [ "function", "possibleOperations" ]
+    },
+    "HeaderType": {
+      "fields": [ "specificationVersion", "addressSource", "addressDestination", "addressOriginator", "msgCounter", "msgCounterReference", "cmdClassifier", "ackRequest", "timestamp" ]
+    },
+    "HvacOperationModeDescriptionDataElementsType": {
+      "fields": [ "operationModeId", "operationModeType", "label", "description" ]
+    },
+    "HvacOperationModeDescriptionDataType": {
+      "fields": [ "operationModeId", "operationModeType", "label", "description" ],
+      "keys":   { "operationModeId": "primary" }
+    },
+    "HvacOperationModeDescriptionListDataSelectorsType": {
+      "fields": [ "operationModeId" ]
+    },
+    "HvacOperationModeDescriptionListDataType": {
+      "fields": [ "hvacOperationModeDescriptionData" ]
+    },
+    "HvacOverrunDataElementsType": {
+      "fields": [ "overrunId", "overrunStatus", "timeTableId", "isOverrunStatusChangeable" ]
+    },
+    "HvacOverrunDataType": {
+      "fields": [ "overrunId", "overrunStatus", "timeTableId", "isOverrunStatusChangeable" ],
+      "keys":   { "overrunId": "primary" }
+    },
+    "HvacOverrunDescriptionDataElementsType": {
+      "fields": [ "overrunId", "overrunType", "affectedSystemFunctionId", "label", "description" ]
+    },
+    "HvacOverrunDescriptionDataType": {
+      "fields": [ "overrunId", "overrunType", "affectedSystemFunctionId", "label", "description" ],
+      "keys":   { "overrunId": "primary" }
+    },
+    "HvacOverrunDescriptionListDataSelectorsType": {
+      "fields": [ "overrunId" ]
+    },
+    "HvacOverrunDescriptionListDataType": {
+      "fields": [ "hvacOverrunDescriptionData" ]
+    },
+    "HvacOverrunListDataSelectorsType": {
+      "fields": [ "overrunId" ]
+    },
+    "HvacOverrunListDataType": {
+      "fields": [ "hvacOverrunData" ]
+    },
+    "HvacSystemFunctionDataElementsType": {
+      "fields": [ "systemFunctionId", "currentOperationModeId", "isOperationModeIdChangeable", "currentSetpointId", "isSetpointIdChangeable", "isOverrunActive" ]
+    },
+    "HvacSystemFunctionDataType": {
+      "fields": [ "systemFunctionId", "currentOperationModeId", "isOperationModeIdChangeable", "currentSetpointId", "isSetpointIdChangeable", "isOverrunActive" ],
+      "keys":   { "systemFunctionId": "primary" }
+    },
+    "HvacSystemFunctionDescriptionDataElementsType": {
+      "fields": [ "systemFunctionId", "systemFunctionType", "label", "description" ]
+    },
+    "HvacSystemFunctionDescriptionDataType": {
+      "fields": [ "systemFunctionId", "systemFunctionType", "label", "description" ],
+      "keys":   { "systemFunctionId": "primary" }
+    },
+    "HvacSystemFunctionDescriptionListDataSelectorsType": {
+      "fields": [ "systemFunctionId" ]
+    },
+    "HvacSystemFunctionDescriptionListDataType": {
+      "fields": [ "hvacSystemFunctionDescriptionData" ]
+    },
+    "HvacSystemFunctionListDataSelectorsType": {
+      "fields": [ "systemFunctionId" ]
+    },
+    "HvacSystemFunctionListDataType": {
+      "fields": [ "hvacSystemFunctionData" ]
+    },
+    "HvacSystemFunctionOperationModeRelationDataElementsType": {
+      "fields": [ "systemFunctionId", "operationModeId" ]
+    },
+    "HvacSystemFunctionOperationModeRelationDataType": {
+      "fields": [ "systemFunctionId", "operationModeId" ],
+      "keys":   { "systemFunctionId": "primary" }
+    },
+    "HvacSystemFunctionOperationModeRelationListDataSelectorsType": {
+      "fields": [ "systemFunctionId" ]
+    },
+    "HvacSystemFunctionOperationModeRelationListDataType": {
+      "fields": [ "hvacSystemFunctionOperationModeRelationData" ]
+    },
+    "HvacSystemFunctionPowerSequenceRelationDataElementsType": {
+      "fields": [ "systemFunctionId", "sequenceId" ]
+    },
+    "HvacSystemFunctionPowerSequenceRelationDataType": {
+      "fields": [ "systemFunctionId", "sequenceId" ],
+      "keys":   { "systemFunctionId": "primary" }
+    },
+    "HvacSystemFunctionPowerSequenceRelationListDataSelectorsType": {
+      "fields": [ "systemFunctionId" ]
+    },
+    "HvacSystemFunctionPowerSequenceRelationListDataType": {
+      "fields": [ "hvacSystemFunctionPowerSequenceRelationData" ]
+    },
+    "HvacSystemFunctionSetpointRelationDataElementsType": {
+      "fields": [ "systemFunctionId", "operationModeId", "setpointId" ]
+    },
+    "HvacSystemFunctionSetpointRelationDataType": {
+      "fields": [ "systemFunctionId", "operationModeId", "setpointId" ],
+      "keys":   { "systemFunctionId": "primary", "operationModeId": "key" }
+    },
+    "HvacSystemFunctionSetpointRelationListDataSelectorsType": {
+      "fields": [ "systemFunctionId", "operationModeId" ]
+    },
+    "HvacSystemFunctionSetpointRelationListDataType": {
+      "fields": [ "hvacSystemFunctionSetpointRelationData" ]
+    },
+    "IdentificationDataElementsType": {
+      "fields": [ "identificationId", "identificationType", "identificationValue", "authorized" ]
+    },
+    "IdentificationDataType": {
+      "fields": [ "identificationId", "identificationType", "identificationValue", "authorized" ],
+      "keys":   { "identificationId": "primary" }
+    },
+    "IdentificationListDataSelectorsType": {
+      "fields": [ "identificationId", "identificationType" ]
+    },
+    "IdentificationListDataType": {
+      "fields": [ "identificationData" ]
+    },
+    "IncentiveDataElementsType": {
+      "fields": [ "incentiveId", "valueType", "timestamp", "timePeriod", "timeTableId", "value" ]
+    },
+    "IncentiveDataType": {
+      "fields": [ "incentiveId", "valueType", "timestamp", "timePeriod", "timeTableId", "value" ],
+      "keys":   { "incentiveId": "primary" }
+    },
+    "IncentiveDescriptionDataElementsType": {
+      "fields": [ "incentiveId", "incentiveType", "incentivePriority", "currency", "unit", "label", "description" ]
+    },
+    "IncentiveDescriptionDataType": {
+      "fields": [ "incentiveId", "incentiveType", "incentivePriority", "currency", "unit", "label", "description" ],
+      "keys":   { "incentiveId": "primary" }
+    },
+    "IncentiveDescriptionListDataSelectorsType": {
+      "fields": [ "incentiveId", "incentiveType" ]
+    },
+    "IncentiveDescriptionListDataType": {
+      "fields": [ "incentiveDescriptionData" ]
+    },
+    "IncentiveListDataSelectorsType": {
+      "fields": [ "incentiveId", "valueType", "timestampInterval" ]
+    },
+    "IncentiveListDataType": {
+      "fields": [ "incentiveData" ]
+    },
+    "IncentiveTableConstraintsDataElementsType": {
+      "fields": [ "incentiveTableConstraints" ]
+    },
+    "IncentiveTableConstraintsDataSelectorsType": {
+      "fields": [ "tariff" ]
+    },
+    "IncentiveTableConstraintsDataType": {
+      "fields": [ "incentiveTableConstraints" ]
+    },
+    "IncentiveTableConstraintsElementsType": {
+      "fields": [ "tariff", "tariffConstraints", "incentiveSlotConstraints" ]
+    },
+    "IncentiveTableConstraintsType": {
+      "fields": [ "tariff", "tariffConstraints", "incentiveSlotConstraints" ]
+    },
+    "IncentiveTableDataElementsType": {
+      "fields": [ "incentiveTable" ]
+    },
+    "IncentiveTableDataSelectorsType": {
+      "fields": [ "tariff" ]
+    },
+    "IncentiveTableDataType": {
+      "fields": [ "incentiveTable" ]
+    },
+    "IncentiveTableDescriptionDataElementsType": {
+      "fields": [ "incentiveTableDescription" ]
+    },
+    "IncentiveTableDescriptionDataSelectorsType": {
+      "fields": [ "tariffDescription" ]
+    },
+    "IncentiveTableDescriptionDataType": {
+      "fields": [ "incentiveTableDescription" ]
+    },
+    "IncentiveTableDescriptionElementsType": {
+      "fields": [ "tariffDescription", "tier" ]
+    },
+    "IncentiveTableDescriptionTierElementsType": {
+      "fields": [ "tierDescription", "boundaryDescription", "incentiveDescription" ]
+    },
+    "IncentiveTableDescriptionTierType": {
+      "fields": [ "tierDescription", "boundaryDescription", "incentiveDescription" ]
+    },
+    "IncentiveTableDescriptionType": {
+      "fields": [ "tariffDescription", "tier" ]
+    },
+    "IncentiveTableElementsType": {
+      "fields": [ "tariff", "incentiveSlot" ]
+    },
+    "IncentiveTableIncentiveSlotElementsType": {
+      "fields": [ "timeInterval", "tier" ]
+    },
+    "IncentiveTableIncentiveSlotType": {
+      "fields": [ "timeInterval", "tier" ]
+    },
+    "IncentiveTableTierElementsType": {
+      "fields": [ "tier", "boundary", "incentive" ]
+    },
+    "IncentiveTableTierType": {
+      "fields": [ "tier", "boundary", "incentive" ]
+    },
+    "IncentiveTableType": {
+      "fields": [ "tariff", "incentiveSlot" ]
+    },
+    "LoadControlEventDataElementsType": {
+      "fields": [ "timestamp", "eventId", "eventActionConsume", "eventActionProduce", "timePeriod" ]
+    },
+    "LoadControlEventDataType": {
+      "fields": [ "timestamp", "eventId", "eventActionConsume", "eventActionProduce", "timePeriod" ],
+      "keys":   { "eventId": "primary" }
+    },
+    "LoadControlEventListDataSelectorsType": {
+      "fields": [ "timestampInterval", "eventId" ]
+    },
+    "LoadControlEventListDataType": {
+      "fields": [ "loadControlEventData" ]
+    },
+    "LoadControlLimitConstraintsDataElementsType": {
+      "fields": [ "limitId", "valueRangeMin", "valueRangeMax", "valueStepSize" ]
+    },
+    "LoadControlLimitConstraintsDataType": {
+      "fields": [ "limitId", "valueRangeMin", "valueRangeMax", "valueStepSize" ],
+      "keys":   { "limitId": "primary" }
+    },
+    "LoadControlLimitConstraintsListDataSelectorsType": {
+      "fields": [ "limitId" ]
+    },
+    "LoadControlLimitConstraintsListDataType": {
+      "fields": [ "loadControlLimitConstraintsData" ]
+    },
+    "LoadControlLimitDataElementsType": {
+      "fields": [ "limitId", "isLimitChangeable", "isLimitActive", "timePeriod", "value" ]
+    },
+    "LoadControlLimitDataType": {
+      "fields": [ "limitId", "isLimitChangeable", "isLimitActive", "timePeriod", "value" ],
+      "keys":   { "limitId": "primary" }
+    },
+    "LoadControlLimitDescriptionDataElementsType": {
+      "fields": [ "limitId", "limitType", "limitCategory", "limitDirection", "measurementId", "unit", "scopeType", "label", "description" ]
+    },
+    "LoadControlLimitDescriptionDataType": {
+      "fields": [ "limitId", "limitType", "limitCategory", "limitDirection", "measurementId", "unit", "scopeType", "label", "description" ],
+      "keys":   { "limitId": "primary" }
+    },
+    "LoadControlLimitDescriptionListDataSelectorsType": {
+      "fields": [ "limitId", "limitType", "limitDirection", "measurementId", "scopeType" ]
+    },
+    "LoadControlLimitDescriptionListDataType": {
+      "fields": [ "loadControlLimitDescriptionData" ]
+    },
+    "LoadControlLimitListDataSelectorsType": {
+      "fields": [ "limitId" ]
+    },
+    "LoadControlLimitListDataType": {
+      "fields": [ "loadControlLimitData" ]
+    },
+    "LoadControlNodeDataElementsType": {
+      "fields": [ "isNodeRemoteControllable" ]
+    },
+    "LoadControlNodeDataType": {
+      "fields": [ "isNodeRemoteControllable" ]
+    },
+    "LoadControlStateDataElementsType": {
+      "fields": [ "timestamp", "eventId", "eventStateConsume", "appliedEventActionConsume", "eventStateProduce", "appliedEventActionProduce" ]
+    },
+    "LoadControlStateDataType": {
+      "fields": [ "timestamp", "eventId", "eventStateConsume", "appliedEventActionConsume", "eventStateProduce", "appliedEventActionProduce" ],
+      "keys":   { "eventId": "primary" }
+    },
+    "LoadControlStateListDataSelectorsType": {
+      "fields": [ "timestampInterval", "eventId" ]
+    },
+    "LoadControlStateListDataType": {
+      "fields": [ "loadControlStateData" ]
+    },
+    "MeasurementConstraintsDataElementsType": {
+      "fields": [ "measurementId", "valueRangeMin", "valueRangeMax", "valueStepSize" ]
+    },
+    "MeasurementConstraintsDataType": {
+      "fields": [ "measurementId", "valueRangeMin", "valueRangeMax", "valueStepSize" ],
+      "keys":   { "measurementId": "primary" }
+    },
+    "MeasurementConstraintsListDataSelectorsType": {
+      "fields": [ "measurementId" ]
+    },
+    "MeasurementConstraintsListDataType": {
+      "fields": [ "measurementConstraintsData" ]
+    },
+    "MeasurementDataElementsType": {
+      "fields": [ "measurementId", "valueType", "timestamp", "value", "evaluationPeriod", "valueSource", "valueTendency", "valueState" ]
+    },
+    "MeasurementDataType": {
+      "fields": [ "measurementId", "valueType", "timestamp", "value", "evaluationPeriod", "valueSource", "valueTendency", "valueState" ],
+      "keys":   { "measurementId": "primary", "valueType": "key" }
+    },
+    "MeasurementDescriptionDataElementsType": {
+      "fields": [ "measurementId", "measurementType", "commodityType", "unit", "calibrationValue", "scopeType", "label", "description" ]
+    },
+    "MeasurementDescriptionDataType": {
+      "fields": [ "measurementId", "measurementType", "commodityType", "unit", "calibrationValue", "scopeType", "label", "description" ],
+      "keys":   { "measurementId": "primary" }
+    },
+    "MeasurementDescriptionListDataSelectorsType": {
+      "fields": [ "measurementId", "measurementType", "commodityType", "scopeType" ]
+    },
+    "MeasurementDescriptionListDataType": {
+      "fields": [ "measurementDescriptionData" ]
+    },
+    "MeasurementListDataSelectorsType": {
+      "fields": [ "measurementId", "valueType", "timestampInterval" ]
+    },
+    "MeasurementListDataType": {
+      "fields": [ "measurementData" ]
+    },
+    "MeasurementSeriesDataElementsType": {
+      "fields": [ "measurementId", "valueType", "timestamp", "value", "evaluationPeriod", "valueSource", "valueTendency", "valueState" ]
+    },
+    "MeasurementSeriesDataType": {
+      "fields": [ "measurementId", "valueType", "timestamp", "value", "evaluationPeriod", "valueSource", "valueTendency", "valueState" ],
+      "keys":   { "measurementId": "primary", "valueType": "key", "timestamp": "key" }
+    },
+    "MeasurementSeriesListDataSelectorsType": {
+      "fields": [ "measurementId", "valueType", "timestampInterval" ]
+    },
+    "MeasurementSeriesListDataType": {
+      "fields": [ "measurementSeriesData" ]
+    },
+    "MeasurementThresholdRelationDataElementsType": {
+      "fields": [ "measurementId", "thresholdId" ]
+    },
+    "MeasurementThresholdRelationDataType": {
+      "fields": [ "measurementId", "thresholdId" ],
+      "keys":   { "measurementId": "primary" }
+    },
+    "MeasurementThresholdRelationListDataSelectorsType": {
+      "fields": [ "measurementId", "thresholdId" ]
+    },
+    "MeasurementThresholdRelationListDataType": {
+      "fields": [ "measurementThresholdRelationData" ]
+    },
+    "MessagingDataElementsType": {
+      "fields": [ "timestamp", "messagingNumber", "type", "text" ]
+    },
+    "MessagingDataType": {
+      "fields": [ "timestamp", "messagingNumber", "type", "text" ],
+      "keys":   { "messagingNumber": "primary" }
+    },
+    "MessagingListDataSelectorsType": {
+      "fields": [ "timestampInterval", "messagingNumber" ]
+    },
+    "MessagingListDataType": {
+      "fields": [ "messagingData" ]
+    },
+    "NetworkManagementAddNodeCallElementsType": {
+      "fields": [ "nodeAddress", "nativeSetup", "timeout", "label", "description" ]
+    },
+    "NetworkManagementAddNodeCallType": {
+      "fields": [ "nodeAddress", "nativeSetup", "timeout", "label", "description" ]
+    },
+    "NetworkManagementDeviceDescriptionDataElementsType": {
+      "fields": [ "deviceAddress", "deviceType", "networkManagementResponsibleAddress", "nativeSetup", "technologyAddress", "communicationsTechnologyInformation", "networkFeatureSet", "lastStateChange", "minimumTrustLevel", "label", "description" ]
+    },
+    "NetworkManagementDeviceDescriptionDataType": {
+      "fields": [ "deviceAddress", "deviceType", "networkManagementResponsibleAddress", "nativeSetup", "technologyAddress", "communicationsTechnologyInformation", "networkFeatureSet", "lastStateChange", "minimumTrustLevel", "label", "description" ],
+      "keys":   { "deviceAddress": "primary" }
+    },
+    "NetworkManagementDeviceDescriptionListDataSelectorsType": {
+      "fields": [ "deviceAddress", "deviceType" ]
+    },
+    "NetworkManagementDeviceDescriptionListDataType": {
+      "fields": [ "networkManagementDeviceDescriptionData" ]
+    },
+    "NetworkManagementDiscoverCallElementsType": {
+      "fields": [ "discoverAddress" ]
+    },
+    "NetworkManagementDiscoverCallType": {
+      "fields": [ "discoverAddress" ]
+    },
+    "NetworkManagementEntityDescriptionDataElementsType": {
+      "fields": [ "entityAddress", "entityType", "lastStateChange", "minimumTrustLevel", "label", "description" ]
+    },
+    "NetworkManagementEntityDescriptionDataType": {
+      "fields": [ "entityAddress", "entityType", "lastStateChange", "minimumTrustLevel", "label", "description" ],
+      "keys":   { "entityAddress": "primary" }
+    },
+    "NetworkManagementEntityDescriptionListDataSelectorsType": {
+      "fields": [ "entityAddress", "entityType" ]
+    },
+    "NetworkManagementEntityDescriptionListDataType": {
+      "fields": [ "networkManagementEntityDescriptionData" ]
+    },
+    "NetworkManagementFeatureDescriptionDataElementsType": {
+      "fields": [ "featureAddress", "featureType", "specificUsage", "featureGroup", "role", "supportedFunction", "lastStateChange", "minimumTrustLevel", "label", "description", "maxResponseDelay" ]
+    },
+    "NetworkManagementFeatureDescriptionDataType": {
+      "fields": [ "featureAddress", "featureType", "specificUsage", "featureGroup", "role", "supportedFunction", "lastStateChange", "minimumTrustLevel", "label", "description", "maxResponseDelay" ],
+      "keys":   { "featureAddress": "primary" }
+    },
+    "NetworkManagementFeatureDescriptionListDataSelectorsType": {
+      "fields": [ "featureAddress", "featureType" ]
+    },
+    "NetworkManagementFeatureDescriptionListDataType": {
+      "fields": [ "networkManagementFeatureDescriptionData" ]
+    },
+    "NetworkManagementJoiningModeDataElementsType": {
+      "fields": [ "setup" ]
+    },
+    "NetworkManagementJoiningModeDataType": {
+      "fields": [ "setup" ]
+    },
+    "NetworkManagementModifyNodeCallElementsType": {
+      "fields": [ "nodeAddress", "nativeSetup", "timeout", "label", "description" ]
+    },
+    "NetworkManagementModifyNodeCallType": {
+      "fields": [ "nodeAddress", "nativeSetup", "timeout", "label", "description" ]
+    },
+    "NetworkManagementProcessStateDataElementsType": {
+      "fields": [ "state", "description" ]
+    },
+    "NetworkManagementProcessStateDataType": {
+      "fields": [ "state", "description" ]
+    },
+    "NetworkManagementRemoveNodeCallElementsType": {
+      "fields": [ "nodeAddress", "timeout" ]
+    },
+    "NetworkManagementRemoveNodeCallType": {
+      "fields": [ "nodeAddress", "timeout" ]
+    },
+    "NetworkManagementReportCandidateDataElementsType": {
+      "fields": [ "candidateSetup", "setupUsableForAdd", "label", "description" ]
+    },
+    "NetworkManagementReportCandidateDataType": {
+      "fields": [ "candidateSetup", "setupUsableForAdd", "label", "description" ]
+    },
+    "NetworkManagementScanNetworkCallElementsType": {
+      "fields": [ "scanSetup", "timeout" ]
+    },
+    "NetworkManagementScanNetworkCallType": {
+      "fields": [ "scanSetup", "timeout" ]
+    },
+    "NodeManagementBindingDataElementsType": {
+      "fields": [ "bindingEntry" ]
+    },
+    "NodeManagementBindingDataSelectorsType": {
+      "fields": [ "bindingEntry" ]
+    },
+    "NodeManagementBindingDataType": {
+      "fields": [ "bindingEntry" ]
+    },
+    "NodeManagementBindingDeleteCallElementsType": {
+      "fields": [ "bindingDelete" ]
+    },
+    "NodeManagementBindingDeleteCallType": {
+      "fields": [ "bindingDelete" ]
+    },
+    "NodeManagementBindingRequestCallElementsType": {
+      "fields": [ "bindingRequest" ]
+    },
+    "NodeManagementBindingRequestCallType": {
+      "fields": [ "bindingRequest" ]
+    },
+    "NodeManagementDestinationDataElementsType": {
+      "fields": [ "deviceDescription" ]
+    },
+    "NodeManagementDestinationDataType": {
+      "fields": [ "deviceDescription" ]
+    },
+    "NodeManagementDestinationListDataSelectorsType": {
+      "fields": [ "deviceDescription" ]
+    },
+    "NodeManagementDestinationListDataType": {
+      "fields": [ "nodeManagementDestinationData" ]
+    },
+    "NodeManagementDetailedDiscoveryDataElementsType": {
+      "fields": [ "specificationVersionList", "deviceInformation", "entityInformation", "featureInformation" ]
+    },
+    "NodeManagementDetailedDiscoveryDataSelectorsType": {
+      "fields": [ "deviceInformation", "entityInformation", "featureInformation" ]
+    },
+    "NodeManagementDetailedDiscoveryDataType": {
+      "fields": [ "specificationVersionList", "deviceInformation", "entityInformation", "featureInformation" ]
+    },
+    "NodeManagementDetailedDiscoveryDeviceInformationElementsType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementDetailedDiscoveryDeviceInformationType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementDetailedDiscoveryEntityInformationElementsType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementDetailedDiscoveryEntityInformationType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementDetailedDiscoveryFeatureInformationElementsType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementDetailedDiscoveryFeatureInformationType": {
+      "fields": [ "description" ]
+    },
+    "NodeManagementSpecificationVersionListElementsType": {
+      "fields": [ "specificationVersion" ]
+    },
+    "NodeManagementSpecificationVersionListType": {
+      "fields": [ "specificationVersion" ]
+    },
+    "NodeManagementSubscriptionDataElementsType": {
+      "fields": [ "subscriptionEntry" ]
+    },
+    "NodeManagementSubscriptionDataSelectorsType": {
+      "fields": [ "subscriptionEntry" ]
+    },
+    "NodeManagementSubscriptionDataType": {
+      "fields": [ "subscriptionEntry" ]
+    },
+    "NodeManagementSubscriptionDeleteCallElementsType": {
+      "fields": [ "subscriptionDelete" ]
+    },
+    "NodeManagementSubscriptionDeleteCallType": {
+      "fields": [ "subscriptionDelete" ]
+    },
+    "NodeManagementSubscriptionRequestCallElementsType": {
+      "fields": [ "subscriptionRequest" ]
+    },
+    "NodeManagementSubscriptionRequestCallType": {
+      "fields": [ "subscriptionRequest" ]
+    },
+    "NodeManagementUseCaseDataElementsType": {
+      "fields": [ "useCaseInformation" ]
+    },
+    "NodeManagementUseCaseDataSelectorsType": {
+      "fields": [ "useCaseInformation" ]
+    },
+    "NodeManagementUseCaseDataType": {
+      "fields": [ "useCaseInformation" ]
+    },
+    "OperatingConstraintsDurationDataElementsType": {
+      "fields": [ "sequenceId", "activeDurationMin", "activeDurationMax", "pauseDurationMin", "pauseDurationMax", "activeDurationSumMin", "activeDurationSumMax" ]
+    },
+    "OperatingConstraintsDurationDataType": {
+      "fields": [ "sequenceId", "activeDurationMin", "activeDurationMax", "pauseDurationMin", "pauseDurationMax", "activeDurationSumMin", "activeDurationSumMax" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsDurationListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsDurationListDataType": {
+      "fields": [ "operatingConstraintsDurationData" ]
+    },
+    "OperatingConstraintsInterruptDataElementsType": {
+      "fields": [ "sequenceId", "isPausable", "isStoppable", "notInterruptibleAtHighPower", "maxCyclesPerDay" ]
+    },
+    "OperatingConstraintsInterruptDataType": {
+      "fields": [ "sequenceId", "isPausable", "isStoppable", "notInterruptibleAtHighPower", "maxCyclesPerDay" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsInterruptListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsInterruptListDataType": {
+      "fields": [ "operatingConstraintsInterruptData" ]
+    },
+    "OperatingConstraintsPowerDescriptionDataElementsType": {
+      "fields": [ "sequenceId", "positiveEnergyDirection", "powerUnit", "energyUnit", "description" ]
+    },
+    "OperatingConstraintsPowerDescriptionDataType": {
+      "fields": [ "sequenceId", "positiveEnergyDirection", "powerUnit", "energyUnit", "description" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsPowerDescriptionListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsPowerDescriptionListDataType": {
+      "fields": [ "operatingConstraintsPowerDescriptionData" ]
+    },
+    "OperatingConstraintsPowerLevelDataElementsType": {
+      "fields": [ "sequenceId", "power" ]
+    },
+    "OperatingConstraintsPowerLevelDataType": {
+      "fields": [ "sequenceId", "power" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsPowerLevelListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsPowerLevelListDataType": {
+      "fields": [ "operatingConstraintsPowerLevelData" ]
+    },
+    "OperatingConstraintsPowerRangeDataElementsType": {
+      "fields": [ "sequenceId", "powerMin", "powerMax", "energyMin", "energyMax" ]
+    },
+    "OperatingConstraintsPowerRangeDataType": {
+      "fields": [ "sequenceId", "powerMin", "powerMax", "energyMin", "energyMax" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsPowerRangeListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsPowerRangeListDataType": {
+      "fields": [ "operatingConstraintsPowerRangeData" ]
+    },
+    "OperatingConstraintsResumeImplicationDataElementsType": {
+      "fields": [ "sequenceId", "resumeEnergyEstimated", "energyUnit", "resumeCostEstimated", "currency" ]
+    },
+    "OperatingConstraintsResumeImplicationDataType": {
+      "fields": [ "sequenceId", "resumeEnergyEstimated", "energyUnit", "resumeCostEstimated", "currency" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "OperatingConstraintsResumeImplicationListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "OperatingConstraintsResumeImplicationListDataType": {
+      "fields": [ "operatingConstraintsResumeImplicationData" ]
+    },
+    "PayloadType": {
+      "fields": [ "cmd" ]
+    },
+    "PossibleOperationsClassifierType": {
+      "fields": [ "partial" ]
+    },
+    "PossibleOperationsElementsType": {
+      "fields": [ "read", "write" ]
+    },
+    "PossibleOperationsReadType": {
+      "fields": [ "partial" ]
+    },
+    "PossibleOperationsType": {
+      "fields": [ "read", "write" ]
+    },
+    "PossibleOperationsWriteType": {
+      "fields": [ "partial" ]
+    },
+    "PowerSequenceAlternativesRelationDataElementsType": {
+      "fields": [ "alternativesId", "sequenceId" ]
+    },
+    "PowerSequenceAlternativesRelationDataType": {
+      "fields": [ "alternativesId", "sequenceId" ],
+      "keys":   { "alternativesId": "primary" }
+    },
+    "PowerSequenceAlternativesRelationListDataSelectorsType": {
+      "fields": [ "alternativesId", "sequenceId" ]
+    },
+    "PowerSequenceAlternativesRelationListDataType": {
+      "fields": [ "powerSequenceAlternativesRelationData" ]
+    },
+    "PowerSequenceDescriptionDataElementsType": {
+      "fields": [ "sequenceId", "description", "positiveEnergyDirection", "powerUnit", "energyUnit", "valueSource", "scope", "taskIdentifier", "repetitionsTotal" ]
+    },
+    "PowerSequenceDescriptionDataType": {
+      "fields": [ "sequenceId", "description", "positiveEnergyDirection", "powerUnit", "energyUnit", "valueSource", "scope", "taskIdentifier", "repetitionsTotal" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequenceDescriptionListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceDescriptionListDataType": {
+      "fields": [ "powerSequenceDescriptionData" ]
+    },
+    "PowerSequenceNodeScheduleInformationDataElementsType": {
+      "fields": [ "nodeRemoteControllable", "supportsSingleSlotSchedulingOnly", "alternativesCount", "totalSequencesCountMax", "supportsReselection" ]
+    },
+    "PowerSequenceNodeScheduleInformationDataType": {
+      "fields": [ "nodeRemoteControllable", "supportsSingleSlotSchedulingOnly", "alternativesCount", "totalSequencesCountMax", "supportsReselection" ]
+    },
+    "PowerSequencePriceCalculationRequestCallElementsType": {
+      "fields": [ "sequenceId", "potentialStartTime" ]
+    },
+    "PowerSequencePriceCalculationRequestCallType": {
+      "fields": [ "sequenceId", "potentialStartTime" ]
+    },
+    "PowerSequencePriceDataElementsType": {
+      "fields": [ "sequenceId", "potentialStartTime", "price", "currency" ]
+    },
+    "PowerSequencePriceDataType": {
+      "fields": [ "sequenceId", "potentialStartTime", "price", "currency" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequencePriceListDataSelectorsType": {
+      "fields": [ "sequenceId", "potentialStartTimeInterval" ]
+    },
+    "PowerSequencePriceListDataType": {
+      "fields": [ "powerSequencePriceData" ]
+    },
+    "PowerSequenceScheduleConfigurationRequestCallElementsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceScheduleConfigurationRequestCallType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceScheduleConstraintsDataElementsType": {
+      "fields": [ "sequenceId", "earliestStartTime", "latestStartTime", "earliestEndTime", "latestEndTime", "optionalSequence" ]
+    },
+    "PowerSequenceScheduleConstraintsDataType": {
+      "fields": [ "sequenceId", "earliestStartTime", "latestStartTime", "earliestEndTime", "latestEndTime", "optionalSequence" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequenceScheduleConstraintsListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceScheduleConstraintsListDataType": {
+      "fields": [ "powerSequenceScheduleConstraintsData" ]
+    },
+    "PowerSequenceScheduleDataElementsType": {
+      "fields": [ "sequenceId", "startTime", "endTime" ]
+    },
+    "PowerSequenceScheduleDataType": {
+      "fields": [ "sequenceId", "startTime", "endTime" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequenceScheduleListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceScheduleListDataType": {
+      "fields": [ "powerSequenceScheduleData" ]
+    },
+    "PowerSequenceSchedulePreferenceDataElementsType": {
+      "fields": [ "sequenceId", "greenest", "cheapest" ]
+    },
+    "PowerSequenceSchedulePreferenceDataType": {
+      "fields": [ "sequenceId", "greenest", "cheapest" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequenceSchedulePreferenceListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceSchedulePreferenceListDataType": {
+      "fields": [ "powerSequenceSchedulePreferenceData" ]
+    },
+    "PowerSequenceStateDataElementsType": {
+      "fields": [ "sequenceId", "state", "activeSlotNumber", "elapsedSlotTime", "remainingSlotTime", "sequenceRemoteControllable", "activeRepetitionNumber", "remainingPauseTime" ]
+    },
+    "PowerSequenceStateDataType": {
+      "fields": [ "sequenceId", "state", "activeSlotNumber", "elapsedSlotTime", "remainingSlotTime", "sequenceRemoteControllable", "activeRepetitionNumber", "remainingPauseTime" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerSequenceStateListDataSelectorsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "PowerSequenceStateListDataType": {
+      "fields": [ "powerSequenceStateData" ]
+    },
+    "PowerTimeSlotScheduleConstraintsDataElementsType": {
+      "fields": [ "sequenceId", "slotNumber", "earliestStartTime", "latestEndTime", "minDuration", "maxDuration", "optionalSlot" ]
+    },
+    "PowerTimeSlotScheduleConstraintsDataType": {
+      "fields": [ "sequenceId", "slotNumber", "earliestStartTime", "latestEndTime", "minDuration", "maxDuration", "optionalSlot" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerTimeSlotScheduleConstraintsListDataSelectorsType": {
+      "fields": [ "sequenceId", "slotNumber" ]
+    },
+    "PowerTimeSlotScheduleConstraintsListDataType": {
+      "fields": [ "powerTimeSlotScheduleConstraintsData" ]
+    },
+    "PowerTimeSlotScheduleDataElementsType": {
+      "fields": [ "sequenceId", "slotNumber", "timePeriod", "defaultDuration", "durationUncertainty", "slotActivated", "description" ]
+    },
+    "PowerTimeSlotScheduleDataType": {
+      "fields": [ "sequenceId", "slotNumber", "timePeriod", "defaultDuration", "durationUncertainty", "slotActivated", "description" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerTimeSlotScheduleListDataSelectorsType": {
+      "fields": [ "sequenceId", "slotNumber" ]
+    },
+    "PowerTimeSlotScheduleListDataType": {
+      "fields": [ "powerTimeSlotScheduleData" ]
+    },
+    "PowerTimeSlotValueDataElementsType": {
+      "fields": [ "sequenceId", "slotNumber", "valueType", "value" ]
+    },
+    "PowerTimeSlotValueDataType": {
+      "fields": [ "sequenceId", "slotNumber", "valueType", "value" ],
+      "keys":   { "sequenceId": "primary" }
+    },
+    "PowerTimeSlotValueListDataSelectorsType": {
+      "fields": [ "sequenceId", "slotNumber", "valueType" ]
+    },
+    "PowerTimeSlotValueListDataType": {
+      "fields": [ "powerTimeSlotValueData" ]
+    },
+    "RecurrenceInformationElementsType": {
+      "fields": [ "recurringInterval", "recurringIntervalStep", "firstExecution", "executionCount", "lastExecution" ]
+    },
+    "RecurrenceInformationType": {
+      "fields": [ "recurringInterval", "recurringIntervalStep", "firstExecution", "executionCount", "lastExecution" ]
+    },
+    "ResultDataType": {
+      "fields": [ "errorNumber", "description" ]
+    },
+    "ScaledNumberElementsType": {
+      "fields": [ "number", "scale" ]
+    },
+    "ScaledNumberRangeElementsType": {
+      "fields": [ "min", "max" ]
+    },
+    "ScaledNumberRangeType": {
+      "fields": [ "min", "max" ]
+    },
+    "ScaledNumberSetElementsType": {
+      "fields": [ "value", "range" ]
+    },
+    "ScaledNumberSetType": {
+      "fields": [ "value", "range" ]
+    },
+    "ScaledNumberType": {
+      "fields": [ "number", "scale" ]
+    },
+    "SensingDataElementsType": {
+      "fields": [ "timestamp", "state", "value" ]
+    },
+    "SensingDataType": {
+      "fields": [ "timestamp", "state", "value" ]
+    },
+    "SensingDescriptionDataElementsType": {
+      "fields": [ "sensingType", "unit", "scopeType", "label", "description" ]
+    },
+    "SensingDescriptionDataType": {
+      "fields": [ "sensingType", "unit", "scopeType", "label", "description" ]
+    },
+    "SensingListDataSelectorsType": {
+      "fields": [ "timestampInterval" ]
+    },
+    "SensingListDataType": {
+      "fields": [ "sensingData" ]
+    },
+    "SessionIdentificationDataElementsType": {
+      "fields": [ "sessionId", "identificationId", "isLatestSession", "timePeriod" ]
+    },
+    "SessionIdentificationDataType": {
+      "fields": [ "sessionId", "identificationId", "isLatestSession", "timePeriod" ],
+      "keys":   { "sessionId": "primary" }
+    },
+    "SessionIdentificationListDataSelectorsType": {
+      "fields": [ "sessionId", "identificationId", "isLatestSession", "timePeriod" ]
+    },
+    "SessionIdentificationListDataType": {
+      "fields": [ "sessionIdentificationData" ]
+    },
+    "SessionMeasurementRelationDataElementsType": {
+      "fields": [ "sessionId", "measurementId" ]
+    },
+    "SessionMeasurementRelationDataType": {
+      "fields": [ "sessionId", "measurementId" ],
+      "keys":   { "sessionId": "primary" }
+    },
+    "SessionMeasurementRelationListDataSelectorsType": {
+      "fields": [ "sessionId", "measurementId" ]
+    },
+    "SessionMeasurementRelationListDataType": {
+      "fields": [ "sessionMeasurementRelationData" ]
+    },
+    "SetpointConstraintsDataElementsType": {
+      "fields": [ "setpointId", "setpointRangeMin", "setpointRangeMax", "setpointStepSize" ]
+    },
+    "SetpointConstraintsDataType": {
+      "fields": [ "setpointId", "setpointRangeMin", "setpointRangeMax", "setpointStepSize" ],
+      "keys":   { "setpointId": "primary" }
+    },
+    "SetpointConstraintsListDataSelectorsType": {
+      "fields": [ "setpointId" ]
+    },
+    "SetpointConstraintsListDataType": {
+      "fields": [ "setpointConstraintsData" ]
+    },
+    "SetpointDataElementsType": {
+      "fields": [ "setpointId", "value", "valueMin", "valueMax", "valueToleranceAbsolute", "valueTolerancePercentage", "isSetpointChangeable", "isSetpointActive", "timePeriod" ]
+    },
+    "SetpointDataType": {
+      "fields": [ "setpointId", "value", "valueMin", "valueMax", "valueToleranceAbsolute", "valueTolerancePercentage", "isSetpointChangeable", "isSetpointActive", "timePeriod" ],
+      "keys":   { "setpointId": "primary" }
+    },
+    "SetpointDescriptionDataElementsType": {
+      "fields": [ "setpointId", "measurementId", "timeTableId", "setpointType", "unit", "scopeType", "label", "description" ]
+    },
+    "SetpointDescriptionDataType": {
+      "fields": [ "setpointId", "measurementId", "timeTableId", "setpointType", "unit", "scopeType", "label", "description" ],
+      "keys":   { "setpointId": "primary", "measurementId": "key", "timeTableId": "key" }
+    },
+    "SetpointDescriptionListDataSelectorsType": {
+      "fields": [ "setpointId", "measurementId", "timeTableId", "setpointType", "scopeType" ]
+    },
+    "SetpointDescriptionListDataType": {
+      "fields": [ "setpointDescriptionData" ]
+    },
+    "SetpointListDataSelectorsType": {
+      "fields": [ "setpointId" ]
+    },
+    "SetpointListDataType": {
+      "fields": [ "setpointData" ]
+    },
+    "SmartEnergyManagementPsAlternativesElementsType": {
+      "fields": [ "relation", "powerSequence" ]
+    },
+    "SmartEnergyManagementPsAlternativesType": {
+      "fields": [ "relation", "powerSequence" ]
+    },
+    "SmartEnergyManagementPsConfigurationRequestCallElementsType": {
+      "fields": [ "scheduleConfigurationRequest" ]
+    },
+    "SmartEnergyManagementPsConfigurationRequestCallType": {
+      "fields": [ "scheduleConfigurationRequest" ]
+    },
+    "SmartEnergyManagementPsDataElementsType": {
+      "fields": [ "nodeScheduleInformation", "alternatives" ]
+    },
+    "SmartEnergyManagementPsDataSelectorsType": {
+      "fields": [ "alternativesRelation", "powerSequenceDescription", "powerTimeSlotSchedule", "powerTimeSlotValue" ]
+    },
+    "SmartEnergyManagementPsDataType": {
+      "fields": [ "nodeScheduleInformation", "alternatives" ]
+    },
+    "SmartEnergyManagementPsPowerSequenceElementsType": {
+      "fields": [ "description", "state", "schedule", "scheduleConstraints", "schedulePreference", "operatingConstraintsInterrupt", "operatingConstraintsDuration", "operatingConstraintsResumeImplication", "powerTimeSlot" ]
+    },
+    "SmartEnergyManagementPsPowerSequenceType": {
+      "fields": [ "description", "state", "schedule", "scheduleConstraints", "schedulePreference", "operatingConstraintsInterrupt", "operatingConstraintsDuration", "operatingConstraintsResumeImplication", "powerTimeSlot" ]
+    },
+    "SmartEnergyManagementPsPowerTimeSlotElementsType": {
+      "fields": [ "schedule", "valueList", "scheduleConstraints" ]
+    },
+    "SmartEnergyManagementPsPowerTimeSlotType": {
+      "fields": [ "schedule", "valueList", "scheduleConstraints" ]
+    },
+    "SmartEnergyManagementPsPowerTimeSlotValueListElementsType": {
+      "fields": [ "value" ]
+    },
+    "SmartEnergyManagementPsPowerTimeSlotValueListType": {
+      "fields": [ "value" ]
+    },
+    "SmartEnergyManagementPsPriceCalculationRequestCallElementsType": {
+      "fields": [ "priceCalculationRequest" ]
+    },
+    "SmartEnergyManagementPsPriceCalculationRequestCallType": {
+      "fields": [ "priceCalculationRequest" ]
+    },
+    "SmartEnergyManagementPsPriceDataElementsType": {
+      "fields": [ "price" ]
+    },
+    "SmartEnergyManagementPsPriceDataSelectorsType": {
+      "fields": [ "price" ]
+    },
+    "SmartEnergyManagementPsPriceDataType": {
+      "fields": [ "price" ]
+    },
+    "SpecificationVersionListDataType": {
+      "fields": [ "specificationVersionData" ]
+    },
+    "StateInformationDataElementsType": {
+      "fields": [ "stateInformationId", "stateInformation", "isActive", "category", "timeOfLastChange" ]
+    },
+    "StateInformationDataType": {
+      "fields": [ "stateInformationId", "stateInformation", "isActive", "category", "timeOfLastChange" ],
+      "keys":   { "stateInformationId": "primary" }
+    },
+    "StateInformationListDataSelectorsType": {
+      "fields": [ "stateInformationId", "stateInformation", "isActive", "category" ]
+    },
+    "StateInformationListDataType": {
+      "fields": [ "stateInformationData" ]
+    },
+    "SubscriptionManagementDeleteCallElementsType": {
+      "fields": [ "subscriptionId", "clientAddress", "serverAddress" ]
+    },
+    "SubscriptionManagementDeleteCallType": {
+      "fields": [ "subscriptionId", "clientAddress", "serverAddress" ]
+    },
+    "SubscriptionManagementEntryDataElementsType": {
+      "fields": [ "subscriptionId", "clientAddress", "serverAddress", "label", "description" ]
+    },
+    "SubscriptionManagementEntryDataType": {
+      "fields": [ "subscriptionId", "clientAddress", "serverAddress", "label", "description" ],
+      "keys":   { "subscriptionId": "primary" }
+    },
+    "SubscriptionManagementEntryListDataSelectorsType": {
+      "fields": [ "subscriptionId", "clientAddress", "serverAddress" ]
+    },
+    "SubscriptionManagementEntryListDataType": {
+      "fields": [ "subscriptionManagementEntryData" ]
+    },
+    "SubscriptionManagementRequestCallElementsType": {
+      "fields": [ "clientAddress", "serverAddress", "serverFeatureType" ]
+    },
+    "SubscriptionManagementRequestCallType": {
+      "fields": [ "clientAddress", "serverAddress", "serverFeatureType" ]
+    },
+    "SupplyConditionDataElementsType": {
+      "fields": [ "conditionId", "timestamp", "eventType", "originator", "thresholdId", "thresholdPercentage", "relevantPeriod", "description", "gridCondition" ]
+    },
+    "SupplyConditionDataType": {
+      "fields": [ "conditionId", "timestamp", "eventType", "originator", "thresholdId", "thresholdPercentage", "relevantPeriod", "description", "gridCondition" ],
+      "keys":   { "conditionId": "primary" }
+    },
+    "SupplyConditionDescriptionDataElementsType": {
+      "fields": [ "conditionId", "commodityType", "positiveEnergyDirection", "label", "description" ]
+    },
+    "SupplyConditionDescriptionDataType": {
+      "fields": [ "conditionId", "commodityType", "positiveEnergyDirection", "label", "description" ],
+      "keys":   { "conditionId": "primary" }
+    },
+    "SupplyConditionDescriptionListDataSelectorsType": {
+      "fields": [ "conditionId" ]
+    },
+    "SupplyConditionDescriptionListDataType": {
+      "fields": [ "supplyConditionDescriptionData" ]
+    },
+    "SupplyConditionListDataSelectorsType": {
+      "fields": [ "conditionId", "timestampInterval", "eventType", "originator" ]
+    },
+    "SupplyConditionListDataType": {
+      "fields": [ "supplyConditionData" ]
+    },
+    "SupplyConditionThresholdRelationDataElementsType": {
+      "fields": [ "conditionId", "thresholdId" ]
+    },
+    "SupplyConditionThresholdRelationDataType": {
+      "fields": [ "conditionId", "thresholdId" ],
+      "keys":   { "conditionId": "primary" }
+    },
+    "SupplyConditionThresholdRelationListDataSelectorsType": {
+      "fields": [ "conditionId", "thresholdId" ]
+    },
+    "SupplyConditionThresholdRelationListDataType": {
+      "fields": [ "SupplyConditionThresholdRelationDataType" ]
+    },
+    "TariffBoundaryRelationDataElementsType": {
+      "fields": [ "tariffId", "boundaryId" ]
+    },
+    "TariffBoundaryRelationDataType": {
+      "fields": [ "tariffId", "boundaryId" ],
+      "keys":   { "tariffId": "primary" }
+    },
+    "TariffBoundaryRelationListDataSelectorsType": {
+      "fields": [ "tariffId", "boundaryId" ]
+    },
+    "TariffBoundaryRelationListDataType": {
+      "fields": [ "tariffBoundaryRelationData" ]
+    },
+    "TariffDataElementsType": {
+      "fields": [ "tariffId", "activeTierId" ]
+    },
+    "TariffDataType": {
+      "fields": [ "tariffId", "activeTierId" ],
+      "keys":   { "tariffId": "primary" }
+    },
+    "TariffDescriptionDataElementsType": {
+      "fields": [ "tariffId", "commodityId", "measurementId", "tariffWriteable", "updateRequired", "scopeType", "label", "description", "slotIdSupport" ]
+    },
+    "TariffDescriptionDataType": {
+      "fields": [ "tariffId", "commodityId", "measurementId", "tariffWriteable", "updateRequired", "scopeType", "label", "description", "slotIdSupport" ],
+      "keys":   { "tariffId": "primary" }
+    },
+    "TariffDescriptionListDataSelectorsType": {
+      "fields": [ "tariffId", "commodityId", "measurementId", "scopeType" ]
+    },
+    "TariffDescriptionListDataType": {
+      "fields": [ "tariffDescriptionData" ]
+    },
+    "TariffListDataSelectorsType": {
+      "fields": [ "tariffId", "activeTierId" ]
+    },
+    "TariffListDataType": {
+      "fields": [ "tariffData" ]
+    },
+    "TariffOverallConstraintsDataElementsType": {
+      "fields": [ "maxTariffCount", "maxBoundaryCount", "maxTierCount", "maxIncentiveCount", "maxBoundariesPerTariff", "maxTiersPerTariff", "maxBoundariesPerTier", "maxIncentivesPerTier" ]
+    },
+    "TariffOverallConstraintsDataType": {
+      "fields": [ "maxTariffCount", "maxBoundaryCount", "maxTierCount", "maxIncentiveCount", "maxBoundariesPerTariff", "maxTiersPerTariff", "maxBoundariesPerTier", "maxIncentivesPerTier" ]
+    },
+    "TariffTierRelationDataElementsType": {
+      "fields": [ "tariffId", "tierId" ]
+    },
+    "TariffTierRelationDataType": {
+      "fields": [ "tariffId", "tierId" ],
+      "keys":   { "tariffId": "primary" }
+    },
+    "TariffTierRelationListDataSelectorsType": {
+      "fields": [ "tariffId", "tierId" ]
+    },
+    "TariffTierRelationListDataType": {
+      "fields": [ "tariffTierRelationData" ]
+    },
+    "TaskManagementHvacRelatedElementsType": {
+      "fields": [ "overrunId" ]
+    },
+    "TaskManagementHvacRelatedType": {
+      "fields": [ "overrunId" ]
+    },
+    "TaskManagementJobDataElementsType": {
+      "fields": [ "jobId", "timestamp", "jobState", "elapsedTime", "remainingTime" ]
+    },
+    "TaskManagementJobDataType": {
+      "fields": [ "jobId", "timestamp", "jobState", "elapsedTime", "remainingTime" ],
+      "keys":   { "jobId": "primary" }
+    },
+    "TaskManagementJobDescriptionDataElementsType": {
+      "fields": [ "jobId", "jobSource", "label", "description" ]
+    },
+    "TaskManagementJobDescriptionDataType": {
+      "fields": [ "jobId", "jobSource", "label", "description" ],
+      "keys":   { "jobId": "primary" }
+    },
+    "TaskManagementJobDescriptionListDataSelectorsType": {
+      "fields": [ "jobId", "jobSource" ]
+    },
+    "TaskManagementJobDescriptionListDataType": {
+      "fields": [ "taskManagementJobDescriptionData" ]
+    },
+    "TaskManagementJobListDataSelectorsType": {
+      "fields": [ "jobId", "jobState" ]
+    },
+    "TaskManagementJobListDataType": {
+      "fields": [ "taskManagementJobData" ]
+    },
+    "TaskManagementJobRelationDataElementsType": {
+      "fields": [ "jobId", "directControlRelated", "hvacRelated", "loadControlReleated", "powerSequencesRelated", "smartEnergyManagementPsRelated" ]
+    },
+    "TaskManagementJobRelationDataType": {
+      "fields": [ "jobId", "directControlRelated", "hvacRelated", "loadControlReleated", "powerSequencesRelated", "smartEnergyManagementPsRelated" ],
+      "keys":   { "jobId": "primary" }
+    },
+    "TaskManagementJobRelationListDataSelectorsType": {
+      "fields": [ "jobId" ]
+    },
+    "TaskManagementJobRelationListDataType": {
+      "fields": [ "taskManagementJobRelationData" ]
+    },
+    "TaskManagementLoadControlReleatedElementsType": {
+      "fields": [ "eventId" ]
+    },
+    "TaskManagementLoadControlReleatedType": {
+      "fields": [ "eventId" ]
+    },
+    "TaskManagementOverviewDataElementsType": {
+      "fields": [ "remoteControllable", "jobsActive" ]
+    },
+    "TaskManagementOverviewDataType": {
+      "fields": [ "remoteControllable", "jobsActive" ]
+    },
+    "TaskManagementPowerSequencesRelatedElementsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "TaskManagementPowerSequencesRelatedType": {
+      "fields": [ "sequenceId" ]
+    },
+    "TaskManagementSmartEnergyManagementPsRelatedElementsType": {
+      "fields": [ "sequenceId" ]
+    },
+    "TaskManagementSmartEnergyManagementPsRelatedType": {
+      "fields": [ "sequenceId" ]
+    },
+    "ThresholdConstraintsDataElementsType": {
+      "fields": [ "thresholdId", "thresholdRangeMin", "thresholdRangeMax", "thresholdStepSize" ]
+    },
+    "ThresholdConstraintsDataType": {
+      "fields": [ "thresholdId", "thresholdRangeMin", "thresholdRangeMax", "thresholdStepSize" ],
+      "keys":   { "thresholdId": "primary" }
+    },
+    "ThresholdConstraintsListDataSelectorsType": {
+      "fields": [ "thresholdId" ]
+    },
+    "ThresholdConstraintsListDataType": {
+      "fields": [ "thresholdConstraintsData" ]
+    },
+    "ThresholdDataElementsType": {
+      "fields": [ "thresholdId", "thresholdValue" ]
+    },
+    "ThresholdDataType": {
+      "fields": [ "thresholdId", "thresholdValue" ],
+      "keys":   { "thresholdId": "primary" }
+    },
+    "ThresholdDescriptionDataElementsType": {
+      "fields": [ "thresholdId", "thresholdType", "unit", "scopeType", "label", "description" ]
+    },
+    "ThresholdDescriptionDataType": {
+      "fields": [ "thresholdId", "thresholdType", "unit", "scopeType", "label", "description" ],
+      "keys":   { "thresholdId": "primary" }
+    },
+    "ThresholdDescriptionListDataSelectorsType": {
+      "fields": [ "thresholdId", "scopeType" ]
+    },
+    "ThresholdDescriptionListDataType": {
+      "fields": [ "thresholdDescriptionData" ]
+    },
+    "ThresholdListDataSelectorsType": {
+      "fields": [ "thresholdId" ]
+    },
+    "ThresholdListDataType": {
+      "fields": [ "thresholdData" ]
+    },
+    "TierBoundaryDataElementsType": {
+      "fields": [ "boundaryId", "timePeriod", "timeTableId", "lowerBoundaryValue", "upperBoundaryValue" ]
+    },
+    "TierBoundaryDataType": {
+      "fields": [ "boundaryId", "timePeriod", "timeTableId", "lowerBoundaryValue", "upperBoundaryValue" ],
+      "keys":   { "boundaryId": "primary" }
+    },
+    "TierBoundaryDescriptionDataElementsType": {
+      "fields": [ "boundaryId", "boundaryType", "validForTierId", "switchToTierIdWhenLower", "switchToTierIdWhenHigher", "boundaryUnit", "label", "description" ]
+    },
+    "TierBoundaryDescriptionDataType": {
+      "fields": [ "boundaryId", "boundaryType", "validForTierId", "switchToTierIdWhenLower", "switchToTierIdWhenHigher", "boundaryUnit", "label", "description" ],
+      "keys":   { "boundaryId": "primary" }
+    },
+    "TierBoundaryDescriptionListDataSelectorsType": {
+      "fields": [ "boundaryId", "boundaryType" ]
+    },
+    "TierBoundaryDescriptionListDataType": {
+      "fields": [ "tierBoundaryDescriptionData" ]
+    },
+    "TierBoundaryListDataSelectorsType": {
+      "fields": [ "boundaryId" ]
+    },
+    "TierBoundaryListDataType": {
+      "fields": [ "tierBoundaryData" ]
+    },
+    "TierDataElementsType": {
+      "fields": [ "tierId", "timePeriod", "timeTableId", "activeIncentiveId" ]
+    },
+    "TierDataType": {
+      "fields": [ "tierId", "timePeriod", "timeTableId", "activeIncentiveId" ],
+      "keys":   { "tierId": "primary" }
+    },
+    "TierDescriptionDataElementsType": {
+      "fields": [ "tierId", "tierType", "label", "description" ]
+    },
+    "TierDescriptionDataType": {
+      "fields": [ "tierId", "tierType", "label", "description" ],
+      "keys":   { "tierId": "primary" }
+    },
+    "TierDescriptionListDataSelectorsType": {
+      "fields": [ "tierId", "tierType" ]
+    },
+    "TierDescriptionListDataType": {
+      "fields": [ "tierDescriptionData" ]
+    },
+    "TierIncentiveRelationDataElementsType": {
+      "fields": [ "tierId", "incentiveId" ]
+    },
+    "TierIncentiveRelationDataType": {
+      "fields": [ "tierId", "incentiveId" ],
+      "keys":   { "tierId": "primary" }
+    },
+    "TierIncentiveRelationListDataSelectorsType": {
+      "fields": [ "tierId", "incentiveId" ]
+    },
+    "TierIncentiveRelationListDataType": {
+      "fields": [ "tierIncentiveRelationData" ]
+    },
+    "TierListDataSelectorsType": {
+      "fields": [ "tierId", "activeIncentiveId" ]
+    },
+    "TierListDataType": {
+      "fields": [ "tierData" ]
+    },
+    "TimeDistributorDataElementsType": {
+      "fields": [ "isTimeDistributor", "distributorPriority" ]
+    },
+    "TimeDistributorDataType": {
+      "fields": [ "isTimeDistributor", "distributorPriority" ]
+    },
+    "TimeInformationDataElementsType": {
+      "fields": [ "utc", "utcOffset", "dayOfWeek", "calendarWeek" ]
+    },
+    "TimeInformationDataType": {
+      "fields": [ "utc", "utcOffset", "dayOfWeek", "calendarWeek" ]
+    },
+    "TimePeriodElementsType": {
+      "fields": [ "startTime", "endTime" ]
+    },
+    "TimePeriodType": {
+      "fields": [ "startTime", "endTime" ]
+    },
+    "TimePrecisionDataElementsType": {
+      "fields": [ "isSynchronised", "lastSyncAt", "clockDrift" ]
+    },
+    "TimePrecisionDataType": {
+      "fields": [ "isSynchronised", "lastSyncAt", "clockDrift" ]
+    },
+    "TimeSeriesConstraintsDataElementsType": {
+      "fields": [ "timeSeriesId", "slotCountMin", "slotCountMax", "slotDurationMin", "slotDurationMax", "slotDurationStepSize", "earliestTimeSeriesStartTime", "latestTimeSeriesEndTime", "slotValueMin", "slotValueMax", "slotValueStepSize" ]
+    },
+    "TimeSeriesConstraintsDataType": {
+      "fields": [ "timeSeriesId", "slotCountMin", "slotCountMax", "slotDurationMin", "slotDurationMax", "slotDurationStepSize", "earliestTimeSeriesStartTime", "latestTimeSeriesEndTime", "slotValueMin", "slotValueMax", "slotValueStepSize" ],
+      "keys":   { "timeSeriesId": "primary" }
+    },
+    "TimeSeriesConstraintsListDataSelectorsType": {
+      "fields": [ "timeSeriesId" ]
+    },
+    "TimeSeriesConstraintsListDataType": {
+      "fields": [ "timeSeriesConstraintsData" ]
+    },
+    "TimeSeriesDataElementsType": {
+      "fields": [ "timeSeriesId", "timePeriod", "timeSeriesSlot" ]
+    },
+    "TimeSeriesDataType": {
+      "fields": [ "timeSeriesId", "timePeriod", "timeSeriesSlot" ],
+      "keys":   { "timeSeriesId": "primary" }
+    },
+    "TimeSeriesDescriptionDataElementsType": {
+      "fields": [ "timeSeriesId", "timeSeriesType", "timeSeriesWriteable", "updateRequired", "measurementId", "currency", "unit", "label", "description", "scopeType" ]
+    },
+    "TimeSeriesDescriptionDataType": {
+      "fields": [ "timeSeriesId", "timeSeriesType", "timeSeriesWriteable", "updateRequired", "measurementId", "currency", "unit", "label", "description", "scopeType" ],
+      "keys":   { "timeSeriesId": "primary" }
+    },
+    "TimeSeriesDescriptionListDataSelectorsType": {
+      "fields": [ "timeSeriesId", "timeSeriesType", "measurementId", "scopeType" ]
+    },
+    "TimeSeriesDescriptionListDataType": {
+      "fields": [ "timeSeriesDescriptionData" ]
+    },
+    "TimeSeriesListDataSelectorsType": {
+      "fields": [ "timeSeriesId", "timeSeriesSlotId" ]
+    },
+    "TimeSeriesListDataType": {
+      "fields": [ "timeSeriesData" ]
+    },
+    "TimeSeriesSlotElementsType": {
+      "fields": [ "timeSeriesSlotId", "timePeriod", "duration", "recurrenceInformation", "value", "minValue", "maxValue" ]
+    },
+    "TimeSeriesSlotType": {
+      "fields": [ "timeSeriesSlotId", "timePeriod", "duration", "recurrenceInformation", "value", "minValue", "maxValue" ]
+    },
+    "TimeTableConstraintsDataElementsType": {
+      "fields": [ "timeTableId", "slotCountMin", "slotCountMax", "slotDurationMin", "slotDurationMax", "slotDurationStepSize", "slotShiftStepSize", "firstSlotBeginsAt" ]
+    },
+    "TimeTableConstraintsDataType": {
+      "fields": [ "timeTableId", "slotCountMin", "slotCountMax", "slotDurationMin", "slotDurationMax", "slotDurationStepSize", "slotShiftStepSize", "firstSlotBeginsAt" ],
+      "keys":   { "timeTableId": "primary" }
+    },
+    "TimeTableConstraintsListDataSelectorsType": {
+      "fields": [ "timeTableId" ]
+    },
+    "TimeTableConstraintsListDataType": {
+      "fields": [ "timeTableConstraintsData" ]
+    },
+    "TimeTableDataElementsType": {
+      "fields": [ "timeTableId", "timeSlotId", "recurrenceInformation", "startTime", "endTime" ]
+    },
+    "TimeTableDataType": {
+      "fields": [ "timeTableId", "timeSlotId", "recurrenceInformation", "startTime", "endTime" ],
+      "keys":   { "timeTableId": "primary", "timeSlotId": "key" }
+    },
+    "TimeTableDescriptionDataElementsType": {
+      "fields": [ "timeTableId", "timeSlotCountChangeable", "timeSlotTimesChangeable", "timeSlotTimeMode", "label", "description" ]
+    },
+    "TimeTableDescriptionDataType": {
+      "fields": [ "timeTableId", "timeSlotCountChangeable", "timeSlotTimesChangeable", "timeSlotTimeMode", "label", "description" ],
+      "keys":   { "timeTableId": "primary" }
+    },
+    "TimeTableDescriptionListDataSelectorsType": {
+      "fields": [ "timeTableId" ]
+    },
+    "TimeTableDescriptionListDataType": {
+      "fields": [ "timeTableDescriptionData" ]
+    },
+    "TimeTableListDataSelectorsType": {
+      "fields": [ "timeTableId", "timeSlotId" ]
+    },
+    "TimeTableListDataType": {
+      "fields": [ "timeTableData" ]
+    },
+    "TimestampIntervalType": {
+      "fields": [ "startTime", "endTime" ]
+    },
+    "UseCaseInformationDataElementsType": {
+      "fields": [ "address", "actor", "useCaseSupport" ]
+    },
+    "UseCaseInformationDataType": {
+      "fields": [ "address", "actor", "useCaseSupport" ]
+    },
+    "UseCaseInformationListDataSelectorsType": {
+      "fields": [ "address", "actor", "useCaseSupport" ]
+    },
+    "UseCaseInformationListDataType": {
+      "fields": [ "useCaseInformationData" ]
+    },
+    "UseCaseSupportElementsType": {
+      "fields": [ "useCaseName", "useCaseVersion", "useCaseAvailable", "scenarioSupport", "useCaseDocumentSubRevision" ]
+    },
+    "UseCaseSupportSelectorsType": {
+      "fields": [ "useCaseName", "useCaseVersion", "scenarioSupport" ]
+    },
+    "UseCaseSupportType": {
+      "fields": [ "useCaseName", "useCaseVersion", "useCaseAvailable", "scenarioSupport", "useCaseDocumentSubRevision" ]
+    }
+  }
+
+}
