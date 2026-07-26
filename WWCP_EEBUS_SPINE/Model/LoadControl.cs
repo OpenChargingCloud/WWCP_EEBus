@@ -315,6 +315,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
         /// <summary>
         /// isLimitChangeable
         /// </summary>
+        [EEBUSWriteCheck]
         [JsonProperty("isLimitChangeable", NullValueHandling = NullValueHandling.Ignore, Order = 2)]
         public Boolean? IsLimitChangeable { get; set; }
 

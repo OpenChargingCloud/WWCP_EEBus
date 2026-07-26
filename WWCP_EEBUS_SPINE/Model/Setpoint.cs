@@ -250,6 +250,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
         /// <summary>
         /// isSetpointChangeable
         /// </summary>
+        [EEBUSWriteCheck]
         [JsonProperty("isSetpointChangeable", NullValueHandling = NullValueHandling.Ignore, Order = 7)]
         public Boolean? IsSetpointChangeable { get; set; }
 

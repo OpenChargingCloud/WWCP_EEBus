@@ -209,7 +209,8 @@
     },
     "DeviceConfigurationKeyValueDataType": {
       "fields": [ "keyId", "value", "isValueChangeable" ],
-      "keys":   { "keyId": "primary" }
+      "keys":   { "keyId": "primary" },
+      "writeCheck": [ "isValueChangeable" ]
     },
     "DeviceConfigurationKeyValueDescriptionDataElementsType": {
       "fields": [ "keyId", "keyName", "valueType", "unit", "label", "description" ]
@@ -598,7 +599,8 @@
     },
     "LoadControlLimitDataType": {
       "fields": [ "limitId", "isLimitChangeable", "isLimitActive", "timePeriod", "value" ],
-      "keys":   { "limitId": "primary" }
+      "keys":   { "limitId": "primary" },
+      "writeCheck": [ "isLimitChangeable" ]
     },
     "LoadControlLimitDescriptionDataElementsType": {
       "fields": [ "limitId", "limitType", "limitCategory", "limitDirection", "measurementId", "unit", "scopeType", "label", "description" ]
@@ -1232,7 +1234,8 @@
     },
     "SetpointDataType": {
       "fields": [ "setpointId", "value", "valueMin", "valueMax", "valueToleranceAbsolute", "valueTolerancePercentage", "isSetpointChangeable", "isSetpointActive", "timePeriod" ],
-      "keys":   { "setpointId": "primary" }
+      "keys":   { "setpointId": "primary" },
+      "writeCheck": [ "isSetpointChangeable" ]
     },
     "SetpointDescriptionDataElementsType": {
       "fields": [ "setpointId", "measurementId", "timeTableId", "setpointType", "unit", "scopeType", "label", "description" ]

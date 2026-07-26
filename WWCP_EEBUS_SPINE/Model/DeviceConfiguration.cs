@@ -190,6 +190,7 @@ namespace cloud.charging.open.protocols.EEBUS.SPINE.Model
         /// <summary>
         /// isValueChangeable
         /// </summary>
+        [EEBUSWriteCheck]
         [JsonProperty("isValueChangeable", NullValueHandling = NullValueHandling.Ignore, Order = 3)]
         public Boolean? IsValueChangeable { get; set; }
 
