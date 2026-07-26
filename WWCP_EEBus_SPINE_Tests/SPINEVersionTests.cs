@@ -15,26 +15,38 @@
  * limitations under the License.
  */
 
-namespace cloud.charging.open.protocols.EEBus.SHIP
+#region Usings
+
+using NUnit.Framework;
+
+#endregion
+
+namespace cloud.charging.open.protocols.EEBus.SPINE.tests
 {
 
     /// <summary>
-    /// The common base class of all SHIP messages.
-    ///
-    /// On the wire every SHIP message is a binary WebSocket frame consisting of
-    /// a single message type byte followed by its JSON representation
-    /// (SHIP TS 1.0.1, chapter 13.3).
+    /// Tests for the announced SPINE specification version.
     /// </summary>
-    /// <param name="MessageType">The SHIP message type determining the leading byte of the binary frame.</param>
-    public abstract class ASHIPMessage(SHIPMessageTypes MessageType)
+    [TestFixture]
+    public class SPINEVersionTests
     {
 
-        #region Properties
+        #region Version_AnnouncesSPINE130()
 
         /// <summary>
-        /// The SHIP message type, transmitted as the leading byte of the binary frame.
+        /// Every SPINE datagram header carries this "specificationVersion".
         /// </summary>
-        public SHIPMessageTypes  MessageType    { get; } = MessageType;
+        [Test]
+        public void Version_AnnouncesSPINE130()
+        {
+
+            Assert.Multiple(() => {
+                Assert.That(Version.String,        Is.EqualTo("1.3.0"));
+                Assert.That(Version.Id.ToString(), Is.EqualTo("1.3.0"));
+                Assert.That(Version.XMLNamespace,  Is.EqualTo("http://docs.eebus.org/spine/xsd/v1"));
+            });
+
+        }
 
         #endregion
 

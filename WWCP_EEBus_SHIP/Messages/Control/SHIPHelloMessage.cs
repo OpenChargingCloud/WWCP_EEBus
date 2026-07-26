@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Hello Message
     /// </summary>
     /// <param name="ConnectionHello">A connection hello.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPHelloMessage(ConnectionHello  ConnectionHello,
-                                  CustomData?      CustomData = null)
+    public class SHIPHelloMessage(ConnectionHello  ConnectionHello)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.CONTROL)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData         [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPHelloMessage = new SHIPHelloMessage(
-                                       ConnectionHello,
-                                       CustomData
+                                       ConnectionHello
                                    );
 
                 if (CustomSHIPHelloMessageParser is not null)
@@ -175,20 +158,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// </summary>
         /// <param name="CustomSHIPHelloMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomConnectionHelloTypeSerializer">A delegate to serialize custom ConnectionHelloType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPHelloMessage>?  CustomSHIPHelloMessageSerializer      = null,
-                              CustomJObjectSerializerDelegate<ConnectionHello>?   CustomConnectionHelloTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?        CustomCustomDataSerializer            = null)
+                              CustomJObjectSerializerDelegate<ConnectionHello>?   CustomConnectionHelloTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("connectionHello",    ConnectionHello.ToJSON(CustomConnectionHelloTypeSerializer,
-                                                                                            CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",         CustomData.     ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("connectionHello",    ConnectionHello.ToJSON(CustomConnectionHelloTypeSerializer))
 
                        );
 

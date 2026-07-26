@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -31,10 +30,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 {
 
     public class MessageProtocolHandshakeVersion(UInt16       Major,
-                                                 UInt16       Minor,
-                                                 CustomData?  CustomData   = null)
+                                                 UInt16       Minor)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -138,25 +135,11 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData    [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 MessageProtocolHandshakeTypeVersion = new MessageProtocolHandshakeVersion(
                                                           Major,
-                                                          Minor,
-                                                          CustomData
+                                                          Minor
                                                       );
 
                 if (CustomMessageProtocolHandshakeTypeVersionParser is not null)
@@ -183,19 +166,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// Return a JSON representation of this object.
         /// </summary>
         /// <param name="CustomMessageProtocolHandshakeTypeVersionSerializer">A delegate to serialize custom MessageProtocolHandshakeTypeVersion objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeTypeVersionSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?                       CustomCustomDataSerializer                            = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeTypeVersionSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
                                  new JProperty("major",        Major),
-                                 new JProperty("minor",        Minor),
-
-                           CustomData is not null
-                               ? new JProperty("customData",   CustomData.ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("minor",        Minor)
 
                        );
 

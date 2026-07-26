@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -32,10 +31,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
     public class ExtensionType(String?      ExtensionId     = null,
                                Byte[]?      BinaryPayload   = null,
-                               String?      TextPayload     = null,
-                               CustomData?  CustomData      = null)
+                               String?      TextPayload     = null)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -124,7 +121,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
             try
             {
 
-                ExtensionType = default;
+                ExtensionType  = default;
+                ErrorResponse  = null;
 
                 #region ExtensionId      [optional]
 
@@ -155,26 +153,12 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData       [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 ExtensionType = new ExtensionType(
                                     ExtensionId,
                                     BinaryPayload,
-                                    TextPayload,
-                                    CustomData
+                                    TextPayload
                                 );
 
                 if (CustomExtensionTypeParser is not null)
@@ -195,15 +179,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
         #endregion
 
-        #region ToJSON(CustomExtensionTypeSerializer = null, CustomCustomDataSerializer = null, ...)
+        #region ToJSON(CustomExtensionTypeSerializer = null)
 
         /// <summary>
         /// Return a JSON representation of this object.
         /// </summary>
         /// <param name="CustomExtensionTypeSerializer">A delegate to serialize custom ExtensionType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
-        public JObject ToJSON(CustomJObjectSerializerDelegate<ExtensionType>?  CustomExtensionTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?     CustomCustomDataSerializer      = null)
+        public JObject ToJSON(CustomJObjectSerializerDelegate<ExtensionType>?  CustomExtensionTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
@@ -218,10 +200,6 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                            TextPayload   is not null
                                ? new JProperty("string",        TextPayload)
-                               : null,
-
-                           CustomData    is not null
-                               ? new JProperty("customData",    CustomData.ToJSON(CustomCustomDataSerializer))
                                : null
 
                        );

@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Data Message
     /// </summary>
     /// <param name="Data">A transported data.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPDataMessage(DataType     Data,
-                                 CustomData?  CustomData   = null)
+    public class SHIPDataMessage(DataType     Data)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.DATA)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData    [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPDataMessage = new SHIPDataMessage(
-                                      Data,
-                                      CustomData
+                                      Data
                                   );
 
                 if (CustomSHIPDataMessageParser is not null)
@@ -176,22 +159,15 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="CustomSHIPDataMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomHeaderTypeSerializer">A delegate to serialize custom HeaderType objects.</param>
         /// <param name="CustomDataTypeSerializer">A delegate to serialize custom DataType objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPDataMessage>?  CustomSHIPDataMessageSerializer   = null,
                               CustomJObjectSerializerDelegate<HeaderType>?       CustomHeaderTypeSerializer        = null,
-                              CustomJObjectSerializerDelegate<DataType>?         CustomDataTypeSerializer          = null,
-                              CustomJObjectSerializerDelegate<CustomData>?       CustomCustomDataSerializer        = null)
+                              CustomJObjectSerializerDelegate<DataType>?         CustomDataTypeSerializer          = null)
         {
 
             var json = JSONObject.Create(
 
                                  new JProperty("data",         Data.      ToJSON(CustomDataTypeSerializer,
-                                                                                 CustomHeaderTypeSerializer,
-                                                                                 CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",   CustomData.ToJSON(CustomCustomDataSerializer))
-                               : null
+                                                                                 CustomHeaderTypeSerializer))
 
                        );
 

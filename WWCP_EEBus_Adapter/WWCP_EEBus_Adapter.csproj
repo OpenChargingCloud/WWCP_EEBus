@@ -1,0 +1,31 @@
+<!--
+  PARKED PROJECT - not part of WWCP_EEBus.sln!
+
+  This project contains the WWCP/OverlayNetworking integration layer of the original
+  EEBus prototype (EEBusAdapter, AEEBusNode, and the OCPP-derived SHIP WebSocket
+  client/server). It depends on WWCP_Core / WWCP_OverlayNetworking, which are not
+  available as siblings within the EEBusConformanceTests working tree.
+
+  The SHIP/SPINE/UseCases core is built standalone on top of Styx + Hermod only.
+  This code is kept as reference material and will be revived - against the finished
+  core - once the WWCP integration is on the agenda. See ARBEITSPLAN.md, WP-W0.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>cloud.charging.open.protocols.EEBus.Adapter</RootNamespace>
+    <AssemblyName>cloud.charging.open.protocols.EEBus.Adapter</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj" />
+    <ProjectReference Include="..\..\Styx\Styx\Styx.csproj" />
+    <ProjectReference Include="..\..\WWCP_Core\WWCP_Core\WWCP_Core.csproj" />
+    <ProjectReference Include="..\..\WWCP_Core\WWCP_OverlayNetworking\WWCP_OverlayNetworking.csproj" />
+    <ProjectReference Include="..\WWCP_EEBus_SHIP\WWCP_EEBus_SHIP.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -15,26 +15,30 @@
  * limitations under the License.
  */
 
-namespace cloud.charging.open.protocols.EEBus.SHIP
+#region Usings
+
+using NUnit.Framework;
+
+#endregion
+
+namespace cloud.charging.open.protocols.EEBus.UseCases.tests
 {
 
     /// <summary>
-    /// The common base class of all SHIP messages.
-    ///
-    /// On the wire every SHIP message is a binary WebSocket frame consisting of
-    /// a single message type byte followed by its JSON representation
-    /// (SHIP TS 1.0.1, chapter 13.3).
+    /// The EEBus use case implementations (LPC, LPP, MPC, MGCP, OPEV, OSCEV, ...)
+    /// are built in work packages WP08/WP09; their tests will live here.
     /// </summary>
-    /// <param name="MessageType">The SHIP message type determining the leading byte of the binary frame.</param>
-    public abstract class ASHIPMessage(SHIPMessageTypes MessageType)
+    [TestFixture]
+    public class UseCasesPlaceholderTests
     {
 
-        #region Properties
+        #region UseCaseAssembly_IsLoadable()
 
-        /// <summary>
-        /// The SHIP message type, transmitted as the leading byte of the binary frame.
-        /// </summary>
-        public SHIPMessageTypes  MessageType    { get; } = MessageType;
+        [Test]
+        public void UseCaseAssembly_IsLoadable()
+        {
+            Assert.That(typeof(UseCasesPlaceholderTests).Assembly, Is.Not.Null);
+        }
 
         #endregion
 

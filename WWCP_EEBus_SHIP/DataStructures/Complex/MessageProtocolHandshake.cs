@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -32,10 +31,8 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
     public class MessageProtocolHandshake(ProtocolHandshakeTypeTypes       HandshakeType,
                                           MessageProtocolHandshakeVersion  Version,
-                                          IEnumerable<String>              Formats,
-                                          CustomData?                      CustomData   = null)
+                                          IEnumerable<String>              Formats)
 
-        : ACustomData(CustomData)
 
     {
 
@@ -152,31 +149,19 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
                                          out IEnumerable<String> Formats,
                                          out ErrorResponse))
                 {
+                    // The underlying parser does not guarantee an error response!
+                    ErrorResponse ??= "The given message protocol formats are invalid!";
                     return false;
                 }
 
                 #endregion
 
-                #region CustomData       [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 MessageProtocolHandshake = new MessageProtocolHandshake(
                                                HandshakeType,
                                                Version,
-                                               Formats,
-                                               CustomData
+                                               Formats
                                            );
 
                 if (CustomMessageProtocolHandshakeParser is not null)
@@ -204,24 +189,17 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// </summary>
         /// <param name="CustomMessageProtocolHandshakeSerializer">A delegate to serialize custom MessageProtocolHandshake objects.</param>
         /// <param name="CustomMessageProtocolHandshakeVersionSerializer">A delegate to serialize custom MessageProtocolHandshakeVersion objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<MessageProtocolHandshake>?         CustomMessageProtocolHandshakeSerializer          = null,
-                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeVersionSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?                       CustomCustomDataSerializer                        = null)
+                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeVersionSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
                                  new JProperty("handshakeType",   HandshakeType.ToString()),
 
-                                 new JProperty("version",         Version.      ToJSON(CustomMessageProtocolHandshakeVersionSerializer,
-                                                                                       CustomCustomDataSerializer)),
+                                 new JProperty("version",         Version.      ToJSON(CustomMessageProtocolHandshakeVersionSerializer)),
 
-                                 new JProperty("formats",         new JArray(Formats)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",      CustomData.ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("formats",         new JArray(Formats))
 
                        );
 

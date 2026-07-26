@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Handshake Message
     /// </summary>
     /// <param name="MessageProtocolHandshake">A message protocol handshake.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPHandshakeMessage(MessageProtocolHandshake  MessageProtocolHandshake,
-                                      CustomData?               CustomData   = null)
+    public class SHIPHandshakeMessage(MessageProtocolHandshake  MessageProtocolHandshake)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.CONTROL)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData                  [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPHandshakeMessage = new SHIPHandshakeMessage(
-                                           MessageProtocolHandshake,
-                                           CustomData
+                                           MessageProtocolHandshake
                                        );
 
                 if (CustomSHIPHandshakeMessageParser is not null)
@@ -176,22 +159,15 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="CustomSHIPHandshakeMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomMessageProtocolHandshakeTypeSerializer">A delegate to serialize custom MessageProtocolHandshakeType objects.</param>
         /// <param name="CustomMessageProtocolHandshakeTypeVersionSerializer">A delegate to serialize custom MessageProtocolHandshakeTypeVersion objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPHandshakeMessage>?             CustomSHIPHandshakeMessageSerializer                  = null,
                               CustomJObjectSerializerDelegate<MessageProtocolHandshake>?         CustomMessageProtocolHandshakeTypeSerializer          = null,
-                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeTypeVersionSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?                       CustomCustomDataSerializer                            = null)
+                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeVersion>?  CustomMessageProtocolHandshakeTypeVersionSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
                                  new JProperty("messageProtocolHandshake",   MessageProtocolHandshake.ToJSON(CustomMessageProtocolHandshakeTypeSerializer,
-                                                                                                             CustomMessageProtocolHandshakeTypeVersionSerializer,
-                                                                                                             CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",                 CustomData.              ToJSON(CustomCustomDataSerializer))
-                               : null
+                                                                                                             CustomMessageProtocolHandshakeTypeVersionSerializer))
 
                        );
 

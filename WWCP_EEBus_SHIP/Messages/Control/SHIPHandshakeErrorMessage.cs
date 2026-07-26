@@ -23,7 +23,6 @@ using Newtonsoft.Json.Linq;
 
 using org.GraphDefined.Vanaheimr.Illias;
 
-using cloud.charging.open.protocols.WWCP.OverlayNetworking;
 
 #endregion
 
@@ -34,11 +33,9 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
     /// SHIP Handshake Error Message
     /// </summary>
     /// <param name="MessageProtocolHandshakeError">A message protocol handshake error.</param>
-    /// <param name="CustomData">An optional custom data object allowing to store any kind of customer specific data.</param>
-    public class SHIPHandshakeErrorMessage(MessageProtocolHandshakeError  MessageProtocolHandshakeError,
-                                           CustomData?                    CustomData   = null)
+    public class SHIPHandshakeErrorMessage(MessageProtocolHandshakeError  MessageProtocolHandshakeError)
 
-        : ASHIPMessage(CustomData)
+        : ASHIPMessage(SHIPMessageTypes.CONTROL)
 
     {
 
@@ -130,24 +127,10 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
 
                 #endregion
 
-                #region CustomData                       [optional]
-
-                if (JSON.ParseOptionalJSON("customData",
-                                           "custom data",
-                                           WWCP.OverlayNetworking.CustomData.TryParse,
-                                           out CustomData? CustomData,
-                                           out ErrorResponse))
-                {
-                    if (ErrorResponse is not null)
-                        return false;
-                }
-
-                #endregion
 
 
                 SHIPHandshakeErrorMessage = new SHIPHandshakeErrorMessage(
-                                                MessageProtocolHandshakeError,
-                                                CustomData
+                                                MessageProtocolHandshakeError
                                             );
 
                 if (CustomSHIPHandshakeErrorMessageParser is not null)
@@ -176,20 +159,13 @@ namespace cloud.charging.open.protocols.EEBus.SHIP
         /// <param name="CustomSHIPHandshakeErrorMessageSerializer">A delegate to serialize custom event data objects.</param>
         /// <param name="CustomMessageProtocolHandshakeErrorTypeSerializer">A delegate to serialize custom MessageProtocolHandshakeErrorType objects.</param>
         /// <param name="CustomMessageProtocolHandshakeErrorTypeVersionSerializer">A delegate to serialize custom MessageProtocolHandshakeErrorTypeVersion objects.</param>
-        /// <param name="CustomCustomDataSerializer">A delegate to serialize CustomData objects.</param>
         public JObject ToJSON(CustomJObjectSerializerDelegate<SHIPHandshakeErrorMessage>?      CustomSHIPHandshakeErrorMessageSerializer           = null,
-                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeError>?  CustomMessageProtocolHandshakeErrorTypeSerializer   = null,
-                              CustomJObjectSerializerDelegate<CustomData>?                     CustomCustomDataSerializer                          = null)
+                              CustomJObjectSerializerDelegate<MessageProtocolHandshakeError>?  CustomMessageProtocolHandshakeErrorTypeSerializer   = null)
         {
 
             var json = JSONObject.Create(
 
-                                 new JProperty("messageProtocolHandshakeError",   MessageProtocolHandshakeError.ToJSON(CustomMessageProtocolHandshakeErrorTypeSerializer,
-                                                                                                                       CustomCustomDataSerializer)),
-
-                           CustomData is not null
-                               ? new JProperty("customData",                      CustomData.                   ToJSON(CustomCustomDataSerializer))
-                               : null
+                                 new JProperty("messageProtocolHandshakeError",   MessageProtocolHandshakeError.ToJSON(CustomMessageProtocolHandshakeErrorTypeSerializer))
 
                        );
 

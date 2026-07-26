@@ -5,12 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <RootNamespace>cloud.charging.open.protocols.EEBus.SHIP.tests</RootNamespace>
-    <AssemblyName>cloud.charging.open.protocols.EEBus.SHIP.tests</AssemblyName>
+    <RootNamespace>cloud.charging.open.protocols.EEBus.UseCases.tests</RootNamespace>
+    <AssemblyName>cloud.charging.open.protocols.EEBus.UseCases.tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- FakeTimeProvider: all SHIP timers are driven by a TimeProvider, never by wall clock. -->
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="9.10.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageReference Include="NUnit" Version="4.6.1" />
@@ -18,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WWCP_EEBus_SHIP\WWCP_EEBus_SHIP.csproj" />
+    <ProjectReference Include="..\WWCP_EEBus_UseCases\WWCP_EEBus_UseCases.csproj" />
   </ItemGroup>
 
 </Project>
